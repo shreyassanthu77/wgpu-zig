@@ -22,6 +22,11 @@ async function main(webgpuYamlPath: string, format: boolean) {
   const output = [
     "// GENERATED FILE, DO NOT EDIT",
     docString(schema.copyright, true),
+    " ",
+    docString(
+      `The c export is will give you direct access to the webgpu header`,
+    ),
+    'pub const c = @import("c");\n',
     'const std = @import("std");\n',
     `pub const StringView = extern struct { 
     data: [*c]const u8,

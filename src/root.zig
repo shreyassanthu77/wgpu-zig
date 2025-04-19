@@ -2,6 +2,10 @@
 //! Copyright 2019-2023 WebGPU-Native developers
 //! 
 //! SPDX-License-Identifier: BSD-3-Clause
+ 
+/// The c export is will give you direct access to the webgpu header
+pub const c = @import("c");
+
 const std = @import("std");
 
 pub const StringView = extern struct { 

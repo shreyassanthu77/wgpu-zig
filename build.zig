@@ -21,6 +21,15 @@ pub fn build(b: *std.Build) !void {
     const gen_step = b.step("gen", "Generate WGPU bindings");
     gen_step.dependOn(&gen_tool.step);
 
+    const include_path = wgpu_dep.path("include/webgpu");
+    const translate_step = b.addTranslateC(.{
+        .root_source_file = include_path.path(b, "wgpu.h"),
+        .target = target,
+        .optimize = optimize,
+    });
+    translate_step.addIncludePath(include_path);
+    const c_mod = translate_step.addModule("c");
+
     const wgpu = b.addModule("wgpu", .{
         .target = target,
         .optimize = optimize,
@@ -28,18 +37,7 @@ pub fn build(b: *std.Build) !void {
         .link_libcpp = true,
     });
     wgpu.addObjectFile(wgpu_dep.path(libwgpu_path));
-
-    // const include_path = wgpu_dep.path("include/webgpu");
-    //
-    // const translate_step = b.addTranslateC(.{
-    //     // wgpu.h imports webgpu.h, so we get the contents of both files, as well as a bunch of libc garbage.
-    //     .root_source_file = include_path.path(b, "wgpu.h"),
-    //
-    //     .target = target,
-    //     .optimize = optimize,
-    // });
-    //
-    // translate_step.addIncludePath(include_path);
+    wgpu.addImport("c", c_mod);
 }
 
 /// taken from https://github.com/bronter/wgpu_native_zig/blob/2012f51c16d29824ea15cc4db6e46fc5bb44e868/build.zig.zon
