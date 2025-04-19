@@ -1,13 +1,13 @@
 import { toPascalCase, toSnakeCase } from "jsr:@std/text";
 import { ParameterType, PrimitiveType } from "./schema.ts";
 
-export function docString(doc: string, indent?: number): string;
-export function docString(doc: string, global?: boolean): string;
+export function docString(doc?: string, indent?: number): string;
+export function docString(doc?: string, global?: boolean): string;
 export function docString(
-  doc: string,
+  doc?: string,
   globalOrIndent: number | boolean = false,
 ): string {
-  if (doc.startsWith("TODO")) return "";
+  if (doc?.startsWith("TODO")) return "";
   let global = false;
   let indent = 0;
 
@@ -21,7 +21,7 @@ export function docString(
   const indent_str = indent ? "    ".repeat(indent) : "";
   const prefix = indent_str + comment_prefix;
 
-  return prefix + doc.trim().replaceAll("\n", `\n${prefix}`);
+  return prefix + (doc?.trim().replaceAll("\n", `\n${prefix}`) ?? "");
 }
 
 export function indent(str: string, indent: number): string {

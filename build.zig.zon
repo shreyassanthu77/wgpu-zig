@@ -4,11 +4,6 @@
     .fingerprint = 0x1a5781929935e3fb,
     .minimum_zig_version = "0.14.0",
     .dependencies = .{
-        .wgpu_headers = .{
-            .url = "https://github.com/webgpu-native/webgpu-headers/archive/8916b3f.zip",
-            .hash = "N-V-__8AAKlYCABs3C-Ea7BbSL-2VJuGcuvU7lGSXDwNcFNH",
-        },
-
         .wgpu_android_aarch64_debug = .{
             .url = "https://github.com/gfx-rs/wgpu-native/releases/download/v24.0.3.1/wgpu-android-aarch64-debug.zip",
             .hash = "N-V-__8AANTF2xWFrjqMBaGZaNH4jkT3qfzIOj0tAu__U2qI",

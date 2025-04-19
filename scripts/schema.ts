@@ -45,14 +45,14 @@ export interface Schema {
    * The dedicated enum prefix for the implementation specific header to avoid collisions
    */
   enum_prefix: number;
-  doc: string;
+  doc?: string;
   typedefs: {
     name: Name;
     /**
      * Optional property, specifying the namespace where this typedef is defined
      */
     namespace?: string;
-    doc: string;
+    doc?: string;
     type: PrimitiveType;
   }[];
   constants: {
@@ -68,7 +68,7 @@ export interface Schema {
      * An enum of predefined max constants or a 64-bit unsigned integer, or float NaN value.
      */
     value: number | ("usize_max" | "uint32_max" | "uint64_max" | "nan");
-    doc: string;
+    doc?: string;
   }[];
   enums: {
     /**
@@ -79,7 +79,7 @@ export interface Schema {
      * Optional property, specifying the namespace where this enum is defined
      */
     namespace?: string;
-    doc: string;
+    doc?: string;
     /**
      * Optional property, an indicator that this enum is an extension of an already present enum
      */
@@ -93,7 +93,7 @@ export interface Schema {
        * Optional property, specifying the namespace where this enum entry is defined
        */
       namespace?: string;
-      doc: string;
+      doc?: string;
       /**
        * Optional property, a 16-bit unsigned integer
        */
@@ -109,7 +109,7 @@ export interface Schema {
      * Optional property, specifying the namespace where this bitflag is defined
      */
     namespace?: string;
-    doc: string;
+    doc?: string;
     /**
      * Optional property, an indicator that this bitflag is an extension of an already present bitflag
      */
@@ -123,7 +123,7 @@ export interface Schema {
        * Optional property, specifying the namespace where this bitmask entry is defined
        */
       namespace?: string;
-      doc: string;
+      doc?: string;
       /**
        * Optional property, a 64-bit unsigned integer
        */
@@ -143,7 +143,7 @@ export interface Schema {
      * Optional property, specifying the namespace where this struct is defined
      */
     namespace?: string;
-    doc: string;
+    doc?: string;
     /**
      * Type of the structure
      */

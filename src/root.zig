@@ -2,19 +2,7 @@
 //! Copyright 2019-2023 WebGPU-Native developers
 //! 
 //! SPDX-License-Identifier: BSD-3-Clause
-//! **Important:** *This documentation is a Work In Progress.*
 //! 
-//! This is the home of WebGPU C API specification. We define here the standard
-//! `webgpu.h` header that all implementations should provide.
-//! 
-//! For all details where behavior is not otherwise specified, `webgpu.h` has
-//! the same behavior as the WebGPU specification for JavaScript on the Web.
-//! The WebIDL-based Web specification is mapped into C as faithfully (and
-//! bidirectionally) as practical/possible.
-//! The working draft of WebGPU can be found at <https://www.w3.org/TR/webgpu/>.
-//! 
-//! The standard include directive for this header is `#include <webgpu/webgpu.h>`
-//! (if it is provided in a system-wide or toolchain-wide include directory).
 const std = @import("std");
 
 pub const StringView = extern struct { 
@@ -30,10 +18,6 @@ pub const StringView = extern struct {
 const ARRAY_LAYER_COUNT_UNDEFINED = std.math.maxInt(u32);
 
 const COPY_STRIDE_UNDEFINED = std.math.maxInt(u32);
-
-/// Value to be assigned to member depthClearValue of @ref WGPURenderPassDepthStencilAttachment
-/// to mean that it is not defined.
-const DEPTH_CLEAR_VALUE_UNDEFINED = std.math.nan(f32);
 
 const DEPTH_SLICE_UNDEFINED = std.math.maxInt(u32);
 
@@ -114,7 +98,7 @@ pub const BufferBindingType = enum(u32) {
     /// its parent @ref WGPUBindGroupLayoutEntry is not used.
     /// (See also @ref SentinelValues.)
     binding_not_used,
-    /// `1`. Indicates no value is passed for this argument. See @ref SentinelValues.
+    /// Indicates no value is passed for this argument. See @ref SentinelValues.
     undefined,
     uniform,
     storage,
@@ -130,12 +114,12 @@ pub const BufferMapState = enum(u32) {
 /// The callback mode controls how a callback for an asynchronous operation may be fired. See @ref Asynchronous-Operations for how these are used.
 pub const CallbackMode = enum(u32) {
     /// Callbacks created with `WGPUCallbackMode_WaitAnyOnly`:
-    /// - fire when the asynchronous operation's future is passed to a call to @ref wgpuInstanceWaitAny
-    ///   AND the operation has already completed or it completes inside the call to @ref wgpuInstanceWaitAny.
+    /// - fire when the asynchronous operation's future is passed to a call to `::wgpuInstanceWaitAny`
+    ///   AND the operation has already completed or it completes inside the call to `::wgpuInstanceWaitAny`.
     wait_any_only,
     /// Callbacks created with `WGPUCallbackMode_AllowProcessEvents`:
     /// - fire for the same reasons as callbacks created with `WGPUCallbackMode_WaitAnyOnly`
-    /// - fire inside a call to @ref wgpuInstanceProcessEvents if the asynchronous operation is complete.
+    /// - fire inside a call to `::wgpuInstanceProcessEvents` if the asynchronous operation is complete.
     allow_process_events,
     /// Callbacks created with `WGPUCallbackMode_AllowSpontaneous`:
     /// - fire for the same reasons as callbacks created with `WGPUCallbackMode_AllowProcessEvents`
@@ -162,8 +146,9 @@ pub const CompareFunction = enum(u32) {
 
 pub const CompilationInfoRequestStatus = enum(u32) {
     success,
-    /// See @ref CallbackStatuses.
-    callback_cancelled,
+    instance_dropped,
+    @"error",
+    unknown,
 };
 
 pub const CompilationMessageType = enum(u32) {
@@ -172,7 +157,7 @@ pub const CompilationMessageType = enum(u32) {
     info,
 };
 
-/// Describes how frames are composited with other contents on the screen when @ref wgpuSurfacePresent is called.
+/// Describes how frames are composited with other contents on the screen when `::wgpuSurfacePresent` is called.
 pub const CompositeAlphaMode = enum(u32) {
     /// Lets the WebGPU implementation choose the best mode (supported, and with the best performance) between @ref WGPUCompositeAlphaMode_Opaque or @ref WGPUCompositeAlphaMode_Inherit.
     auto,
@@ -188,10 +173,10 @@ pub const CompositeAlphaMode = enum(u32) {
 
 pub const CreatePipelineAsyncStatus = enum(u32) {
     success,
-    /// See @ref CallbackStatuses.
-    callback_cancelled,
+    instance_dropped,
     validation_error,
     internal_error,
+    unknown,
 };
 
 pub const CullMode = enum(u32) {
@@ -205,8 +190,7 @@ pub const CullMode = enum(u32) {
 pub const DeviceLostReason = enum(u32) {
     unknown,
     destroyed,
-    /// See @ref CallbackStatuses.
-    callback_cancelled,
+    instance_dropped,
     failed_creation,
 };
 
@@ -226,11 +210,9 @@ pub const ErrorType = enum(u32) {
 
 /// See @ref WGPURequestAdapterOptions::featureLevel.
 pub const FeatureLevel = enum(u32) {
-    /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    /// "Compatibility" profile which can be supported on OpenGL ES 3.1 and D3D11.
+    /// "Compatibility" profile which can be supported on OpenGL ES 3.1.
     compatibility,
-    /// "Core" profile which can be supported on Vulkan/Metal/D3D12 (at least).
+    /// "Core" profile which can be supported on Vulkan/Metal/D3D12.
     core,
 };
 
@@ -252,7 +234,6 @@ pub const FeatureName = enum(u32) {
     float_32_blendable,
     clip_distances,
     dual_source_blending,
-    subgroups,
 };
 
 pub const FilterMode = enum(u32) {
@@ -285,10 +266,10 @@ pub const LoadOp = enum(u32) {
 
 pub const MapAsyncStatus = enum(u32) {
     success,
-    /// See @ref CallbackStatuses.
-    callback_cancelled,
+    instance_dropped,
     @"error",
     aborted,
+    unknown,
 };
 
 pub const MipmapFilterMode = enum(u32) {
@@ -307,10 +288,9 @@ pub const OptionalBool = enum(u32) {
 pub const PopErrorScopeStatus = enum(u32) {
     /// The error scope stack was successfully popped and a result was reported.
     success,
-    /// See @ref CallbackStatuses.
-    callback_cancelled,
+    instance_dropped,
     /// The error scope stack could not be popped, because it was empty.
-    @"error",
+    empty_stack,
 };
 
 pub const PowerPreference = enum(u32) {
@@ -320,12 +300,7 @@ pub const PowerPreference = enum(u32) {
     high_performance,
 };
 
-pub const PredefinedColorSpace = enum(u32) {
-    srgb,
-    display_p_3,
-};
-
-/// Describes when and in which order frames are presented on the screen when @ref wgpuSurfacePresent is called.
+/// Describes when and in which order frames are presented on the screen when `::wgpuSurfacePresent` is called.
 pub const PresentMode = enum(u32) {
     /// Present mode is not specified. Use the default.
     undefined,
@@ -362,26 +337,24 @@ pub const QueryType = enum(u32) {
 
 pub const QueueWorkDoneStatus = enum(u32) {
     success,
-    /// See @ref CallbackStatuses.
-    callback_cancelled,
-    /// There was some deterministic error. (Note this is currently never used,
-    /// but it will be relevant when it's possible to create a queue object.)
+    instance_dropped,
     @"error",
+    unknown,
 };
 
 pub const RequestAdapterStatus = enum(u32) {
     success,
-    /// See @ref CallbackStatuses.
-    callback_cancelled,
+    instance_dropped,
     unavailable,
     @"error",
+    unknown,
 };
 
 pub const RequestDeviceStatus = enum(u32) {
     success,
-    /// See @ref CallbackStatuses.
-    callback_cancelled,
+    instance_dropped,
     @"error",
+    unknown,
 };
 
 pub const SType = enum(u32) {
@@ -394,8 +367,6 @@ pub const SType = enum(u32) {
     surface_source_wayland_surface,
     surface_source_android_native_window,
     surface_source_xcb_window,
-    surface_color_management,
-    request_adapter_web_xr_options,
 };
 
 pub const SamplerBindingType = enum(u32) {
@@ -403,7 +374,7 @@ pub const SamplerBindingType = enum(u32) {
     /// its parent @ref WGPUBindGroupLayoutEntry is not used.
     /// (See also @ref SentinelValues.)
     binding_not_used,
-    /// `1`. Indicates no value is passed for this argument. See @ref SentinelValues.
+    /// Indicates no value is passed for this argument. See @ref SentinelValues.
     undefined,
     filtering,
     non_filtering,
@@ -438,7 +409,7 @@ pub const StorageTextureAccess = enum(u32) {
     /// its parent @ref WGPUBindGroupLayoutEntry is not used.
     /// (See also @ref SentinelValues.)
     binding_not_used,
-    /// `1`. Indicates no value is passed for this argument. See @ref SentinelValues.
+    /// Indicates no value is passed for this argument. See @ref SentinelValues.
     undefined,
     write_only,
     read_only,
@@ -452,7 +423,7 @@ pub const StoreOp = enum(u32) {
     discard,
 };
 
-/// The status enum for @ref wgpuSurfaceGetCurrentTexture.
+/// The status enum for `::wgpuSurfaceGetCurrentTexture`.
 pub const SurfaceGetCurrentTextureStatus = enum(u32) {
     /// Yay! Everything is good and we can render this frame.
     success_optimal,
@@ -462,9 +433,13 @@ pub const SurfaceGetCurrentTextureStatus = enum(u32) {
     timeout,
     /// The surface is too different to be used, compared to when it was originally created.
     outdated,
-    /// The connection to whatever owns the surface was lost, or generally needs to be fully reinitialized.
+    /// The connection to whatever owns the surface was lost.
     lost,
-    /// There was some deterministic error (for example, the surface is not configured, or there was an @ref OutStructChainError). Should produce @ref ImplementationDefinedLogging containing details.
+    /// The system ran out of memory.
+    out_of_memory,
+    /// The @ref WGPUDevice configured on the @ref WGPUSurface was lost.
+    device_lost,
+    /// The surface is not configured, or there was an @ref OutStructChainError.
     @"error",
 };
 
@@ -589,7 +564,7 @@ pub const TextureSampleType = enum(u32) {
     /// its parent @ref WGPUBindGroupLayoutEntry is not used.
     /// (See also @ref SentinelValues.)
     binding_not_used,
-    /// `1`. Indicates no value is passed for this argument. See @ref SentinelValues.
+    /// Indicates no value is passed for this argument. See @ref SentinelValues.
     undefined,
     float,
     unfilterable_float,
@@ -607,11 +582,6 @@ pub const TextureViewDimension = enum(u32) {
     cube,
     cube_array,
     @"3D",
-};
-
-pub const ToneMappingMode = enum(u32) {
-    standard,
-    extended,
 };
 
 pub const VertexFormat = enum(u32) {
@@ -659,6 +629,9 @@ pub const VertexFormat = enum(u32) {
 };
 
 pub const VertexStepMode = enum(u32) {
+    /// This @ref WGPUVertexBufferLayout is a "hole" in the @ref WGPUVertexState `buffers` array.
+    /// (See also @ref SentinelValues.)
+    vertex_buffer_not_used,
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
     undefined,
     vertex,
@@ -669,11 +642,14 @@ pub const VertexStepMode = enum(u32) {
 pub const WaitStatus = enum(u32) {
     /// At least one WGPUFuture completed successfully.
     success,
-    /// The wait operation succeeded, but no WGPUFutures completed within the timeout.
+    /// No WGPUFutures completed within the timeout.
     timed_out,
-    /// The call was invalid for some reason (see @ref Wait-Any).
-    /// Should produce @ref ImplementationDefinedLogging containing details.
-    @"error",
+    /// A @ref Timed-Wait was performed when WGPUInstanceFeatures::timedWaitAnyEnable is false.
+    unsupported_timeout,
+    /// The number of futures waited on in a @ref Timed-Wait is greater than the supported WGPUInstanceFeatures::timedWaitAnyMaxCount.
+    unsupported_count,
+    /// An invalid wait was performed with @ref Mixed-Sources.
+    unsupported_mixed_sources,
 };
 
 pub const WgslLanguageFeatureName = enum(u32) {
@@ -750,22 +726,18 @@ pub const Chained = extern struct {
 };
 
 pub const AdapterInfo = extern struct {
-    next_in_chain: ?*Chained = null,
     vendor: StringView,
     architecture: StringView,
     device: StringView,
     description: StringView,
-    backend_type: BackendType = .undefined,
+    backend_type: BackendType,
     adapter_type: AdapterType,
     vendor_id: u32,
     device_id: u32,
-    subgroup_min_size: u32,
-    subgroup_max_size: u32,
     pub extern fn freeMembers(self: *AdapterInfo) callconv(.c) void;
 };
 
 pub const BindGroupDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     layout: *BindGroupLayout,
     entries_count: usize,
@@ -773,36 +745,33 @@ pub const BindGroupDescriptor = extern struct {
 };
 
 pub const BindGroupEntry = extern struct {
-    next_in_chain: ?*Chained = null,
     binding: u32,
     buffer: ?*Buffer = null,
     offset: u64,
-    size: u64 = WHOLE_SIZE,
+    size: u64,
     sampler: ?*Sampler = null,
     texture_view: ?*TextureView = null,
 };
 
 pub const BindGroupLayoutDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     entries_count: usize,
     entries: [*]const BindGroupLayoutEntry,
 };
 
 pub const BindGroupLayoutEntry = extern struct {
-    next_in_chain: ?*Chained = null,
     binding: u32,
-    visibility: ShaderStage = .none,
-    buffer: BufferBindingLayout = .zero,
-    sampler: SamplerBindingLayout = .zero,
-    texture: TextureBindingLayout = .zero,
-    storage_texture: StorageTextureBindingLayout = .zero,
+    visibility: ShaderStage,
+    buffer: BufferBindingLayout,
+    sampler: SamplerBindingLayout,
+    texture: TextureBindingLayout,
+    storage_texture: StorageTextureBindingLayout,
 };
 
 pub const BlendComponent = extern struct {
-    operation: BlendOperation = .undefined,
-    src_factor: BlendFactor = .undefined,
-    dst_factor: BlendFactor = .undefined,
+    operation: BlendOperation,
+    src_factor: BlendFactor,
+    dst_factor: BlendFactor,
 };
 
 pub const BlendState = extern struct {
@@ -811,18 +780,16 @@ pub const BlendState = extern struct {
 };
 
 pub const BufferBindingLayout = extern struct {
-    next_in_chain: ?*Chained = null,
-    type: BufferBindingType = .undefined,
-    has_dynamic_offset: bool = false,
-    min_binding_size: u64 = 0,
+    type: BufferBindingType,
+    has_dynamic_offset: bool,
+    min_binding_size: u64,
 };
 
 pub const BufferDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
-    usage: BufferUsage = .none,
+    usage: BufferUsage,
     size: u64,
-    mapped_at_creation: bool = false,
+    mapped_at_creation: bool,
 };
 
 pub const Color = extern struct {
@@ -833,30 +800,25 @@ pub const Color = extern struct {
 };
 
 pub const ColorTargetState = extern struct {
-    next_in_chain: ?*Chained = null,
-    format: TextureFormat = .undefined,
+    format: TextureFormat,
     blend: ?*const BlendState = null,
-    write_mask: ColorWriteMask = .all,
+    write_mask: ColorWriteMask,
 };
 
 pub const CommandBufferDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
 };
 
 pub const CommandEncoderDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
 };
 
 pub const CompilationInfo = extern struct {
-    next_in_chain: ?*Chained = null,
     messages_count: usize,
     messages: [*]const CompilationMessage,
 };
 
 pub const CompilationMessage = extern struct {
-    next_in_chain: ?*Chained = null,
     message: StringView,
     type: CompilationMessageType,
     line_num: u64,
@@ -866,48 +828,41 @@ pub const CompilationMessage = extern struct {
 };
 
 pub const ComputePassDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
-    timestamp_writes: ?*const PassTimestampWrites = null,
+    timestamp_writes: ?*const ComputePassTimestampWrites = null,
+};
+
+pub const ComputePassTimestampWrites = extern struct {
+    query_set: *QuerySet,
+    beginning_of_pass_write_index: u32,
+    end_of_pass_write_index: u32,
 };
 
 pub const ComputePipelineDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     layout: ?*PipelineLayout = null,
-    compute: ComputeState,
-};
-
-pub const ComputeState = extern struct {
-    next_in_chain: ?*Chained = null,
-    module: *ShaderModule,
-    entry_point: ??StringView = .null,
-    constants_count: usize,
-    constants: [*]const ConstantEntry,
+    compute: ProgrammableStageDescriptor,
 };
 
 pub const ConstantEntry = extern struct {
-    next_in_chain: ?*Chained = null,
     key: []const u8 = "",
     value: f64,
 };
 
 pub const DepthStencilState = extern struct {
-    next_in_chain: ?*Chained = null,
-    format: TextureFormat = .undefined,
+    format: TextureFormat,
     depth_write_enabled: OptionalBool,
     depth_compare: CompareFunction,
     stencil_front: StencilFaceState,
     stencil_back: StencilFaceState,
-    stencil_read_mask: u32 = .@"0xFFFFFFFF",
-    stencil_write_mask: u32 = .@"0xFFFFFFFF",
-    depth_bias: i32 = 0,
-    depth_bias_slope_scale: f32 = 0,
-    depth_bias_clamp: f32 = 0,
+    stencil_read_mask: u32,
+    stencil_write_mask: u32,
+    depth_bias: i32,
+    depth_bias_slope_scale: f32,
+    depth_bias_clamp: f32,
 };
 
 pub const DeviceDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     required_features_count: usize,
     required_features: [*]const FeatureName,
@@ -919,12 +874,11 @@ pub const DeviceDescriptor = extern struct {
 
 pub const Extent3D = extern struct {
     width: u32,
-    height: u32 = 1,
-    depth_or_array_layers: u32 = 1,
+    height: u32,
+    depth_or_array_layers: u32,
 };
 
 pub const FragmentState = extern struct {
-    next_in_chain: ?*Chained = null,
     module: *ShaderModule,
     entry_point: ??StringView = .null,
     constants_count: usize,
@@ -943,119 +897,108 @@ pub const FutureWaitInfo = extern struct {
 };
 
 pub const InstanceCapabilities = extern struct {
-    next_in_chain: ?*Chained = null,
     timed_wait_any_enable: bool,
     timed_wait_any_max_count: usize,
 };
 
 pub const InstanceDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
-    capabilities: InstanceCapabilities,
+    features: InstanceCapabilities,
 };
 
 pub const Limits = extern struct {
-    next_in_chain: ?*Chained = null,
-    max_texture_dimension_1_d: u32 = LIMIT_U32_UNDEFINED,
-    max_texture_dimension_2_d: u32 = LIMIT_U32_UNDEFINED,
-    max_texture_dimension_3_d: u32 = LIMIT_U32_UNDEFINED,
-    max_texture_array_layers: u32 = LIMIT_U32_UNDEFINED,
-    max_bind_groups: u32 = LIMIT_U32_UNDEFINED,
-    max_bind_groups_plus_vertex_buffers: u32 = LIMIT_U32_UNDEFINED,
-    max_bindings_per_bind_group: u32 = LIMIT_U32_UNDEFINED,
-    max_dynamic_uniform_buffers_per_pipeline_layout: u32 = LIMIT_U32_UNDEFINED,
-    max_dynamic_storage_buffers_per_pipeline_layout: u32 = LIMIT_U32_UNDEFINED,
-    max_sampled_textures_per_shader_stage: u32 = LIMIT_U32_UNDEFINED,
-    max_samplers_per_shader_stage: u32 = LIMIT_U32_UNDEFINED,
-    max_storage_buffers_per_shader_stage: u32 = LIMIT_U32_UNDEFINED,
-    max_storage_textures_per_shader_stage: u32 = LIMIT_U32_UNDEFINED,
-    max_uniform_buffers_per_shader_stage: u32 = LIMIT_U32_UNDEFINED,
-    max_uniform_buffer_binding_size: u64 = LIMIT_U64_UNDEFINED,
-    max_storage_buffer_binding_size: u64 = LIMIT_U64_UNDEFINED,
-    min_uniform_buffer_offset_alignment: u32 = LIMIT_U32_UNDEFINED,
-    min_storage_buffer_offset_alignment: u32 = LIMIT_U32_UNDEFINED,
-    max_vertex_buffers: u32 = LIMIT_U32_UNDEFINED,
-    max_buffer_size: u64 = LIMIT_U64_UNDEFINED,
-    max_vertex_attributes: u32 = LIMIT_U32_UNDEFINED,
-    max_vertex_buffer_array_stride: u32 = LIMIT_U32_UNDEFINED,
-    max_inter_stage_shader_variables: u32 = LIMIT_U32_UNDEFINED,
-    max_color_attachments: u32 = LIMIT_U32_UNDEFINED,
-    max_color_attachment_bytes_per_sample: u32 = LIMIT_U32_UNDEFINED,
-    max_compute_workgroup_storage_size: u32 = LIMIT_U32_UNDEFINED,
-    max_compute_invocations_per_workgroup: u32 = LIMIT_U32_UNDEFINED,
-    max_compute_workgroup_size_x: u32 = LIMIT_U32_UNDEFINED,
-    max_compute_workgroup_size_y: u32 = LIMIT_U32_UNDEFINED,
-    max_compute_workgroup_size_z: u32 = LIMIT_U32_UNDEFINED,
-    max_compute_workgroups_per_dimension: u32 = LIMIT_U32_UNDEFINED,
+    max_texture_dimension_1_d: u32,
+    max_texture_dimension_2_d: u32,
+    max_texture_dimension_3_d: u32,
+    max_texture_array_layers: u32,
+    max_bind_groups: u32,
+    max_bind_groups_plus_vertex_buffers: u32,
+    max_bindings_per_bind_group: u32,
+    max_dynamic_uniform_buffers_per_pipeline_layout: u32,
+    max_dynamic_storage_buffers_per_pipeline_layout: u32,
+    max_sampled_textures_per_shader_stage: u32,
+    max_samplers_per_shader_stage: u32,
+    max_storage_buffers_per_shader_stage: u32,
+    max_storage_textures_per_shader_stage: u32,
+    max_uniform_buffers_per_shader_stage: u32,
+    max_uniform_buffer_binding_size: u64,
+    max_storage_buffer_binding_size: u64,
+    min_uniform_buffer_offset_alignment: u32,
+    min_storage_buffer_offset_alignment: u32,
+    max_vertex_buffers: u32,
+    max_buffer_size: u64,
+    max_vertex_attributes: u32,
+    max_vertex_buffer_array_stride: u32,
+    max_inter_stage_shader_variables: u32,
+    max_color_attachments: u32,
+    max_color_attachment_bytes_per_sample: u32,
+    max_compute_workgroup_storage_size: u32,
+    max_compute_invocations_per_workgroup: u32,
+    max_compute_workgroup_size_x: u32,
+    max_compute_workgroup_size_y: u32,
+    max_compute_workgroup_size_z: u32,
+    max_compute_workgroups_per_dimension: u32,
 };
 
 pub const MultisampleState = extern struct {
-    next_in_chain: ?*Chained = null,
-    count: u32 = 1,
-    mask: u32 = .@"0xFFFFFFFF",
-    alpha_to_coverage_enabled: bool = false,
+    count: u32,
+    mask: u32,
+    alpha_to_coverage_enabled: bool,
 };
 
 pub const Origin3D = extern struct {
-    x: u32 = 0,
-    y: u32 = 0,
-    z: u32 = 0,
-};
-
-pub const PassTimestampWrites = extern struct {
-    next_in_chain: ?*Chained = null,
-    query_set: *QuerySet,
-    beginning_of_pass_write_index: u32 = QUERY_SET_INDEX_UNDEFINED,
-    end_of_pass_write_index: u32 = QUERY_SET_INDEX_UNDEFINED,
+    x: u32,
+    y: u32,
+    z: u32,
 };
 
 pub const PipelineLayoutDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     bind_group_layouts_count: usize,
     bind_group_layouts: [*]const *BindGroupLayout,
 };
 
 pub const PrimitiveState = extern struct {
-    next_in_chain: ?*Chained = null,
-    topology: PrimitiveTopology = .undefined,
+    topology: PrimitiveTopology,
     strip_index_format: IndexFormat,
-    front_face: FrontFace = .undefined,
-    cull_mode: CullMode = .undefined,
-    unclipped_depth: bool = false,
+    front_face: FrontFace,
+    cull_mode: CullMode,
+    unclipped_depth: bool,
+};
+
+pub const ProgrammableStageDescriptor = extern struct {
+    module: *ShaderModule,
+    entry_point: ??StringView = .null,
+    constants_count: usize,
+    constants: [*]const ConstantEntry,
 };
 
 pub const QuerySetDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     type: QueryType,
     count: u32,
 };
 
 pub const QueueDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
 };
 
 pub const RenderBundleDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
 };
 
 pub const RenderBundleEncoderDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     color_formats_count: usize,
     color_formats: [*]const TextureFormat,
-    depth_stencil_format: TextureFormat = .undefined,
-    sample_count: u32 = 1,
-    depth_read_only: bool = false,
-    stencil_read_only: bool = false,
+    depth_stencil_format: TextureFormat,
+    sample_count: u32,
+    depth_read_only: bool,
+    stencil_read_only: bool,
 };
 
 pub const RenderPassColorAttachment = extern struct {
-    next_in_chain: ?*Chained = null,
     view: ?*TextureView = null,
-    depth_slice: u32 = DEPTH_SLICE_UNDEFINED,
+    depth_slice: u32,
     resolve_target: ?*TextureView = null,
     load_op: LoadOp,
     store_op: StoreOp,
@@ -1063,45 +1006,37 @@ pub const RenderPassColorAttachment = extern struct {
 };
 
 pub const RenderPassDepthStencilAttachment = extern struct {
-    next_in_chain: ?*Chained = null,
     view: *TextureView,
-    depth_load_op: LoadOp = .undefined,
-    depth_store_op: StoreOp = .undefined,
-    depth_clear_value: ?f32 = .null,
-    depth_read_only: bool = false,
-    stencil_load_op: LoadOp = .undefined,
-    stencil_store_op: StoreOp = .undefined,
+    depth_load_op: LoadOp,
+    depth_store_op: StoreOp,
+    depth_clear_value: f32,
+    depth_read_only: bool,
+    stencil_load_op: LoadOp,
+    stencil_store_op: StoreOp,
     stencil_clear_value: u32,
-    stencil_read_only: bool = false,
+    stencil_read_only: bool,
 };
 
 pub const RenderPassDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     color_attachments_count: usize,
     color_attachments: [*]const RenderPassColorAttachment,
     depth_stencil_attachment: ?*const RenderPassDepthStencilAttachment = null,
     occlusion_query_set: ?*QuerySet = null,
-    timestamp_writes: ?*const PassTimestampWrites = null,
+    timestamp_writes: ?*const RenderPassTimestampWrites = null,
 };
 
 pub const RenderPassMaxDrawCount = extern struct {
-    chain: Chained,
-    max_draw_count: u64 = 50000000,
- 
-    pub const RenderPassMaxDrawCountInitOptions = struct {
-        max_draw_count: u64 = 50000000,
-    };
-    pub inline fn init(options: RenderPassMaxDrawCountInitOptions) *const RenderPassDescriptor {
-        return @ptrCast(&RenderPassMaxDrawCount{
-            .max_draw_count = options.max_draw_count,
-            .chain = .{ .s_type = .render_pass_max_draw_count },
-        });
-    }
+    max_draw_count: u64,
+};
+
+pub const RenderPassTimestampWrites = extern struct {
+    query_set: *QuerySet,
+    beginning_of_pass_write_index: u32,
+    end_of_pass_write_index: u32,
 };
 
 pub const RenderPipelineDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     layout: ?*PipelineLayout = null,
     vertex: VertexState,
@@ -1112,99 +1047,55 @@ pub const RenderPipelineDescriptor = extern struct {
 };
 
 pub const RequestAdapterOptions = extern struct {
-    next_in_chain: ?*Chained = null,
-    feature_level: FeatureLevel = .undefined,
-    power_preference: PowerPreference = .undefined,
-    force_fallback_adapter: bool = false,
-    backend_type: BackendType = .undefined,
+    feature_level: FeatureLevel,
+    power_preference: PowerPreference,
+    force_fallback_adapter: bool,
+    backend_type: BackendType,
     compatible_surface: ?*Surface = null,
 };
 
-pub const RequestAdapterWebXrOptions = extern struct {
-    chain: Chained,
-    xr_compatible: bool = false,
- 
-    pub const RequestAdapterWebXrOptionsInitOptions = struct {
-        xr_compatible: bool = false,
-    };
-    pub inline fn init(options: RequestAdapterWebXrOptionsInitOptions) *const RequestAdapterOptions {
-        return @ptrCast(&RequestAdapterWebXrOptions{
-            .xr_compatible = options.xr_compatible,
-            .chain = .{ .s_type = .request_adapter_web_xr_options },
-        });
-    }
-};
-
 pub const SamplerBindingLayout = extern struct {
-    next_in_chain: ?*Chained = null,
-    type: SamplerBindingType = .undefined,
+    type: SamplerBindingType,
 };
 
 pub const SamplerDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
-    address_mode_u: AddressMode = .undefined,
-    address_mode_v: AddressMode = .undefined,
-    address_mode_w: AddressMode = .undefined,
-    mag_filter: FilterMode = .undefined,
-    min_filter: FilterMode = .undefined,
-    mipmap_filter: MipmapFilterMode = .undefined,
-    lod_min_clamp: f32 = 0,
-    lod_max_clamp: f32 = 32,
-    compare: CompareFunction = .undefined,
-    max_anisotropy: u16 = 1,
+    address_mode_u: AddressMode,
+    address_mode_v: AddressMode,
+    address_mode_w: AddressMode,
+    mag_filter: FilterMode,
+    min_filter: FilterMode,
+    mipmap_filter: MipmapFilterMode,
+    lod_min_clamp: f32,
+    lod_max_clamp: f32,
+    compare: CompareFunction,
+    max_anisotropy: u16,
 };
 
 pub const ShaderModuleDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
 };
 
 pub const ShaderSourceSpirv = extern struct {
-    chain: Chained,
-    code_size: u32 = 0,
+    code_size: u32,
     code: *const u32,
- 
-    pub const ShaderSourceSpirvInitOptions = struct {
-        code_size: u32 = 0,
-        code: *const u32,
-    };
-    pub inline fn init(options: ShaderSourceSpirvInitOptions) *const ShaderModuleDescriptor {
-        return @ptrCast(&ShaderSourceSpirv{
-            .code_size = options.code_size,
-            .code = options.code,
-            .chain = .{ .s_type = .shader_source_spirv },
-        });
-    }
 };
 
 pub const ShaderSourceWgsl = extern struct {
-    chain: Chained,
     code: []const u8 = "",
- 
-    pub const ShaderSourceWgslInitOptions = struct {
-        code: []const u8 = "",
-    };
-    pub inline fn init(options: ShaderSourceWgslInitOptions) *const ShaderModuleDescriptor {
-        return @ptrCast(&ShaderSourceWgsl{
-            .code = options.code,
-            .chain = .{ .s_type = .shader_source_wgsl },
-        });
-    }
 };
 
 pub const StencilFaceState = extern struct {
-    compare: CompareFunction = .undefined,
-    fail_op: StencilOperation = .undefined,
-    depth_fail_op: StencilOperation = .undefined,
-    pass_op: StencilOperation = .undefined,
+    compare: CompareFunction,
+    fail_op: StencilOperation,
+    depth_fail_op: StencilOperation,
+    pass_op: StencilOperation,
 };
 
 pub const StorageTextureBindingLayout = extern struct {
-    next_in_chain: ?*Chained = null,
-    access: StorageTextureAccess = .undefined,
-    format: TextureFormat = .undefined,
-    view_dimension: TextureViewDimension = .undefined,
+    access: StorageTextureAccess,
+    format: TextureFormat,
+    view_dimension: TextureViewDimension,
 };
 
 pub const SupportedFeatures = extern struct {
@@ -1220,7 +1111,6 @@ pub const SupportedWgslLanguageFeatures = extern struct {
 };
 
 pub const SurfaceCapabilities = extern struct {
-    next_in_chain: ?*Chained = null,
     usages: TextureUsage,
     formats_count: usize,
     formats: [*]const TextureFormat,
@@ -1231,134 +1121,51 @@ pub const SurfaceCapabilities = extern struct {
     pub extern fn freeMembers(self: *SurfaceCapabilities) callconv(.c) void;
 };
 
-pub const SurfaceColorManagement = extern struct {
-    chain: Chained,
-    color_space: PredefinedColorSpace,
-    tone_mapping_mode: ToneMappingMode,
-};
-
 pub const SurfaceConfiguration = extern struct {
-    next_in_chain: ?*Chained = null,
     device: *Device,
-    format: TextureFormat = .undefined,
-    usage: TextureUsage = .render_attachment,
+    format: TextureFormat,
+    usage: TextureUsage,
     width: u32,
     height: u32,
     view_formats_count: usize,
     view_formats: [*]const TextureFormat,
-    alpha_mode: CompositeAlphaMode = .auto,
-    present_mode: PresentMode = .undefined,
+    alpha_mode: CompositeAlphaMode,
+    present_mode: PresentMode,
 };
 
 pub const SurfaceDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
 };
 
 pub const SurfaceSourceAndroidNativeWindow = extern struct {
-    chain: Chained,
     window: *anyopaque,
- 
-    pub const SurfaceSourceAndroidNativeWindowInitOptions = struct {
-        window: *anyopaque,
-    };
-    pub inline fn init(options: SurfaceSourceAndroidNativeWindowInitOptions) *const SurfaceDescriptor {
-        return @ptrCast(&SurfaceSourceAndroidNativeWindow{
-            .window = options.window,
-            .chain = .{ .s_type = .surface_source_android_native_window },
-        });
-    }
 };
 
 pub const SurfaceSourceMetalLayer = extern struct {
-    chain: Chained,
     layer: *anyopaque,
- 
-    pub const SurfaceSourceMetalLayerInitOptions = struct {
-        layer: *anyopaque,
-    };
-    pub inline fn init(options: SurfaceSourceMetalLayerInitOptions) *const SurfaceDescriptor {
-        return @ptrCast(&SurfaceSourceMetalLayer{
-            .layer = options.layer,
-            .chain = .{ .s_type = .surface_source_metal_layer },
-        });
-    }
 };
 
 pub const SurfaceSourceWaylandSurface = extern struct {
-    chain: Chained,
     display: *anyopaque,
     surface: *anyopaque,
- 
-    pub const SurfaceSourceWaylandSurfaceInitOptions = struct {
-        display: *anyopaque,
-        surface: *anyopaque,
-    };
-    pub inline fn init(options: SurfaceSourceWaylandSurfaceInitOptions) *const SurfaceDescriptor {
-        return @ptrCast(&SurfaceSourceWaylandSurface{
-            .display = options.display,
-            .surface = options.surface,
-            .chain = .{ .s_type = .surface_source_wayland_surface },
-        });
-    }
 };
 
 pub const SurfaceSourceWindowsHwnd = extern struct {
-    chain: Chained,
     hinstance: *anyopaque,
     hwnd: *anyopaque,
- 
-    pub const SurfaceSourceWindowsHwndInitOptions = struct {
-        hinstance: *anyopaque,
-        hwnd: *anyopaque,
-    };
-    pub inline fn init(options: SurfaceSourceWindowsHwndInitOptions) *const SurfaceDescriptor {
-        return @ptrCast(&SurfaceSourceWindowsHwnd{
-            .hinstance = options.hinstance,
-            .hwnd = options.hwnd,
-            .chain = .{ .s_type = .surface_source_windows_hwnd },
-        });
-    }
 };
 
 pub const SurfaceSourceXcbWindow = extern struct {
-    chain: Chained,
     connection: *anyopaque,
     window: u32,
- 
-    pub const SurfaceSourceXcbWindowInitOptions = struct {
-        connection: *anyopaque,
-        window: u32,
-    };
-    pub inline fn init(options: SurfaceSourceXcbWindowInitOptions) *const SurfaceDescriptor {
-        return @ptrCast(&SurfaceSourceXcbWindow{
-            .connection = options.connection,
-            .window = options.window,
-            .chain = .{ .s_type = .surface_source_xcb_window },
-        });
-    }
 };
 
 pub const SurfaceSourceXlibWindow = extern struct {
-    chain: Chained,
     display: *anyopaque,
     window: u64,
- 
-    pub const SurfaceSourceXlibWindowInitOptions = struct {
-        display: *anyopaque,
-        window: u64,
-    };
-    pub inline fn init(options: SurfaceSourceXlibWindowInitOptions) *const SurfaceDescriptor {
-        return @ptrCast(&SurfaceSourceXlibWindow{
-            .display = options.display,
-            .window = options.window,
-            .chain = .{ .s_type = .surface_source_xlib_window },
-        });
-    }
 };
 
 pub const SurfaceTexture = extern struct {
-    next_in_chain: ?*Chained = null,
     texture: *Texture,
     status: SurfaceGetCurrentTextureStatus,
 };
@@ -1369,68 +1176,62 @@ pub const TexelCopyBufferInfo = extern struct {
 };
 
 pub const TexelCopyBufferLayout = extern struct {
-    offset: u64 = 0,
-    bytes_per_row: u32 = COPY_STRIDE_UNDEFINED,
-    rows_per_image: u32 = COPY_STRIDE_UNDEFINED,
+    offset: u64,
+    bytes_per_row: u32,
+    rows_per_image: u32,
 };
 
 pub const TexelCopyTextureInfo = extern struct {
     texture: *Texture,
-    mip_level: u32 = 0,
+    mip_level: u32,
     origin: Origin3D,
-    aspect: TextureAspect = .undefined,
+    aspect: TextureAspect,
 };
 
 pub const TextureBindingLayout = extern struct {
-    next_in_chain: ?*Chained = null,
-    sample_type: TextureSampleType = .undefined,
-    view_dimension: TextureViewDimension = .undefined,
-    multisampled: bool = false,
+    sample_type: TextureSampleType,
+    view_dimension: TextureViewDimension,
+    multisampled: bool,
 };
 
 pub const TextureDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
-    usage: TextureUsage = .none,
-    dimension: TextureDimension = .undefined,
+    usage: TextureUsage,
+    dimension: TextureDimension,
     size: Extent3D,
-    format: TextureFormat = .undefined,
-    mip_level_count: u32 = 1,
-    sample_count: u32 = 1,
+    format: TextureFormat,
+    mip_level_count: u32,
+    sample_count: u32,
     view_formats_count: usize,
     view_formats: [*]const TextureFormat,
 };
 
 pub const TextureViewDescriptor = extern struct {
-    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
-    format: TextureFormat = .undefined,
-    dimension: TextureViewDimension = .undefined,
-    base_mip_level: u32 = 0,
-    mip_level_count: u32 = MIP_LEVEL_COUNT_UNDEFINED,
-    base_array_layer: u32 = 0,
-    array_layer_count: u32 = ARRAY_LAYER_COUNT_UNDEFINED,
-    aspect: TextureAspect = .undefined,
-    usage: TextureUsage = .none,
+    format: TextureFormat,
+    dimension: TextureViewDimension,
+    base_mip_level: u32,
+    mip_level_count: u32,
+    base_array_layer: u32,
+    array_layer_count: u32,
+    aspect: TextureAspect,
+    usage: TextureUsage,
 };
 
 pub const VertexAttribute = extern struct {
-    next_in_chain: ?*Chained = null,
     format: VertexFormat,
     offset: u64,
     shader_location: u32,
 };
 
 pub const VertexBufferLayout = extern struct {
-    next_in_chain: ?*Chained = null,
-    step_mode: VertexStepMode = .undefined,
+    step_mode: VertexStepMode,
     array_stride: u64,
     attributes_count: usize,
     attributes: [*]const VertexAttribute,
 };
 
 pub const VertexState = extern struct {
-    next_in_chain: ?*Chained = null,
     module: *ShaderModule,
     entry_point: ??StringView = .null,
     constants_count: usize,
@@ -1576,36 +1377,9 @@ pub const Buffer = opaque {
     extern fn wgpuBufferMapAsync(self: *Buffer, mode: MapMode, offset: usize, size: usize, callback: BufferMapCallbackInfo) callconv(.c) void;
     pub inline fn mapAsync(self: *Buffer, mode: MapMode, offset: usize, size: usize, callback: BufferMapCallbackInfo) void { return wgpuBufferMapAsync(self, mode, offset, size, callback); }
     extern fn wgpuBufferGetMappedRange(self: *Buffer, offset: usize, size: usize) callconv(.c) *anyopaque;
-    /// Returns a mutable pointer to beginning of the mapped range.
-    /// See @ref MappedRangeBehavior for error conditions and guarantees.
-    /// This function is safe to call inside spontaneous callbacks (see @ref CallbackReentrancy).
-    /// 
-    /// In Wasm, if `memcpy`ing into this range, prefer using @ref wgpuBufferWriteMappedRange
-    /// instead for better performance.
     pub inline fn getMappedRange(self: *Buffer, offset: usize, size: usize) *anyopaque { return wgpuBufferGetMappedRange(self, offset, size); }
     extern fn wgpuBufferGetConstMappedRange(self: *Buffer, offset: usize, size: usize) callconv(.c) *const anyopaque;
-    /// Returns a const pointer to beginning of the mapped range.
-    /// It must not be written; writing to this range causes undefined behavior.
-    /// See @ref MappedRangeBehavior for error conditions and guarantees.
-    /// This function is safe to call inside spontaneous callbacks (see @ref CallbackReentrancy).
-    /// 
-    /// In Wasm, if `memcpy`ing from this range, prefer using @ref wgpuBufferReadMappedRange
-    /// instead for better performance.
     pub inline fn getConstMappedRange(self: *Buffer, offset: usize, size: usize) *const anyopaque { return wgpuBufferGetConstMappedRange(self, offset, size); }
-    extern fn wgpuBufferReadMappedRange(self: *Buffer, offset: usize, data: *anyopaque, size: usize) callconv(.c) Status;
-    /// Copies a range of data from the buffer mapping into the provided destination pointer.
-    /// See @ref MappedRangeBehavior for error conditions and guarantees.
-    /// This function is safe to call inside spontaneous callbacks (see @ref CallbackReentrancy).
-    /// 
-    /// In Wasm, this is more efficient than copying from a mapped range into a `malloc`'d range.
-    pub inline fn readMappedRange(self: *Buffer, offset: usize, data: *anyopaque, size: usize) Status { return wgpuBufferReadMappedRange(self, offset, data, size); }
-    extern fn wgpuBufferWriteMappedRange(self: *Buffer, offset: usize, data: *const anyopaque, size: usize) callconv(.c) Status;
-    /// Copies a range of data from the provided source pointer into the buffer mapping.
-    /// See @ref MappedRangeBehavior for error conditions and guarantees.
-    /// This function is safe to call inside spontaneous callbacks (see @ref CallbackReentrancy).
-    /// 
-    /// In Wasm, this is more efficient than copying from a `malloc`'d range into a mapped range.
-    pub inline fn writeMappedRange(self: *Buffer, offset: usize, data: *const anyopaque, size: usize) Status { return wgpuBufferWriteMappedRange(self, offset, data, size); }
     extern fn wgpuBufferSetLabel(self: *Buffer, label: []const u8) callconv(.c) void;
     pub inline fn setLabel(self: *Buffer, label: []const u8) void { return wgpuBufferSetLabel(self, label); }
     extern fn wgpuBufferGetUsage(self: *Buffer) callconv(.c) BufferUsage;
@@ -1709,8 +1483,8 @@ pub const Device = opaque {
     pub inline fn createBindGroup(self: *Device, descriptor: *const BindGroupDescriptor) *BindGroup { return wgpuDeviceCreateBindGroup(self, descriptor); }
     extern fn wgpuDeviceCreateBindGroupLayout(self: *Device, descriptor: *const BindGroupLayoutDescriptor) callconv(.c) *BindGroupLayout;
     pub inline fn createBindGroupLayout(self: *Device, descriptor: *const BindGroupLayoutDescriptor) *BindGroupLayout { return wgpuDeviceCreateBindGroupLayout(self, descriptor); }
-    extern fn wgpuDeviceCreateBuffer(self: *Device, descriptor: *const BufferDescriptor) callconv(.c) ?*Buffer;
-    pub inline fn createBuffer(self: *Device, descriptor: *const BufferDescriptor) ?*Buffer { return wgpuDeviceCreateBuffer(self, descriptor); }
+    extern fn wgpuDeviceCreateBuffer(self: *Device, descriptor: *const BufferDescriptor) callconv(.c) *Buffer;
+    pub inline fn createBuffer(self: *Device, descriptor: *const BufferDescriptor) *Buffer { return wgpuDeviceCreateBuffer(self, descriptor); }
     extern fn wgpuDeviceCreateCommandEncoder(self: *Device, descriptor: ?*const CommandEncoderDescriptor) callconv(.c) *CommandEncoder;
     pub inline fn createCommandEncoder(self: *Device, descriptor: ?*const CommandEncoderDescriptor) *CommandEncoder { return wgpuDeviceCreateCommandEncoder(self, descriptor); }
     extern fn wgpuDeviceCreateComputePipeline(self: *Device, descriptor: *const ComputePipelineDescriptor) callconv(.c) *ComputePipeline;
@@ -1745,17 +1519,13 @@ pub const Device = opaque {
     extern fn wgpuDeviceGetFeatures(self: *Device, features: *SupportedFeatures) callconv(.c) void;
     /// Get the list of @ref WGPUFeatureName values supported by the device.
     pub inline fn getFeatures(self: *Device, features: *SupportedFeatures) void { return wgpuDeviceGetFeatures(self, features); }
-    extern fn wgpuDeviceGetAdapterInfo(self: *Device, adapterInfo: *AdapterInfo) callconv(.c) Status;
-    pub inline fn getAdapterInfo(self: *Device, adapterInfo: *AdapterInfo) Status { return wgpuDeviceGetAdapterInfo(self, adapterInfo); }
+    extern fn wgpuDeviceGetAdapterInfo(self: *Device) callconv(.c) AdapterInfo;
+    pub inline fn getAdapterInfo(self: *Device) AdapterInfo { return wgpuDeviceGetAdapterInfo(self); }
     extern fn wgpuDeviceGetQueue(self: *Device) callconv(.c) *Queue;
     pub inline fn getQueue(self: *Device) *Queue { return wgpuDeviceGetQueue(self); }
     extern fn wgpuDevicePushErrorScope(self: *Device, filter: ErrorFilter) callconv(.c) void;
-    /// Pushes an error scope to the current thread's error scope stack.
-    /// See @ref ErrorScopes.
     pub inline fn pushErrorScope(self: *Device, filter: ErrorFilter) void { return wgpuDevicePushErrorScope(self, filter); }
     extern fn wgpuDevicePopErrorScope(self: *Device, callback: PopErrorScopeCallbackInfo) callconv(.c) void;
-    /// Pops an error scope to the current thread's error scope stack,
-    /// asynchronously returning the result. See @ref ErrorScopes.
     pub inline fn popErrorScope(self: *Device, callback: PopErrorScopeCallbackInfo) void { return wgpuDevicePopErrorScope(self, callback); }
     extern fn wgpuDeviceSetLabel(self: *Device, label: []const u8) callconv(.c) void;
     pub inline fn setLabel(self: *Device, label: []const u8) void { return wgpuDeviceSetLabel(self, label); }
@@ -1775,7 +1545,7 @@ pub const Instance = opaque {
     extern fn wgpuInstanceHasWgslLanguageFeature(self: *Instance, feature: WgslLanguageFeatureName) callconv(.c) bool;
     pub inline fn hasWgslLanguageFeature(self: *Instance, feature: WgslLanguageFeatureName) bool { return wgpuInstanceHasWgslLanguageFeature(self, feature); }
     extern fn wgpuInstanceProcessEvents(self: *Instance) callconv(.c) void;
-    /// Processes asynchronous events on this `WGPUInstance`, calling any callbacks for asynchronous operations created with @ref WGPUCallbackMode_AllowProcessEvents.
+    /// Processes asynchronous events on this `WGPUInstance`, calling any callbacks for asynchronous operations created with `::WGPUCallbackMode_AllowProcessEvents`.
     /// 
     /// See @ref Process-Events for more information.
     pub inline fn processEvents(self: *Instance) void { return wgpuInstanceProcessEvents(self); }
