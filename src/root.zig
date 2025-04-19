@@ -16,6 +16,13 @@ pub const StringView = extern struct {
         if (self.length == 0) return "";
         return self.data[0..self.length];
     }
+
+    pub fn from(str: []const u8) StringView {
+        return .{
+            .data = str.ptr,
+            .length = str.len,
+        };
+    }
 };
 
 const ARRAY_LAYER_COUNT_UNDEFINED = std.math.maxInt(u32);
@@ -732,7 +739,7 @@ pub const AdapterInfo = extern struct {
 
 pub const BindGroupDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
     layout: *BindGroupLayout,
     entries_count: usize,
     entries: [*]const BindGroupEntry,
@@ -750,7 +757,7 @@ pub const BindGroupEntry = extern struct {
 
 pub const BindGroupLayoutDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
     entries_count: usize,
     entries: [*]const BindGroupLayoutEntry,
 };
@@ -785,7 +792,7 @@ pub const BufferBindingLayout = extern struct {
 
 pub const BufferDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
     usage: BufferUsage,
     size: u64,
     mapped_at_creation: bool,
@@ -807,12 +814,12 @@ pub const ColorTargetState = extern struct {
 
 pub const CommandBufferDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
 };
 
 pub const CommandEncoderDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
 };
 
 pub const CompilationInfo = extern struct {
@@ -833,7 +840,7 @@ pub const CompilationMessage = extern struct {
 
 pub const ComputePassDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
     timestamp_writes: ?*const ComputePassTimestampWrites = null,
 };
 
@@ -845,14 +852,14 @@ pub const ComputePassTimestampWrites = extern struct {
 
 pub const ComputePipelineDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
     layout: ?*PipelineLayout = null,
     compute: ProgrammableStageDescriptor,
 };
 
 pub const ConstantEntry = extern struct {
     next_in_chain: ?*Chained = null,
-    key: [:0]const u8 = "",
+    key: StringView = .from,
     value: f64,
 };
 
@@ -872,7 +879,7 @@ pub const DepthStencilState = extern struct {
 
 pub const DeviceDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
     required_features_count: usize,
     required_features: [*]const FeatureName,
     required_limits: ?*const Limits = null,
@@ -967,7 +974,7 @@ pub const Origin3D = extern struct {
 
 pub const PipelineLayoutDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
     bind_group_layouts_count: usize,
     bind_group_layouts: [*]const *BindGroupLayout,
 };
@@ -991,24 +998,24 @@ pub const ProgrammableStageDescriptor = extern struct {
 
 pub const QuerySetDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
     type: QueryType,
     count: u32,
 };
 
 pub const QueueDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
 };
 
 pub const RenderBundleDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
 };
 
 pub const RenderBundleEncoderDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
     color_formats_count: usize,
     color_formats: [*]const TextureFormat,
     depth_stencil_format: TextureFormat,
@@ -1041,7 +1048,7 @@ pub const RenderPassDepthStencilAttachment = extern struct {
 
 pub const RenderPassDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
     color_attachments_count: usize,
     color_attachments: [*]const RenderPassColorAttachment,
     depth_stencil_attachment: ?*const RenderPassDepthStencilAttachment = null,
@@ -1072,7 +1079,7 @@ pub const RenderPassTimestampWrites = extern struct {
 
 pub const RenderPipelineDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
     layout: ?*PipelineLayout = null,
     vertex: VertexState,
     primitive: PrimitiveState,
@@ -1097,7 +1104,7 @@ pub const SamplerBindingLayout = extern struct {
 
 pub const SamplerDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
     address_mode_u: AddressMode,
     address_mode_v: AddressMode,
     address_mode_w: AddressMode,
@@ -1112,7 +1119,7 @@ pub const SamplerDescriptor = extern struct {
 
 pub const ShaderModuleDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
 };
 
 pub const ShaderSourceSpirv = extern struct {
@@ -1135,10 +1142,10 @@ pub const ShaderSourceSpirv = extern struct {
 
 pub const ShaderSourceWgsl = extern struct {
     chain: Chained,
-    code: [:0]const u8 = "",
+    code: StringView = .from,
 
     pub const ShaderSourceWgslInitOptions = struct {
-        code: [:0]const u8 = "",
+        code: StringView = .from,
     };
     pub inline fn init(options: ShaderSourceWgslInitOptions) *const ShaderModuleDescriptor {
         return @ptrCast(&ShaderSourceWgsl{
@@ -1201,7 +1208,7 @@ pub const SurfaceConfiguration = extern struct {
 
 pub const SurfaceDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
 };
 
 pub const SurfaceSourceAndroidNativeWindow = extern struct {
@@ -1339,7 +1346,7 @@ pub const TextureBindingLayout = extern struct {
 
 pub const TextureDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
     usage: TextureUsage,
     dimension: TextureDimension,
     size: Extent3D,
@@ -1352,7 +1359,7 @@ pub const TextureDescriptor = extern struct {
 
 pub const TextureViewDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: [:0]const u8 = "",
+    label: StringView = .from,
     format: TextureFormat,
     dimension: TextureViewDimension,
     base_mip_level: u32,
@@ -1630,8 +1637,8 @@ pub const Adapter = opaque {
 };
 
 pub const BindGroup = opaque {
-    extern fn wgpuBindGroupSetLabel(self: *BindGroup, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *BindGroup, label: [:0]const u8) void {
+    extern fn wgpuBindGroupSetLabel(self: *BindGroup, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *BindGroup, label: StringView) void {
         return wgpuBindGroupSetLabel(self, label);
     }
     extern fn wgpuBindGroupAddRef(self: *BindGroup) callconv(.c) void;
@@ -1645,8 +1652,8 @@ pub const BindGroup = opaque {
 };
 
 pub const BindGroupLayout = opaque {
-    extern fn wgpuBindGroupLayoutSetLabel(self: *BindGroupLayout, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *BindGroupLayout, label: [:0]const u8) void {
+    extern fn wgpuBindGroupLayoutSetLabel(self: *BindGroupLayout, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *BindGroupLayout, label: StringView) void {
         return wgpuBindGroupLayoutSetLabel(self, label);
     }
     extern fn wgpuBindGroupLayoutAddRef(self: *BindGroupLayout) callconv(.c) void;
@@ -1681,8 +1688,8 @@ pub const Buffer = opaque {
     pub inline fn getConstMappedRange(self: *Buffer, offset: usize, size: usize) *const anyopaque {
         return wgpuBufferGetConstMappedRange(self, offset, size);
     }
-    extern fn wgpuBufferSetLabel(self: *Buffer, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *Buffer, label: [:0]const u8) void {
+    extern fn wgpuBufferSetLabel(self: *Buffer, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *Buffer, label: StringView) void {
         return wgpuBufferSetLabel(self, label);
     }
     extern fn wgpuBufferGetUsage(self: *Buffer) callconv(.c) BufferUsage;
@@ -1716,8 +1723,8 @@ pub const Buffer = opaque {
 };
 
 pub const CommandBuffer = opaque {
-    extern fn wgpuCommandBufferSetLabel(self: *CommandBuffer, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *CommandBuffer, label: [:0]const u8) void {
+    extern fn wgpuCommandBufferSetLabel(self: *CommandBuffer, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *CommandBuffer, label: StringView) void {
         return wgpuCommandBufferSetLabel(self, label);
     }
     extern fn wgpuCommandBufferAddRef(self: *CommandBuffer) callconv(.c) void;
@@ -1763,16 +1770,16 @@ pub const CommandEncoder = opaque {
     pub inline fn clearBuffer(self: *CommandEncoder, buffer: *Buffer, offset: u64, size: u64) void {
         return wgpuCommandEncoderClearBuffer(self, buffer, offset, size);
     }
-    extern fn wgpuCommandEncoderInsertDebugMarker(self: *CommandEncoder, markerLabel: [:0]const u8) callconv(.c) void;
-    pub inline fn insertDebugMarker(self: *CommandEncoder, markerLabel: [:0]const u8) void {
+    extern fn wgpuCommandEncoderInsertDebugMarker(self: *CommandEncoder, markerLabel: StringView) callconv(.c) void;
+    pub inline fn insertDebugMarker(self: *CommandEncoder, markerLabel: StringView) void {
         return wgpuCommandEncoderInsertDebugMarker(self, markerLabel);
     }
     extern fn wgpuCommandEncoderPopDebugGroup(self: *CommandEncoder) callconv(.c) void;
     pub inline fn popDebugGroup(self: *CommandEncoder) void {
         return wgpuCommandEncoderPopDebugGroup(self);
     }
-    extern fn wgpuCommandEncoderPushDebugGroup(self: *CommandEncoder, groupLabel: [:0]const u8) callconv(.c) void;
-    pub inline fn pushDebugGroup(self: *CommandEncoder, groupLabel: [:0]const u8) void {
+    extern fn wgpuCommandEncoderPushDebugGroup(self: *CommandEncoder, groupLabel: StringView) callconv(.c) void;
+    pub inline fn pushDebugGroup(self: *CommandEncoder, groupLabel: StringView) void {
         return wgpuCommandEncoderPushDebugGroup(self, groupLabel);
     }
     extern fn wgpuCommandEncoderResolveQuerySet(self: *CommandEncoder, querySet: *QuerySet, firstQuery: u32, queryCount: u32, destination: *Buffer, destinationOffset: u64) callconv(.c) void;
@@ -1783,8 +1790,8 @@ pub const CommandEncoder = opaque {
     pub inline fn writeTimestamp(self: *CommandEncoder, querySet: *QuerySet, queryIndex: u32) void {
         return wgpuCommandEncoderWriteTimestamp(self, querySet, queryIndex);
     }
-    extern fn wgpuCommandEncoderSetLabel(self: *CommandEncoder, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *CommandEncoder, label: [:0]const u8) void {
+    extern fn wgpuCommandEncoderSetLabel(self: *CommandEncoder, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *CommandEncoder, label: StringView) void {
         return wgpuCommandEncoderSetLabel(self, label);
     }
     extern fn wgpuCommandEncoderAddRef(self: *CommandEncoder) callconv(.c) void;
@@ -1798,16 +1805,16 @@ pub const CommandEncoder = opaque {
 };
 
 pub const ComputePassEncoder = opaque {
-    extern fn wgpuComputePassEncoderInsertDebugMarker(self: *ComputePassEncoder, markerLabel: [:0]const u8) callconv(.c) void;
-    pub inline fn insertDebugMarker(self: *ComputePassEncoder, markerLabel: [:0]const u8) void {
+    extern fn wgpuComputePassEncoderInsertDebugMarker(self: *ComputePassEncoder, markerLabel: StringView) callconv(.c) void;
+    pub inline fn insertDebugMarker(self: *ComputePassEncoder, markerLabel: StringView) void {
         return wgpuComputePassEncoderInsertDebugMarker(self, markerLabel);
     }
     extern fn wgpuComputePassEncoderPopDebugGroup(self: *ComputePassEncoder) callconv(.c) void;
     pub inline fn popDebugGroup(self: *ComputePassEncoder) void {
         return wgpuComputePassEncoderPopDebugGroup(self);
     }
-    extern fn wgpuComputePassEncoderPushDebugGroup(self: *ComputePassEncoder, groupLabel: [:0]const u8) callconv(.c) void;
-    pub inline fn pushDebugGroup(self: *ComputePassEncoder, groupLabel: [:0]const u8) void {
+    extern fn wgpuComputePassEncoderPushDebugGroup(self: *ComputePassEncoder, groupLabel: StringView) callconv(.c) void;
+    pub inline fn pushDebugGroup(self: *ComputePassEncoder, groupLabel: StringView) void {
         return wgpuComputePassEncoderPushDebugGroup(self, groupLabel);
     }
     extern fn wgpuComputePassEncoderSetPipeline(self: *ComputePassEncoder, pipeline: *ComputePipeline) callconv(.c) void;
@@ -1830,8 +1837,8 @@ pub const ComputePassEncoder = opaque {
     pub inline fn end(self: *ComputePassEncoder) void {
         return wgpuComputePassEncoderEnd(self);
     }
-    extern fn wgpuComputePassEncoderSetLabel(self: *ComputePassEncoder, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *ComputePassEncoder, label: [:0]const u8) void {
+    extern fn wgpuComputePassEncoderSetLabel(self: *ComputePassEncoder, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *ComputePassEncoder, label: StringView) void {
         return wgpuComputePassEncoderSetLabel(self, label);
     }
     extern fn wgpuComputePassEncoderAddRef(self: *ComputePassEncoder) callconv(.c) void;
@@ -1849,8 +1856,8 @@ pub const ComputePipeline = opaque {
     pub inline fn getBindGroupLayout(self: *ComputePipeline, groupIndex: u32) *BindGroupLayout {
         return wgpuComputePipelineGetBindGroupLayout(self, groupIndex);
     }
-    extern fn wgpuComputePipelineSetLabel(self: *ComputePipeline, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *ComputePipeline, label: [:0]const u8) void {
+    extern fn wgpuComputePipelineSetLabel(self: *ComputePipeline, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *ComputePipeline, label: StringView) void {
         return wgpuComputePipelineSetLabel(self, label);
     }
     extern fn wgpuComputePipelineAddRef(self: *ComputePipeline) callconv(.c) void;
@@ -1985,8 +1992,8 @@ pub const Device = opaque {
         _ = wgpuDevicePopErrorScope(self, callback_info);
         return state;
     }
-    extern fn wgpuDeviceSetLabel(self: *Device, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *Device, label: [:0]const u8) void {
+    extern fn wgpuDeviceSetLabel(self: *Device, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *Device, label: StringView) void {
         return wgpuDeviceSetLabel(self, label);
     }
     extern fn wgpuDeviceAddRef(self: *Device) callconv(.c) void;
@@ -2052,8 +2059,8 @@ pub const Instance = opaque {
 };
 
 pub const PipelineLayout = opaque {
-    extern fn wgpuPipelineLayoutSetLabel(self: *PipelineLayout, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *PipelineLayout, label: [:0]const u8) void {
+    extern fn wgpuPipelineLayoutSetLabel(self: *PipelineLayout, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *PipelineLayout, label: StringView) void {
         return wgpuPipelineLayoutSetLabel(self, label);
     }
     extern fn wgpuPipelineLayoutAddRef(self: *PipelineLayout) callconv(.c) void;
@@ -2067,8 +2074,8 @@ pub const PipelineLayout = opaque {
 };
 
 pub const QuerySet = opaque {
-    extern fn wgpuQuerySetSetLabel(self: *QuerySet, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *QuerySet, label: [:0]const u8) void {
+    extern fn wgpuQuerySetSetLabel(self: *QuerySet, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *QuerySet, label: StringView) void {
         return wgpuQuerySetSetLabel(self, label);
     }
     extern fn wgpuQuerySetGetType(self: *QuerySet) callconv(.c) QueryType;
@@ -2121,8 +2128,8 @@ pub const Queue = opaque {
     pub inline fn writeTexture(self: *Queue, destination: *const TexelCopyTextureInfo, data: *const anyopaque, dataSize: usize, dataLayout: *const TexelCopyBufferLayout, writeSize: *const Extent3D) void {
         return wgpuQueueWriteTexture(self, destination, data, dataSize, dataLayout, writeSize);
     }
-    extern fn wgpuQueueSetLabel(self: *Queue, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *Queue, label: [:0]const u8) void {
+    extern fn wgpuQueueSetLabel(self: *Queue, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *Queue, label: StringView) void {
         return wgpuQueueSetLabel(self, label);
     }
     extern fn wgpuQueueAddRef(self: *Queue) callconv(.c) void;
@@ -2136,8 +2143,8 @@ pub const Queue = opaque {
 };
 
 pub const RenderBundle = opaque {
-    extern fn wgpuRenderBundleSetLabel(self: *RenderBundle, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *RenderBundle, label: [:0]const u8) void {
+    extern fn wgpuRenderBundleSetLabel(self: *RenderBundle, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *RenderBundle, label: StringView) void {
         return wgpuRenderBundleSetLabel(self, label);
     }
     extern fn wgpuRenderBundleAddRef(self: *RenderBundle) callconv(.c) void;
@@ -2175,16 +2182,16 @@ pub const RenderBundleEncoder = opaque {
     pub inline fn drawIndexedIndirect(self: *RenderBundleEncoder, indirectBuffer: *Buffer, indirectOffset: u64) void {
         return wgpuRenderBundleEncoderDrawIndexedIndirect(self, indirectBuffer, indirectOffset);
     }
-    extern fn wgpuRenderBundleEncoderInsertDebugMarker(self: *RenderBundleEncoder, markerLabel: [:0]const u8) callconv(.c) void;
-    pub inline fn insertDebugMarker(self: *RenderBundleEncoder, markerLabel: [:0]const u8) void {
+    extern fn wgpuRenderBundleEncoderInsertDebugMarker(self: *RenderBundleEncoder, markerLabel: StringView) callconv(.c) void;
+    pub inline fn insertDebugMarker(self: *RenderBundleEncoder, markerLabel: StringView) void {
         return wgpuRenderBundleEncoderInsertDebugMarker(self, markerLabel);
     }
     extern fn wgpuRenderBundleEncoderPopDebugGroup(self: *RenderBundleEncoder) callconv(.c) void;
     pub inline fn popDebugGroup(self: *RenderBundleEncoder) void {
         return wgpuRenderBundleEncoderPopDebugGroup(self);
     }
-    extern fn wgpuRenderBundleEncoderPushDebugGroup(self: *RenderBundleEncoder, groupLabel: [:0]const u8) callconv(.c) void;
-    pub inline fn pushDebugGroup(self: *RenderBundleEncoder, groupLabel: [:0]const u8) void {
+    extern fn wgpuRenderBundleEncoderPushDebugGroup(self: *RenderBundleEncoder, groupLabel: StringView) callconv(.c) void;
+    pub inline fn pushDebugGroup(self: *RenderBundleEncoder, groupLabel: StringView) void {
         return wgpuRenderBundleEncoderPushDebugGroup(self, groupLabel);
     }
     extern fn wgpuRenderBundleEncoderSetVertexBuffer(self: *RenderBundleEncoder, slot: u32, buffer: ?*Buffer, offset: u64, size: u64) callconv(.c) void;
@@ -2199,8 +2206,8 @@ pub const RenderBundleEncoder = opaque {
     pub inline fn finish(self: *RenderBundleEncoder, descriptor: ?*const RenderBundleDescriptor) *RenderBundle {
         return wgpuRenderBundleEncoderFinish(self, descriptor);
     }
-    extern fn wgpuRenderBundleEncoderSetLabel(self: *RenderBundleEncoder, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *RenderBundleEncoder, label: [:0]const u8) void {
+    extern fn wgpuRenderBundleEncoderSetLabel(self: *RenderBundleEncoder, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *RenderBundleEncoder, label: StringView) void {
         return wgpuRenderBundleEncoderSetLabel(self, label);
     }
     extern fn wgpuRenderBundleEncoderAddRef(self: *RenderBundleEncoder) callconv(.c) void;
@@ -2242,16 +2249,16 @@ pub const RenderPassEncoder = opaque {
     pub inline fn executeBundles(self: *RenderPassEncoder, bundles: [*]const *RenderBundle) void {
         return wgpuRenderPassEncoderExecuteBundles(self, bundles);
     }
-    extern fn wgpuRenderPassEncoderInsertDebugMarker(self: *RenderPassEncoder, markerLabel: [:0]const u8) callconv(.c) void;
-    pub inline fn insertDebugMarker(self: *RenderPassEncoder, markerLabel: [:0]const u8) void {
+    extern fn wgpuRenderPassEncoderInsertDebugMarker(self: *RenderPassEncoder, markerLabel: StringView) callconv(.c) void;
+    pub inline fn insertDebugMarker(self: *RenderPassEncoder, markerLabel: StringView) void {
         return wgpuRenderPassEncoderInsertDebugMarker(self, markerLabel);
     }
     extern fn wgpuRenderPassEncoderPopDebugGroup(self: *RenderPassEncoder) callconv(.c) void;
     pub inline fn popDebugGroup(self: *RenderPassEncoder) void {
         return wgpuRenderPassEncoderPopDebugGroup(self);
     }
-    extern fn wgpuRenderPassEncoderPushDebugGroup(self: *RenderPassEncoder, groupLabel: [:0]const u8) callconv(.c) void;
-    pub inline fn pushDebugGroup(self: *RenderPassEncoder, groupLabel: [:0]const u8) void {
+    extern fn wgpuRenderPassEncoderPushDebugGroup(self: *RenderPassEncoder, groupLabel: StringView) callconv(.c) void;
+    pub inline fn pushDebugGroup(self: *RenderPassEncoder, groupLabel: StringView) void {
         return wgpuRenderPassEncoderPushDebugGroup(self, groupLabel);
     }
     extern fn wgpuRenderPassEncoderSetStencilReference(self: *RenderPassEncoder, reference: u32) callconv(.c) void;
@@ -2290,8 +2297,8 @@ pub const RenderPassEncoder = opaque {
     pub inline fn end(self: *RenderPassEncoder) void {
         return wgpuRenderPassEncoderEnd(self);
     }
-    extern fn wgpuRenderPassEncoderSetLabel(self: *RenderPassEncoder, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *RenderPassEncoder, label: [:0]const u8) void {
+    extern fn wgpuRenderPassEncoderSetLabel(self: *RenderPassEncoder, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *RenderPassEncoder, label: StringView) void {
         return wgpuRenderPassEncoderSetLabel(self, label);
     }
     extern fn wgpuRenderPassEncoderAddRef(self: *RenderPassEncoder) callconv(.c) void;
@@ -2309,8 +2316,8 @@ pub const RenderPipeline = opaque {
     pub inline fn getBindGroupLayout(self: *RenderPipeline, groupIndex: u32) *BindGroupLayout {
         return wgpuRenderPipelineGetBindGroupLayout(self, groupIndex);
     }
-    extern fn wgpuRenderPipelineSetLabel(self: *RenderPipeline, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *RenderPipeline, label: [:0]const u8) void {
+    extern fn wgpuRenderPipelineSetLabel(self: *RenderPipeline, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *RenderPipeline, label: StringView) void {
         return wgpuRenderPipelineSetLabel(self, label);
     }
     extern fn wgpuRenderPipelineAddRef(self: *RenderPipeline) callconv(.c) void;
@@ -2324,8 +2331,8 @@ pub const RenderPipeline = opaque {
 };
 
 pub const Sampler = opaque {
-    extern fn wgpuSamplerSetLabel(self: *Sampler, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *Sampler, label: [:0]const u8) void {
+    extern fn wgpuSamplerSetLabel(self: *Sampler, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *Sampler, label: StringView) void {
         return wgpuSamplerSetLabel(self, label);
     }
     extern fn wgpuSamplerAddRef(self: *Sampler) callconv(.c) void;
@@ -2352,8 +2359,8 @@ pub const ShaderModule = opaque {
         _ = wgpuShaderModuleGetCompilationInfo(self, callback_info);
         return state;
     }
-    extern fn wgpuShaderModuleSetLabel(self: *ShaderModule, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *ShaderModule, label: [:0]const u8) void {
+    extern fn wgpuShaderModuleSetLabel(self: *ShaderModule, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *ShaderModule, label: StringView) void {
         return wgpuShaderModuleSetLabel(self, label);
     }
     extern fn wgpuShaderModuleAddRef(self: *ShaderModule) callconv(.c) void;
@@ -2401,9 +2408,9 @@ pub const Surface = opaque {
     pub inline fn unconfigure(self: *Surface) void {
         return wgpuSurfaceUnconfigure(self);
     }
-    extern fn wgpuSurfaceSetLabel(self: *Surface, label: [:0]const u8) callconv(.c) void;
+    extern fn wgpuSurfaceSetLabel(self: *Surface, label: StringView) callconv(.c) void;
     /// Modifies the label used to refer to `surface`.
-    pub inline fn setLabel(self: *Surface, label: [:0]const u8) void {
+    pub inline fn setLabel(self: *Surface, label: StringView) void {
         return wgpuSurfaceSetLabel(self, label);
     }
     extern fn wgpuSurfaceAddRef(self: *Surface) callconv(.c) void;
@@ -2421,8 +2428,8 @@ pub const Texture = opaque {
     pub inline fn createView(self: *Texture, descriptor: ?*const TextureViewDescriptor) *TextureView {
         return wgpuTextureCreateView(self, descriptor);
     }
-    extern fn wgpuTextureSetLabel(self: *Texture, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *Texture, label: [:0]const u8) void {
+    extern fn wgpuTextureSetLabel(self: *Texture, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *Texture, label: StringView) void {
         return wgpuTextureSetLabel(self, label);
     }
     extern fn wgpuTextureGetWidth(self: *Texture) callconv(.c) u32;
@@ -2472,8 +2479,8 @@ pub const Texture = opaque {
 };
 
 pub const TextureView = opaque {
-    extern fn wgpuTextureViewSetLabel(self: *TextureView, label: [:0]const u8) callconv(.c) void;
-    pub inline fn setLabel(self: *TextureView, label: [:0]const u8) void {
+    extern fn wgpuTextureViewSetLabel(self: *TextureView, label: StringView) callconv(.c) void;
+    pub inline fn setLabel(self: *TextureView, label: StringView) void {
         return wgpuTextureViewSetLabel(self, label);
     }
     extern fn wgpuTextureViewAddRef(self: *TextureView) callconv(.c) void;

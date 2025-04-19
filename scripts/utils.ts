@@ -98,8 +98,8 @@ export function typeName(
     //   if (default_value !== null) default_value = "null";
     //   break;
     case "string_with_default_empty":
-      type = "[:0]const u8";
-      if (default_value !== null) default_value = '""';
+      type = "StringView";
+      if (default_value !== null) default_value = '.from("")';
       break;
     case "nullable_string":
       type = "?StringView";

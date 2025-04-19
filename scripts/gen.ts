@@ -36,6 +36,13 @@ async function main(webgpuYamlPath: string, format: boolean) {
         if (self.length == 0) return "";
         return self.data[0..self.length];
     }
+
+		pub fn from(str: []const u8) StringView {
+			return .{
+				.data = str.ptr,
+				.length = str.len,
+			};
+		}
 };\n`,
   ];
 
