@@ -37,81 +37,81 @@ const WHOLE_MAP_SIZE = std.math.maxInt(usize);
 const WHOLE_SIZE = std.math.maxInt(u64);
 
 pub const AdapterType = enum(u32) {
-    discrete_gpu,
-    integrated_gpu,
-    cpu,
-    unknown,
+    discrete_gpu = 1,
+    integrated_gpu = 2,
+    cpu = 3,
+    unknown = 4,
 };
 
 pub const AddressMode = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    clamp_to_edge,
-    repeat,
-    mirror_repeat,
+    undefined = 0,
+    clamp_to_edge = 1,
+    repeat = 2,
+    mirror_repeat = 3,
 };
 
 pub const BackendType = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    null,
-    web_gpu,
-    d_3_d_11,
-    d_3_d_12,
-    metal,
-    vulkan,
-    open_gl,
-    open_gles,
+    undefined = 0,
+    null = 1,
+    web_gpu = 2,
+    d_3_d_11 = 3,
+    d_3_d_12 = 4,
+    metal = 5,
+    vulkan = 6,
+    open_gl = 7,
+    open_gles = 8,
 };
 
 pub const BlendFactor = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    zero,
-    one,
-    src,
-    one_minus_src,
-    src_alpha,
-    one_minus_src_alpha,
-    dst,
-    one_minus_dst,
-    dst_alpha,
-    one_minus_dst_alpha,
-    src_alpha_saturated,
-    constant,
-    one_minus_constant,
-    src_1,
-    one_minus_src_1,
-    src_1_alpha,
-    one_minus_src_1_alpha,
+    undefined = 0,
+    zero = 1,
+    one = 2,
+    src = 3,
+    one_minus_src = 4,
+    src_alpha = 5,
+    one_minus_src_alpha = 6,
+    dst = 7,
+    one_minus_dst = 8,
+    dst_alpha = 9,
+    one_minus_dst_alpha = 10,
+    src_alpha_saturated = 11,
+    constant = 12,
+    one_minus_constant = 13,
+    src_1 = 14,
+    one_minus_src_1 = 15,
+    src_1_alpha = 16,
+    one_minus_src_1_alpha = 17,
 };
 
 pub const BlendOperation = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    add,
-    subtract,
-    reverse_subtract,
-    min,
-    max,
+    undefined = 0,
+    add = 1,
+    subtract = 2,
+    reverse_subtract = 3,
+    min = 4,
+    max = 5,
 };
 
 pub const BufferBindingType = enum(u32) {
     /// Indicates that this @ref WGPUBufferBindingLayout member of
     /// its parent @ref WGPUBindGroupLayoutEntry is not used.
     /// (See also @ref SentinelValues.)
-    binding_not_used,
+    binding_not_used = 0,
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    uniform,
-    storage,
-    read_only_storage,
+    undefined = 1,
+    uniform = 2,
+    storage = 3,
+    read_only_storage = 4,
 };
 
 pub const BufferMapState = enum(u32) {
-    unmapped,
-    pending,
-    mapped,
+    unmapped = 1,
+    pending = 2,
+    mapped = 3,
 };
 
 /// The callback mode controls how a callback for an asynchronous operation may be fired. See @ref Asynchronous-Operations for how these are used.
@@ -119,11 +119,11 @@ pub const CallbackMode = enum(u32) {
     /// Callbacks created with `WGPUCallbackMode_WaitAnyOnly`:
     /// - fire when the asynchronous operation's future is passed to a call to `::wgpuInstanceWaitAny`
     ///   AND the operation has already completed or it completes inside the call to `::wgpuInstanceWaitAny`.
-    wait_any_only,
+    wait_any_only = 1,
     /// Callbacks created with `WGPUCallbackMode_AllowProcessEvents`:
     /// - fire for the same reasons as callbacks created with `WGPUCallbackMode_WaitAnyOnly`
     /// - fire inside a call to `::wgpuInstanceProcessEvents` if the asynchronous operation is complete.
-    allow_process_events,
+    allow_process_events = 2,
     /// Callbacks created with `WGPUCallbackMode_AllowSpontaneous`:
     /// - fire for the same reasons as callbacks created with `WGPUCallbackMode_AllowProcessEvents`
     /// - **may** fire spontaneously on an arbitrary or application thread, when the WebGPU implementations discovers that the asynchronous operation is complete.
@@ -131,257 +131,257 @@ pub const CallbackMode = enum(u32) {
     ///   Implementations _should_ fire spontaneous callbacks as soon as possible.
     /// 
     /// @note Because spontaneous callbacks may fire at an arbitrary time on an arbitrary thread, applications should take extra care when acquiring locks or mutating state inside the callback. It undefined behavior to re-entrantly call into the webgpu.h API if the callback fires while inside the callstack of another webgpu.h function that is not `wgpuInstanceWaitAny` or `wgpuInstanceProcessEvents`.
-    allow_spontaneous,
+    allow_spontaneous = 3,
 };
 
 pub const CompareFunction = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    never,
-    less,
-    equal,
-    less_equal,
-    greater,
-    not_equal,
-    greater_equal,
-    always,
+    undefined = 0,
+    never = 1,
+    less = 2,
+    equal = 3,
+    less_equal = 4,
+    greater = 5,
+    not_equal = 6,
+    greater_equal = 7,
+    always = 8,
 };
 
 pub const CompilationInfoRequestStatus = enum(u32) {
-    success,
-    instance_dropped,
-    @"error",
-    unknown,
+    success = 1,
+    instance_dropped = 2,
+    @"error" = 3,
+    unknown = 4,
 };
 
 pub const CompilationMessageType = enum(u32) {
-    @"error",
-    warning,
-    info,
+    @"error" = 1,
+    warning = 2,
+    info = 3,
 };
 
 /// Describes how frames are composited with other contents on the screen when `::wgpuSurfacePresent` is called.
 pub const CompositeAlphaMode = enum(u32) {
     /// Lets the WebGPU implementation choose the best mode (supported, and with the best performance) between @ref WGPUCompositeAlphaMode_Opaque or @ref WGPUCompositeAlphaMode_Inherit.
-    auto,
+    auto = 0,
     /// The alpha component of the image is ignored and teated as if it is always 1.0.
-    @"opaque",
+    @"opaque" = 1,
     /// The alpha component is respected and non-alpha components are assumed to be already multiplied with the alpha component. For example, (0.5, 0, 0, 0.5) is semi-transparent bright red.
-    premultiplied,
+    premultiplied = 2,
     /// The alpha component is respected and non-alpha components are assumed to NOT be already multiplied with the alpha component. For example, (1.0, 0, 0, 0.5) is semi-transparent bright red.
-    unpremultiplied,
+    unpremultiplied = 3,
     /// The handling of the alpha component is unknown to WebGPU and should be handled by the application using system-specific APIs. This mode may be unavailable (for example on Wasm).
-    inherit,
+    inherit = 4,
 };
 
 pub const CreatePipelineAsyncStatus = enum(u32) {
-    success,
-    instance_dropped,
-    validation_error,
-    internal_error,
-    unknown,
+    success = 1,
+    instance_dropped = 2,
+    validation_error = 3,
+    internal_error = 4,
+    unknown = 5,
 };
 
 pub const CullMode = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    none,
-    front,
-    back,
+    undefined = 0,
+    none = 1,
+    front = 2,
+    back = 3,
 };
 
 pub const DeviceLostReason = enum(u32) {
-    unknown,
-    destroyed,
-    instance_dropped,
-    failed_creation,
+    unknown = 1,
+    destroyed = 2,
+    instance_dropped = 3,
+    failed_creation = 4,
 };
 
 pub const ErrorFilter = enum(u32) {
-    validation,
-    out_of_memory,
-    internal,
+    validation = 1,
+    out_of_memory = 2,
+    internal = 3,
 };
 
 pub const ErrorType = enum(u32) {
-    no_error,
-    validation,
-    out_of_memory,
-    internal,
-    unknown,
+    no_error = 1,
+    validation = 2,
+    out_of_memory = 3,
+    internal = 4,
+    unknown = 5,
 };
 
 /// See @ref WGPURequestAdapterOptions::featureLevel.
 pub const FeatureLevel = enum(u32) {
     /// "Compatibility" profile which can be supported on OpenGL ES 3.1.
-    compatibility,
+    compatibility = 1,
     /// "Core" profile which can be supported on Vulkan/Metal/D3D12.
-    core,
+    core = 2,
 };
 
 pub const FeatureName = enum(u32) {
-    undefined,
-    depth_clip_control,
-    depth_32_float_stencil_8,
-    timestamp_query,
-    texture_compression_bc,
-    texture_compression_bc_sliced_3_d,
-    texture_compression_etc_2,
-    texture_compression_astc,
-    texture_compression_astc_sliced_3_d,
-    indirect_first_instance,
-    shader_f_16,
-    rg_11_b_10_ufloat_renderable,
-    bgra_8_unorm_storage,
-    float_32_filterable,
-    float_32_blendable,
-    clip_distances,
-    dual_source_blending,
+    undefined = 0,
+    depth_clip_control = 1,
+    depth_32_float_stencil_8 = 2,
+    timestamp_query = 3,
+    texture_compression_bc = 4,
+    texture_compression_bc_sliced_3_d = 5,
+    texture_compression_etc_2 = 6,
+    texture_compression_astc = 7,
+    texture_compression_astc_sliced_3_d = 8,
+    indirect_first_instance = 9,
+    shader_f_16 = 10,
+    rg_11_b_10_ufloat_renderable = 11,
+    bgra_8_unorm_storage = 12,
+    float_32_filterable = 13,
+    float_32_blendable = 14,
+    clip_distances = 15,
+    dual_source_blending = 16,
 };
 
 pub const FilterMode = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    nearest,
-    linear,
+    undefined = 0,
+    nearest = 1,
+    linear = 2,
 };
 
 pub const FrontFace = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    ccw,
-    cw,
+    undefined = 0,
+    ccw = 1,
+    cw = 2,
 };
 
 pub const IndexFormat = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    uint_16,
-    uint_32,
+    undefined = 0,
+    uint_16 = 1,
+    uint_32 = 2,
 };
 
 pub const LoadOp = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    load,
-    clear,
+    undefined = 0,
+    load = 1,
+    clear = 2,
 };
 
 pub const MapAsyncStatus = enum(u32) {
-    success,
-    instance_dropped,
-    @"error",
-    aborted,
-    unknown,
+    success = 1,
+    instance_dropped = 2,
+    @"error" = 3,
+    aborted = 4,
+    unknown = 5,
 };
 
 pub const MipmapFilterMode = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    nearest,
-    linear,
+    undefined = 0,
+    nearest = 1,
+    linear = 2,
 };
 
 pub const OptionalBool = enum(u32) {
-    false,
-    true,
-    undefined,
+    false = 0,
+    true = 1,
+    undefined = 2,
 };
 
 pub const PopErrorScopeStatus = enum(u32) {
     /// The error scope stack was successfully popped and a result was reported.
-    success,
-    instance_dropped,
+    success = 1,
+    instance_dropped = 2,
     /// The error scope stack could not be popped, because it was empty.
-    empty_stack,
+    empty_stack = 3,
 };
 
 pub const PowerPreference = enum(u32) {
     /// No preference. (See also @ref SentinelValues.)
-    undefined,
-    low_power,
-    high_performance,
+    undefined = 0,
+    low_power = 1,
+    high_performance = 2,
 };
 
 /// Describes when and in which order frames are presented on the screen when `::wgpuSurfacePresent` is called.
 pub const PresentMode = enum(u32) {
     /// Present mode is not specified. Use the default.
-    undefined,
+    undefined = 0,
     /// The presentation of the image to the user waits for the next vertical blanking period to update in a first-in, first-out manner.
     /// Tearing cannot be observed and frame-loop will be limited to the display's refresh rate.
     /// This is the only mode that's always available.
-    fifo,
+    fifo = 1,
     /// The presentation of the image to the user tries to wait for the next vertical blanking period but may decide to not wait if a frame is presented late.
     /// Tearing can sometimes be observed but late-frame don't produce a full-frame stutter in the presentation.
     /// This is still a first-in, first-out mechanism so a frame-loop will be limited to the display's refresh rate.
-    fifo_relaxed,
+    fifo_relaxed = 2,
     /// The presentation of the image to the user is updated immediately without waiting for a vertical blank.
     /// Tearing can be observed but latency is minimized.
-    immediate,
+    immediate = 3,
     /// The presentation of the image to the user waits for the next vertical blanking period to update to the latest provided image.
     /// Tearing cannot be observed and a frame-loop is not limited to the display's refresh rate.
-    mailbox,
+    mailbox = 4,
 };
 
 pub const PrimitiveTopology = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    point_list,
-    line_list,
-    line_strip,
-    triangle_list,
-    triangle_strip,
+    undefined = 0,
+    point_list = 1,
+    line_list = 2,
+    line_strip = 3,
+    triangle_list = 4,
+    triangle_strip = 5,
 };
 
 pub const QueryType = enum(u32) {
-    occlusion,
-    timestamp,
+    occlusion = 1,
+    timestamp = 2,
 };
 
 pub const QueueWorkDoneStatus = enum(u32) {
-    success,
-    instance_dropped,
-    @"error",
-    unknown,
+    success = 1,
+    instance_dropped = 2,
+    @"error" = 3,
+    unknown = 4,
 };
 
 pub const RequestAdapterStatus = enum(u32) {
-    success,
-    instance_dropped,
-    unavailable,
-    @"error",
-    unknown,
+    success = 1,
+    instance_dropped = 2,
+    unavailable = 3,
+    @"error" = 4,
+    unknown = 5,
 };
 
 pub const RequestDeviceStatus = enum(u32) {
-    success,
-    instance_dropped,
-    @"error",
-    unknown,
+    success = 1,
+    instance_dropped = 2,
+    @"error" = 3,
+    unknown = 4,
 };
 
 pub const SType = enum(u32) {
-    shader_source_spirv,
-    shader_source_wgsl,
-    render_pass_max_draw_count,
-    surface_source_metal_layer,
-    surface_source_windows_hwnd,
-    surface_source_xlib_window,
-    surface_source_wayland_surface,
-    surface_source_android_native_window,
-    surface_source_xcb_window,
+    shader_source_spirv = 1,
+    shader_source_wgsl = 2,
+    render_pass_max_draw_count = 3,
+    surface_source_metal_layer = 4,
+    surface_source_windows_hwnd = 5,
+    surface_source_xlib_window = 6,
+    surface_source_wayland_surface = 7,
+    surface_source_android_native_window = 8,
+    surface_source_xcb_window = 9,
 };
 
 pub const SamplerBindingType = enum(u32) {
     /// Indicates that this @ref WGPUSamplerBindingLayout member of
     /// its parent @ref WGPUBindGroupLayoutEntry is not used.
     /// (See also @ref SentinelValues.)
-    binding_not_used,
+    binding_not_used = 0,
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    filtering,
-    non_filtering,
-    comparison,
+    undefined = 1,
+    filtering = 2,
+    non_filtering = 3,
+    comparison = 4,
 };
 
 /// Status code returned (synchronously) from many operations. Generally
@@ -389,277 +389,277 @@ pub const SamplerBindingType = enum(u32) {
 /// Read the function's documentation for specific error conditions.
 pub const Status = enum(u32) {
     /// 
-    success,
+    success = 1,
     /// 
-    @"error",
+    @"error" = 2,
 };
 
 pub const StencilOperation = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    keep,
-    zero,
-    replace,
-    invert,
-    increment_clamp,
-    decrement_clamp,
-    increment_wrap,
-    decrement_wrap,
+    undefined = 0,
+    keep = 1,
+    zero = 2,
+    replace = 3,
+    invert = 4,
+    increment_clamp = 5,
+    decrement_clamp = 6,
+    increment_wrap = 7,
+    decrement_wrap = 8,
 };
 
 pub const StorageTextureAccess = enum(u32) {
     /// Indicates that this @ref WGPUStorageTextureBindingLayout member of
     /// its parent @ref WGPUBindGroupLayoutEntry is not used.
     /// (See also @ref SentinelValues.)
-    binding_not_used,
+    binding_not_used = 0,
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    write_only,
-    read_only,
-    read_write,
+    undefined = 1,
+    write_only = 2,
+    read_only = 3,
+    read_write = 4,
 };
 
 pub const StoreOp = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    store,
-    discard,
+    undefined = 0,
+    store = 1,
+    discard = 2,
 };
 
 /// The status enum for `::wgpuSurfaceGetCurrentTexture`.
 pub const SurfaceGetCurrentTextureStatus = enum(u32) {
     /// Yay! Everything is good and we can render this frame.
-    success_optimal,
+    success_optimal = 1,
     /// Still OK - the surface can present the frame, but in a suboptimal way. The surface may need reconfiguration.
-    success_suboptimal,
+    success_suboptimal = 2,
     /// Some operation timed out while trying to acquire the frame.
-    timeout,
+    timeout = 3,
     /// The surface is too different to be used, compared to when it was originally created.
-    outdated,
+    outdated = 4,
     /// The connection to whatever owns the surface was lost.
-    lost,
+    lost = 5,
     /// The system ran out of memory.
-    out_of_memory,
+    out_of_memory = 6,
     /// The @ref WGPUDevice configured on the @ref WGPUSurface was lost.
-    device_lost,
+    device_lost = 7,
     /// The surface is not configured, or there was an @ref OutStructChainError.
-    @"error",
+    @"error" = 8,
 };
 
 pub const TextureAspect = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    all,
-    stencil_only,
-    depth_only,
+    undefined = 0,
+    all = 1,
+    stencil_only = 2,
+    depth_only = 3,
 };
 
 pub const TextureDimension = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    @"1D",
-    @"2D",
-    @"3D",
+    undefined = 0,
+    @"1D" = 1,
+    @"2D" = 2,
+    @"3D" = 3,
 };
 
 pub const TextureFormat = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    r_8_unorm,
-    r_8_snorm,
-    r_8_uint,
-    r_8_sint,
-    r_16_uint,
-    r_16_sint,
-    r_16_float,
-    rg_8_unorm,
-    rg_8_snorm,
-    rg_8_uint,
-    rg_8_sint,
-    r_32_float,
-    r_32_uint,
-    r_32_sint,
-    rg_16_uint,
-    rg_16_sint,
-    rg_16_float,
-    rgba_8_unorm,
-    rgba_8_unorm_srgb,
-    rgba_8_snorm,
-    rgba_8_uint,
-    rgba_8_sint,
-    bgra_8_unorm,
-    bgra_8_unorm_srgb,
-    rgb_10_a_2_uint,
-    rgb_10_a_2_unorm,
-    rg_11_b_10_ufloat,
-    rgb_9_e_5_ufloat,
-    rg_32_float,
-    rg_32_uint,
-    rg_32_sint,
-    rgba_16_uint,
-    rgba_16_sint,
-    rgba_16_float,
-    rgba_32_float,
-    rgba_32_uint,
-    rgba_32_sint,
-    stencil_8,
-    depth_16_unorm,
-    depth_24_plus,
-    depth_24_plus_stencil_8,
-    depth_32_float,
-    depth_32_float_stencil_8,
-    bc_1_rgba_unorm,
-    bc_1_rgba_unorm_srgb,
-    bc_2_rgba_unorm,
-    bc_2_rgba_unorm_srgb,
-    bc_3_rgba_unorm,
-    bc_3_rgba_unorm_srgb,
-    bc_4_r_unorm,
-    bc_4_r_snorm,
-    bc_5_rg_unorm,
-    bc_5_rg_snorm,
-    bc_6_h_rgb_ufloat,
-    bc_6_h_rgb_float,
-    bc_7_rgba_unorm,
-    bc_7_rgba_unorm_srgb,
-    etc_2_rgb_8_unorm,
-    etc_2_rgb_8_unorm_srgb,
-    etc_2_rgb_8_a_1_unorm,
-    etc_2_rgb_8_a_1_unorm_srgb,
-    etc_2_rgba_8_unorm,
-    etc_2_rgba_8_unorm_srgb,
-    eac_r_11_unorm,
-    eac_r_11_snorm,
-    eac_rg_11_unorm,
-    eac_rg_11_snorm,
-    astc_4_x_4_unorm,
-    astc_4_x_4_unorm_srgb,
-    astc_5_x_4_unorm,
-    astc_5_x_4_unorm_srgb,
-    astc_5_x_5_unorm,
-    astc_5_x_5_unorm_srgb,
-    astc_6_x_5_unorm,
-    astc_6_x_5_unorm_srgb,
-    astc_6_x_6_unorm,
-    astc_6_x_6_unorm_srgb,
-    astc_8_x_5_unorm,
-    astc_8_x_5_unorm_srgb,
-    astc_8_x_6_unorm,
-    astc_8_x_6_unorm_srgb,
-    astc_8_x_8_unorm,
-    astc_8_x_8_unorm_srgb,
-    astc_10_x_5_unorm,
-    astc_10_x_5_unorm_srgb,
-    astc_10_x_6_unorm,
-    astc_10_x_6_unorm_srgb,
-    astc_10_x_8_unorm,
-    astc_10_x_8_unorm_srgb,
-    astc_10_x_10_unorm,
-    astc_10_x_10_unorm_srgb,
-    astc_12_x_10_unorm,
-    astc_12_x_10_unorm_srgb,
-    astc_12_x_12_unorm,
-    astc_12_x_12_unorm_srgb,
+    undefined = 0,
+    r_8_unorm = 1,
+    r_8_snorm = 2,
+    r_8_uint = 3,
+    r_8_sint = 4,
+    r_16_uint = 5,
+    r_16_sint = 6,
+    r_16_float = 7,
+    rg_8_unorm = 8,
+    rg_8_snorm = 9,
+    rg_8_uint = 10,
+    rg_8_sint = 11,
+    r_32_float = 12,
+    r_32_uint = 13,
+    r_32_sint = 14,
+    rg_16_uint = 15,
+    rg_16_sint = 16,
+    rg_16_float = 17,
+    rgba_8_unorm = 18,
+    rgba_8_unorm_srgb = 19,
+    rgba_8_snorm = 20,
+    rgba_8_uint = 21,
+    rgba_8_sint = 22,
+    bgra_8_unorm = 23,
+    bgra_8_unorm_srgb = 24,
+    rgb_10_a_2_uint = 25,
+    rgb_10_a_2_unorm = 26,
+    rg_11_b_10_ufloat = 27,
+    rgb_9_e_5_ufloat = 28,
+    rg_32_float = 29,
+    rg_32_uint = 30,
+    rg_32_sint = 31,
+    rgba_16_uint = 32,
+    rgba_16_sint = 33,
+    rgba_16_float = 34,
+    rgba_32_float = 35,
+    rgba_32_uint = 36,
+    rgba_32_sint = 37,
+    stencil_8 = 38,
+    depth_16_unorm = 39,
+    depth_24_plus = 40,
+    depth_24_plus_stencil_8 = 41,
+    depth_32_float = 42,
+    depth_32_float_stencil_8 = 43,
+    bc_1_rgba_unorm = 44,
+    bc_1_rgba_unorm_srgb = 45,
+    bc_2_rgba_unorm = 46,
+    bc_2_rgba_unorm_srgb = 47,
+    bc_3_rgba_unorm = 48,
+    bc_3_rgba_unorm_srgb = 49,
+    bc_4_r_unorm = 50,
+    bc_4_r_snorm = 51,
+    bc_5_rg_unorm = 52,
+    bc_5_rg_snorm = 53,
+    bc_6_h_rgb_ufloat = 54,
+    bc_6_h_rgb_float = 55,
+    bc_7_rgba_unorm = 56,
+    bc_7_rgba_unorm_srgb = 57,
+    etc_2_rgb_8_unorm = 58,
+    etc_2_rgb_8_unorm_srgb = 59,
+    etc_2_rgb_8_a_1_unorm = 60,
+    etc_2_rgb_8_a_1_unorm_srgb = 61,
+    etc_2_rgba_8_unorm = 62,
+    etc_2_rgba_8_unorm_srgb = 63,
+    eac_r_11_unorm = 64,
+    eac_r_11_snorm = 65,
+    eac_rg_11_unorm = 66,
+    eac_rg_11_snorm = 67,
+    astc_4_x_4_unorm = 68,
+    astc_4_x_4_unorm_srgb = 69,
+    astc_5_x_4_unorm = 70,
+    astc_5_x_4_unorm_srgb = 71,
+    astc_5_x_5_unorm = 72,
+    astc_5_x_5_unorm_srgb = 73,
+    astc_6_x_5_unorm = 74,
+    astc_6_x_5_unorm_srgb = 75,
+    astc_6_x_6_unorm = 76,
+    astc_6_x_6_unorm_srgb = 77,
+    astc_8_x_5_unorm = 78,
+    astc_8_x_5_unorm_srgb = 79,
+    astc_8_x_6_unorm = 80,
+    astc_8_x_6_unorm_srgb = 81,
+    astc_8_x_8_unorm = 82,
+    astc_8_x_8_unorm_srgb = 83,
+    astc_10_x_5_unorm = 84,
+    astc_10_x_5_unorm_srgb = 85,
+    astc_10_x_6_unorm = 86,
+    astc_10_x_6_unorm_srgb = 87,
+    astc_10_x_8_unorm = 88,
+    astc_10_x_8_unorm_srgb = 89,
+    astc_10_x_10_unorm = 90,
+    astc_10_x_10_unorm_srgb = 91,
+    astc_12_x_10_unorm = 92,
+    astc_12_x_10_unorm_srgb = 93,
+    astc_12_x_12_unorm = 94,
+    astc_12_x_12_unorm_srgb = 95,
 };
 
 pub const TextureSampleType = enum(u32) {
     /// Indicates that this @ref WGPUTextureBindingLayout member of
     /// its parent @ref WGPUBindGroupLayoutEntry is not used.
     /// (See also @ref SentinelValues.)
-    binding_not_used,
+    binding_not_used = 0,
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    float,
-    unfilterable_float,
-    depth,
-    sint,
-    uint,
+    undefined = 1,
+    float = 2,
+    unfilterable_float = 3,
+    depth = 4,
+    sint = 5,
+    uint = 6,
 };
 
 pub const TextureViewDimension = enum(u32) {
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    @"1D",
-    @"2D",
-    @"2D_array",
-    cube,
-    cube_array,
-    @"3D",
+    undefined = 0,
+    @"1D" = 1,
+    @"2D" = 2,
+    @"2D_array" = 3,
+    cube = 4,
+    cube_array = 5,
+    @"3D" = 6,
 };
 
 pub const VertexFormat = enum(u32) {
-    uint_8,
-    uint_8_x_2,
-    uint_8_x_4,
-    sint_8,
-    sint_8_x_2,
-    sint_8_x_4,
-    unorm_8,
-    unorm_8_x_2,
-    unorm_8_x_4,
-    snorm_8,
-    snorm_8_x_2,
-    snorm_8_x_4,
-    uint_16,
-    uint_16_x_2,
-    uint_16_x_4,
-    sint_16,
-    sint_16_x_2,
-    sint_16_x_4,
-    unorm_16,
-    unorm_16_x_2,
-    unorm_16_x_4,
-    snorm_16,
-    snorm_16_x_2,
-    snorm_16_x_4,
-    float_16,
-    float_16_x_2,
-    float_16_x_4,
-    float_32,
-    float_32_x_2,
-    float_32_x_3,
-    float_32_x_4,
-    uint_32,
-    uint_32_x_2,
-    uint_32_x_3,
-    uint_32_x_4,
-    sint_32,
-    sint_32_x_2,
-    sint_32_x_3,
-    sint_32_x_4,
-    unorm_10_10_10_2,
-    unorm_8_x_4_b_g_r_a,
+    uint_8 = 1,
+    uint_8_x_2 = 2,
+    uint_8_x_4 = 3,
+    sint_8 = 4,
+    sint_8_x_2 = 5,
+    sint_8_x_4 = 6,
+    unorm_8 = 7,
+    unorm_8_x_2 = 8,
+    unorm_8_x_4 = 9,
+    snorm_8 = 10,
+    snorm_8_x_2 = 11,
+    snorm_8_x_4 = 12,
+    uint_16 = 13,
+    uint_16_x_2 = 14,
+    uint_16_x_4 = 15,
+    sint_16 = 16,
+    sint_16_x_2 = 17,
+    sint_16_x_4 = 18,
+    unorm_16 = 19,
+    unorm_16_x_2 = 20,
+    unorm_16_x_4 = 21,
+    snorm_16 = 22,
+    snorm_16_x_2 = 23,
+    snorm_16_x_4 = 24,
+    float_16 = 25,
+    float_16_x_2 = 26,
+    float_16_x_4 = 27,
+    float_32 = 28,
+    float_32_x_2 = 29,
+    float_32_x_3 = 30,
+    float_32_x_4 = 31,
+    uint_32 = 32,
+    uint_32_x_2 = 33,
+    uint_32_x_3 = 34,
+    uint_32_x_4 = 35,
+    sint_32 = 36,
+    sint_32_x_2 = 37,
+    sint_32_x_3 = 38,
+    sint_32_x_4 = 39,
+    unorm_10_10_10_2 = 40,
+    unorm_8_x_4_b_g_r_a = 41,
 };
 
 pub const VertexStepMode = enum(u32) {
     /// This @ref WGPUVertexBufferLayout is a "hole" in the @ref WGPUVertexState `buffers` array.
     /// (See also @ref SentinelValues.)
-    vertex_buffer_not_used,
+    vertex_buffer_not_used = 0,
     /// Indicates no value is passed for this argument. See @ref SentinelValues.
-    undefined,
-    vertex,
-    instance,
+    undefined = 1,
+    vertex = 2,
+    instance = 3,
 };
 
 /// Status returned from a call to ::wgpuInstanceWaitAny.
 pub const WaitStatus = enum(u32) {
     /// At least one WGPUFuture completed successfully.
-    success,
+    success = 1,
     /// No WGPUFutures completed within the timeout.
-    timed_out,
+    timed_out = 2,
     /// A @ref Timed-Wait was performed when WGPUInstanceFeatures::timedWaitAnyEnable is false.
-    unsupported_timeout,
+    unsupported_timeout = 3,
     /// The number of futures waited on in a @ref Timed-Wait is greater than the supported WGPUInstanceFeatures::timedWaitAnyMaxCount.
-    unsupported_count,
+    unsupported_count = 4,
     /// An invalid wait was performed with @ref Mixed-Sources.
-    unsupported_mixed_sources,
+    unsupported_mixed_sources = 5,
 };
 
 pub const WgslLanguageFeatureName = enum(u32) {
-    readonly_and_readwrite_storage_textures,
-    packed_4_x_8_integer_dot_product,
-    unrestricted_pointer_parameters,
-    pointer_composite_access,
+    readonly_and_readwrite_storage_textures = 1,
+    packed_4_x_8_integer_dot_product = 2,
+    unrestricted_pointer_parameters = 3,
+    pointer_composite_access = 4,
 };
 
 pub const BufferUsage = enum(u64) {

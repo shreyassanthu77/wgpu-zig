@@ -87,15 +87,20 @@ async function main(webgpuYamlPath: string, format: boolean) {
     const name = toPascalCase(enum_.name);
     if (enum_.doc) add(docString(enum_.doc));
     add(`pub const ${name} = enum(u32) {`);
+    let i = 0;
     for (const entry of enum_.entries) {
-      if (!entry) continue;
+      if (!entry) {
+        i += 1;
+        continue;
+      }
       add(docString(entry.doc, 1));
       const name = asEnumTag(entry.name);
       if (!entry.value) {
-        add(indent(`${name},`, 1));
+        add(indent(`${name} = ${i},`, 1));
       } else {
         add(indent(`${name} = ${entry.value},`, 1));
       }
+      i += 1;
     }
     add(`};\n`);
   }
