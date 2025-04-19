@@ -30,19 +30,6 @@ pub fn build(b: *std.Build) !void {
     });
     wgpu.addObjectFile(wgpu_dep.path(libwgpu_path));
 
-    const exe = b.addExecutable(.{
-        .name = "wgpu-zig",
-        .root_source_file = b.path("src/main.zig"),
-        .target = target,
-        .optimize = optimize,
-    });
-    exe.root_module.addImport("wgpu", wgpu);
-    b.installArtifact(exe);
-
-    const run_exe = b.addRunArtifact(exe);
-    const run_step = b.step("run", "Run the application");
-    run_step.dependOn(&run_exe.step);
-
     // const include_path = wgpu_dep.path("include/webgpu");
     //
     // const translate_step = b.addTranslateC(.{
