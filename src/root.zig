@@ -1395,7 +1395,7 @@ pub const BufferMapCallbackInfo = extern struct {
     userdata2: ?*anyopaque = null,
 
     pub const State = struct { status: MapAsyncStatus, message: StringView };
-    pub fn default(status: MapAsyncStatus, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) void {
+    pub fn default(status: MapAsyncStatus, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) callconv(.c) void {
         _ = userdata2;
         const state_ptr: *State = @ptrCast(@alignCast(userdata1.?));
         state_ptr.* = .{
@@ -1414,7 +1414,7 @@ pub const CompilationInfoCallbackInfo = extern struct {
     userdata2: ?*anyopaque = null,
 
     pub const State = struct { status: CompilationInfoRequestStatus, compilation_info: *const CompilationInfo };
-    pub fn default(status: CompilationInfoRequestStatus, compilation_info: *const CompilationInfo, userdata1: ?*anyopaque, userdata2: ?*anyopaque) void {
+    pub fn default(status: CompilationInfoRequestStatus, compilation_info: *const CompilationInfo, userdata1: ?*anyopaque, userdata2: ?*anyopaque) callconv(.c) void {
         _ = userdata2;
         const state_ptr: *State = @ptrCast(@alignCast(userdata1.?));
         state_ptr.* = .{
@@ -1433,7 +1433,7 @@ pub const CreateComputePipelineAsyncCallbackInfo = extern struct {
     userdata2: ?*anyopaque = null,
 
     pub const State = struct { status: CreatePipelineAsyncStatus, pipeline: *ComputePipeline, message: StringView };
-    pub fn default(status: CreatePipelineAsyncStatus, pipeline: *ComputePipeline, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) void {
+    pub fn default(status: CreatePipelineAsyncStatus, pipeline: *ComputePipeline, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) callconv(.c) void {
         _ = userdata2;
         const state_ptr: *State = @ptrCast(@alignCast(userdata1.?));
         state_ptr.* = .{
@@ -1453,7 +1453,7 @@ pub const CreateRenderPipelineAsyncCallbackInfo = extern struct {
     userdata2: ?*anyopaque = null,
 
     pub const State = struct { status: CreatePipelineAsyncStatus, pipeline: *RenderPipeline, message: StringView };
-    pub fn default(status: CreatePipelineAsyncStatus, pipeline: *RenderPipeline, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) void {
+    pub fn default(status: CreatePipelineAsyncStatus, pipeline: *RenderPipeline, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) callconv(.c) void {
         _ = userdata2;
         const state_ptr: *State = @ptrCast(@alignCast(userdata1.?));
         state_ptr.* = .{
@@ -1473,7 +1473,7 @@ pub const DeviceLostCallbackInfo = extern struct {
     userdata2: ?*anyopaque = null,
 
     pub const State = struct { device: *Device, reason: DeviceLostReason, message: StringView };
-    pub fn default(device: *Device, reason: DeviceLostReason, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) void {
+    pub fn default(device: *Device, reason: DeviceLostReason, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) callconv(.c) void {
         _ = userdata2;
         const state_ptr: *State = @ptrCast(@alignCast(userdata1.?));
         state_ptr.* = .{
@@ -1493,7 +1493,7 @@ pub const PopErrorScopeCallbackInfo = extern struct {
     userdata2: ?*anyopaque = null,
 
     pub const State = struct { status: PopErrorScopeStatus, typ: ErrorType, message: StringView };
-    pub fn default(status: PopErrorScopeStatus, typ: ErrorType, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) void {
+    pub fn default(status: PopErrorScopeStatus, typ: ErrorType, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) callconv(.c) void {
         _ = userdata2;
         const state_ptr: *State = @ptrCast(@alignCast(userdata1.?));
         state_ptr.* = .{
@@ -1513,7 +1513,7 @@ pub const QueueWorkDoneCallbackInfo = extern struct {
     userdata2: ?*anyopaque = null,
 
     pub const State = struct { status: QueueWorkDoneStatus };
-    pub fn default(status: QueueWorkDoneStatus, userdata1: ?*anyopaque, userdata2: ?*anyopaque) void {
+    pub fn default(status: QueueWorkDoneStatus, userdata1: ?*anyopaque, userdata2: ?*anyopaque) callconv(.c) void {
         _ = userdata2;
         const state_ptr: *State = @ptrCast(@alignCast(userdata1.?));
         state_ptr.* = .{
@@ -1531,7 +1531,7 @@ pub const RequestAdapterCallbackInfo = extern struct {
     userdata2: ?*anyopaque = null,
 
     pub const State = struct { status: RequestAdapterStatus, adapter: *Adapter, message: StringView };
-    pub fn default(status: RequestAdapterStatus, adapter: *Adapter, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) void {
+    pub fn default(status: RequestAdapterStatus, adapter: *Adapter, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) callconv(.c) void {
         _ = userdata2;
         const state_ptr: *State = @ptrCast(@alignCast(userdata1.?));
         state_ptr.* = .{
@@ -1551,7 +1551,7 @@ pub const RequestDeviceCallbackInfo = extern struct {
     userdata2: ?*anyopaque = null,
 
     pub const State = struct { status: RequestDeviceStatus, device: *Device, message: StringView };
-    pub fn default(status: RequestDeviceStatus, device: *Device, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) void {
+    pub fn default(status: RequestDeviceStatus, device: *Device, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) callconv(.c) void {
         _ = userdata2;
         const state_ptr: *State = @ptrCast(@alignCast(userdata1.?));
         state_ptr.* = .{
@@ -1570,7 +1570,7 @@ pub const UncapturedErrorCallbackInfo = extern struct {
     userdata2: ?*anyopaque = null,
 
     pub const State = struct { device: *Device, typ: ErrorType, message: StringView };
-    pub fn default(device: *Device, typ: ErrorType, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) void {
+    pub fn default(device: *Device, typ: ErrorType, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) callconv(.c) void {
         _ = userdata2;
         const state_ptr: *State = @ptrCast(@alignCast(userdata1.?));
         state_ptr.* = .{

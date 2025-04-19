@@ -321,7 +321,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
     add(indent(`};`, 1));
     add(
       indent(
-        `pub fn default(${args!.join(", ")}, userdata1: ?*anyopaque, userdata2: ?*anyopaque) void {
+        `pub fn default(${args!.join(", ")}, userdata1: ?*anyopaque, userdata2: ?*anyopaque) callconv(.c) void {
 	_ = userdata2;
 	const state_ptr: *State = @ptrCast(@alignCast(userdata1.?));
 	state_ptr.* = .{`,
