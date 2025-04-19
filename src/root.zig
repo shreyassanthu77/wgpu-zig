@@ -769,7 +769,7 @@ pub const BindGroupDescriptor = extern struct {
     label: []const u8 = "",
     layout: *BindGroupLayout,
     entries_count: usize,
-    entries: *const []BindGroupEntry,
+    entries: [*]const BindGroupEntry,
 };
 
 pub const BindGroupEntry = extern struct {
@@ -786,7 +786,7 @@ pub const BindGroupLayoutDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     entries_count: usize,
-    entries: *const []BindGroupLayoutEntry,
+    entries: [*]const BindGroupLayoutEntry,
 };
 
 pub const BindGroupLayoutEntry = extern struct {
@@ -852,7 +852,7 @@ pub const CommandEncoderDescriptor = extern struct {
 pub const CompilationInfo = extern struct {
     next_in_chain: ?*Chained = null,
     messages_count: usize,
-    messages: *const []CompilationMessage,
+    messages: [*]const CompilationMessage,
 };
 
 pub const CompilationMessage = extern struct {
@@ -883,7 +883,7 @@ pub const ComputeState = extern struct {
     module: *ShaderModule,
     entry_point: ??StringView = .null,
     constants_count: usize,
-    constants: *const []ConstantEntry,
+    constants: [*]const ConstantEntry,
 };
 
 pub const ConstantEntry = extern struct {
@@ -910,7 +910,7 @@ pub const DeviceDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     required_features_count: usize,
-    required_features: *const []FeatureName,
+    required_features: [*]const FeatureName,
     required_limits: ?*const Limits = null,
     default_queue: QueueDescriptor,
     device_lost_callback_info: DeviceLostCallbackInfo,
@@ -928,9 +928,9 @@ pub const FragmentState = extern struct {
     module: *ShaderModule,
     entry_point: ??StringView = .null,
     constants_count: usize,
-    constants: *const []ConstantEntry,
+    constants: [*]const ConstantEntry,
     targets_count: usize,
-    targets: *const []ColorTargetState,
+    targets: [*]const ColorTargetState,
 };
 
 pub const Future = extern struct {
@@ -1012,7 +1012,7 @@ pub const PipelineLayoutDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     bind_group_layouts_count: usize,
-    bind_group_layouts: *const []*BindGroupLayout,
+    bind_group_layouts: [*]const *BindGroupLayout,
 };
 
 pub const PrimitiveState = extern struct {
@@ -1045,7 +1045,7 @@ pub const RenderBundleEncoderDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     color_formats_count: usize,
-    color_formats: *const []TextureFormat,
+    color_formats: [*]const TextureFormat,
     depth_stencil_format: TextureFormat = .undefined,
     sample_count: u32 = 1,
     depth_read_only: bool = false,
@@ -1079,7 +1079,7 @@ pub const RenderPassDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     color_attachments_count: usize,
-    color_attachments: *const []RenderPassColorAttachment,
+    color_attachments: [*]const RenderPassColorAttachment,
     depth_stencil_attachment: ?*const RenderPassDepthStencilAttachment = null,
     occlusion_query_set: ?*QuerySet = null,
     timestamp_writes: ?*const PassTimestampWrites = null,
@@ -1209,13 +1209,13 @@ pub const StorageTextureBindingLayout = extern struct {
 
 pub const SupportedFeatures = extern struct {
     features_count: usize,
-    features: *const []FeatureName,
+    features: [*]const FeatureName,
     pub extern fn freeMembers(self: *SupportedFeatures) callconv(.c) void;
 };
 
 pub const SupportedWgslLanguageFeatures = extern struct {
     features_count: usize,
-    features: *const []WgslLanguageFeatureName,
+    features: [*]const WgslLanguageFeatureName,
     pub extern fn freeMembers(self: *SupportedWgslLanguageFeatures) callconv(.c) void;
 };
 
@@ -1223,11 +1223,11 @@ pub const SurfaceCapabilities = extern struct {
     next_in_chain: ?*Chained = null,
     usages: TextureUsage,
     formats_count: usize,
-    formats: *const []TextureFormat,
+    formats: [*]const TextureFormat,
     present_modes_count: usize,
-    present_modes: *const []PresentMode,
+    present_modes: [*]const PresentMode,
     alpha_modes_count: usize,
-    alpha_modes: *const []CompositeAlphaMode,
+    alpha_modes: [*]const CompositeAlphaMode,
     pub extern fn freeMembers(self: *SurfaceCapabilities) callconv(.c) void;
 };
 
@@ -1245,7 +1245,7 @@ pub const SurfaceConfiguration = extern struct {
     width: u32,
     height: u32,
     view_formats_count: usize,
-    view_formats: *const []TextureFormat,
+    view_formats: [*]const TextureFormat,
     alpha_mode: CompositeAlphaMode = .auto,
     present_mode: PresentMode = .undefined,
 };
@@ -1398,7 +1398,7 @@ pub const TextureDescriptor = extern struct {
     mip_level_count: u32 = 1,
     sample_count: u32 = 1,
     view_formats_count: usize,
-    view_formats: *const []TextureFormat,
+    view_formats: [*]const TextureFormat,
 };
 
 pub const TextureViewDescriptor = extern struct {
@@ -1426,7 +1426,7 @@ pub const VertexBufferLayout = extern struct {
     step_mode: VertexStepMode = .undefined,
     array_stride: u64,
     attributes_count: usize,
-    attributes: *const []VertexAttribute,
+    attributes: [*]const VertexAttribute,
 };
 
 pub const VertexState = extern struct {
@@ -1434,9 +1434,9 @@ pub const VertexState = extern struct {
     module: *ShaderModule,
     entry_point: ??StringView = .null,
     constants_count: usize,
-    constants: *const []ConstantEntry,
+    constants: [*]const ConstantEntry,
     buffers_count: usize,
-    buffers: *const []VertexBufferLayout,
+    buffers: [*]const VertexBufferLayout,
 };
 
 pub const BufferMapCallback = *const fn (status: MapAsyncStatus, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) callconv(.c) void;
@@ -1677,8 +1677,8 @@ pub const ComputePassEncoder = opaque {
     pub inline fn pushDebugGroup(self: *ComputePassEncoder, groupLabel: []const u8) void { return wgpuComputePassEncoderPushDebugGroup(self, groupLabel); }
     extern fn wgpuComputePassEncoderSetPipeline(self: *ComputePassEncoder, pipeline: *ComputePipeline) callconv(.c) void;
     pub inline fn setPipeline(self: *ComputePassEncoder, pipeline: *ComputePipeline) void { return wgpuComputePassEncoderSetPipeline(self, pipeline); }
-    extern fn wgpuComputePassEncoderSetBindGroup(self: *ComputePassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: *const []u32) callconv(.c) void;
-    pub inline fn setBindGroup(self: *ComputePassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: *const []u32) void { return wgpuComputePassEncoderSetBindGroup(self, groupIndex, group, dynamicOffsets); }
+    extern fn wgpuComputePassEncoderSetBindGroup(self: *ComputePassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: [*]const u32) callconv(.c) void;
+    pub inline fn setBindGroup(self: *ComputePassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: [*]const u32) void { return wgpuComputePassEncoderSetBindGroup(self, groupIndex, group, dynamicOffsets); }
     extern fn wgpuComputePassEncoderDispatchWorkgroups(self: *ComputePassEncoder, workgroupCountX: u32, workgroupCountY: u32, workgroupCountZ: u32) callconv(.c) void;
     pub inline fn dispatchWorkgroups(self: *ComputePassEncoder, workgroupCountX: u32, workgroupCountY: u32, workgroupCountZ: u32) void { return wgpuComputePassEncoderDispatchWorkgroups(self, workgroupCountX, workgroupCountY, workgroupCountZ); }
     extern fn wgpuComputePassEncoderDispatchWorkgroupsIndirect(self: *ComputePassEncoder, indirectBuffer: *Buffer, indirectOffset: u64) callconv(.c) void;
@@ -1817,8 +1817,8 @@ pub const QuerySet = opaque {
 };
 
 pub const Queue = opaque {
-    extern fn wgpuQueueSubmit(self: *Queue, commands: *const []*CommandBuffer) callconv(.c) void;
-    pub inline fn submit(self: *Queue, commands: *const []*CommandBuffer) void { return wgpuQueueSubmit(self, commands); }
+    extern fn wgpuQueueSubmit(self: *Queue, commands: [*]const *CommandBuffer) callconv(.c) void;
+    pub inline fn submit(self: *Queue, commands: [*]const *CommandBuffer) void { return wgpuQueueSubmit(self, commands); }
     extern fn wgpuQueueOnSubmittedWorkDone(self: *Queue, callback: QueueWorkDoneCallbackInfo) callconv(.c) void;
     pub inline fn onSubmittedWorkDone(self: *Queue, callback: QueueWorkDoneCallbackInfo) void { return wgpuQueueOnSubmittedWorkDone(self, callback); }
     extern fn wgpuQueueWriteBuffer(self: *Queue, buffer: *Buffer, bufferOffset: u64, data: *const anyopaque, size: usize) callconv(.c) void;
@@ -1847,8 +1847,8 @@ pub const RenderBundle = opaque {
 pub const RenderBundleEncoder = opaque {
     extern fn wgpuRenderBundleEncoderSetPipeline(self: *RenderBundleEncoder, pipeline: *RenderPipeline) callconv(.c) void;
     pub inline fn setPipeline(self: *RenderBundleEncoder, pipeline: *RenderPipeline) void { return wgpuRenderBundleEncoderSetPipeline(self, pipeline); }
-    extern fn wgpuRenderBundleEncoderSetBindGroup(self: *RenderBundleEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: *const []u32) callconv(.c) void;
-    pub inline fn setBindGroup(self: *RenderBundleEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: *const []u32) void { return wgpuRenderBundleEncoderSetBindGroup(self, groupIndex, group, dynamicOffsets); }
+    extern fn wgpuRenderBundleEncoderSetBindGroup(self: *RenderBundleEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: [*]const u32) callconv(.c) void;
+    pub inline fn setBindGroup(self: *RenderBundleEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: [*]const u32) void { return wgpuRenderBundleEncoderSetBindGroup(self, groupIndex, group, dynamicOffsets); }
     extern fn wgpuRenderBundleEncoderDraw(self: *RenderBundleEncoder, vertexCount: u32, instanceCount: u32, firstVertex: u32, firstInstance: u32) callconv(.c) void;
     pub inline fn draw(self: *RenderBundleEncoder, vertexCount: u32, instanceCount: u32, firstVertex: u32, firstInstance: u32) void { return wgpuRenderBundleEncoderDraw(self, vertexCount, instanceCount, firstVertex, firstInstance); }
     extern fn wgpuRenderBundleEncoderDrawIndexed(self: *RenderBundleEncoder, indexCount: u32, instanceCount: u32, firstIndex: u32, baseVertex: i32, firstInstance: u32) callconv(.c) void;
@@ -1880,8 +1880,8 @@ pub const RenderBundleEncoder = opaque {
 pub const RenderPassEncoder = opaque {
     extern fn wgpuRenderPassEncoderSetPipeline(self: *RenderPassEncoder, pipeline: *RenderPipeline) callconv(.c) void;
     pub inline fn setPipeline(self: *RenderPassEncoder, pipeline: *RenderPipeline) void { return wgpuRenderPassEncoderSetPipeline(self, pipeline); }
-    extern fn wgpuRenderPassEncoderSetBindGroup(self: *RenderPassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: *const []u32) callconv(.c) void;
-    pub inline fn setBindGroup(self: *RenderPassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: *const []u32) void { return wgpuRenderPassEncoderSetBindGroup(self, groupIndex, group, dynamicOffsets); }
+    extern fn wgpuRenderPassEncoderSetBindGroup(self: *RenderPassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: [*]const u32) callconv(.c) void;
+    pub inline fn setBindGroup(self: *RenderPassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: [*]const u32) void { return wgpuRenderPassEncoderSetBindGroup(self, groupIndex, group, dynamicOffsets); }
     extern fn wgpuRenderPassEncoderDraw(self: *RenderPassEncoder, vertexCount: u32, instanceCount: u32, firstVertex: u32, firstInstance: u32) callconv(.c) void;
     pub inline fn draw(self: *RenderPassEncoder, vertexCount: u32, instanceCount: u32, firstVertex: u32, firstInstance: u32) void { return wgpuRenderPassEncoderDraw(self, vertexCount, instanceCount, firstVertex, firstInstance); }
     extern fn wgpuRenderPassEncoderDrawIndexed(self: *RenderPassEncoder, indexCount: u32, instanceCount: u32, firstIndex: u32, baseVertex: i32, firstInstance: u32) callconv(.c) void;
@@ -1890,8 +1890,8 @@ pub const RenderPassEncoder = opaque {
     pub inline fn drawIndirect(self: *RenderPassEncoder, indirectBuffer: *Buffer, indirectOffset: u64) void { return wgpuRenderPassEncoderDrawIndirect(self, indirectBuffer, indirectOffset); }
     extern fn wgpuRenderPassEncoderDrawIndexedIndirect(self: *RenderPassEncoder, indirectBuffer: *Buffer, indirectOffset: u64) callconv(.c) void;
     pub inline fn drawIndexedIndirect(self: *RenderPassEncoder, indirectBuffer: *Buffer, indirectOffset: u64) void { return wgpuRenderPassEncoderDrawIndexedIndirect(self, indirectBuffer, indirectOffset); }
-    extern fn wgpuRenderPassEncoderExecuteBundles(self: *RenderPassEncoder, bundles: *const []*RenderBundle) callconv(.c) void;
-    pub inline fn executeBundles(self: *RenderPassEncoder, bundles: *const []*RenderBundle) void { return wgpuRenderPassEncoderExecuteBundles(self, bundles); }
+    extern fn wgpuRenderPassEncoderExecuteBundles(self: *RenderPassEncoder, bundles: [*]const *RenderBundle) callconv(.c) void;
+    pub inline fn executeBundles(self: *RenderPassEncoder, bundles: [*]const *RenderBundle) void { return wgpuRenderPassEncoderExecuteBundles(self, bundles); }
     extern fn wgpuRenderPassEncoderInsertDebugMarker(self: *RenderPassEncoder, markerLabel: []const u8) callconv(.c) void;
     pub inline fn insertDebugMarker(self: *RenderPassEncoder, markerLabel: []const u8) void { return wgpuRenderPassEncoderInsertDebugMarker(self, markerLabel); }
     extern fn wgpuRenderPassEncoderPopDebugGroup(self: *RenderPassEncoder) callconv(.c) void;

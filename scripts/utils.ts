@@ -116,7 +116,9 @@ export function typeName(
     type = toPascalCase(type.slice(7));
   } else if (type.startsWith("array<")) {
     type = type.slice(6, -1);
-    type = `[]${typeName(type)[0]}`;
+    type = `[*]${constPointer ? "const" : ""} ${typeName(type)[0]}`;
+    isPointer = false;
+    constPointer = false;
     isArray = true;
   } else if (type.startsWith("object.")) {
     type = toPascalCase(type.slice(6));
