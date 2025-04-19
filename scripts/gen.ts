@@ -72,6 +72,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
 
   assert(schema.typedefs.length === 0, "TODO: implement typedefs");
 
+  let stype: (typeof schema.enums)[0];
   for (const enum_ of schema.enums) {
     if (!enum_.entries) continue;
     assert(
@@ -79,6 +80,8 @@ async function main(webgpuYamlPath: string, format: boolean) {
       "TODO: implement namespaced constants",
     );
     assert(!enum_.extended, "TODO: implement extended enums");
+
+    if (enum_.name === "s_type") stype = enum_;
 
     const name = toPascalCase(enum_.name);
     if (enum_.doc) add(docString(enum_.doc));
@@ -190,6 +193,13 @@ async function main(webgpuYamlPath: string, format: boolean) {
 `);
   add(`};\n`);
 
+  assert(stype! !== undefined, "TODO: implement stype");
+  const sTypeMap = new Map<string, string>();
+  for (const entry of stype.entries!) {
+    if (!entry) continue;
+    sTypeMap.set(toPascalCase(entry.name), entry.name);
+  }
+
   for (const struct of schema.structs) {
     assert(struct.members !== undefined, "Structs must have members");
     assert(
@@ -226,6 +236,42 @@ async function main(webgpuYamlPath: string, format: boolean) {
       add(
         indent(
           `pub extern fn freeMembers(self: *${name}) callconv(.c) void;`,
+          1,
+        ),
+      );
+    }
+
+    const parent = toPascalCase(struct.extends?.[0] ?? "");
+    if (struct.type === "extension" && parent && sTypeMap.has(name)) {
+      const sType = asEnumTag(sTypeMap.get(name)!);
+      add(` `);
+
+      const optionsName = toPascalCase(name + "_init_options");
+      const initBody: string[] = [];
+
+      add(indent(`pub const ${optionsName} = struct {`, 1));
+      for (const member of struct.members) {
+        const name = toSnakeCase(member.name);
+        const [type, isArray] = typeName(
+          member.type,
+          member.pointer,
+          member.optional,
+          member.default,
+        );
+        assert(!isArray, "TODO: implement array init");
+        add(indent(`${name}: ${type},`, 2));
+        initBody.push(`.${name} = options.${name}`);
+      }
+      initBody.push(`.chain = .{ .s_type = .${sType} }`);
+      add(indent(`};`, 1));
+
+      add(
+        indent(
+          `pub inline fn init(options: ${optionsName}) *const ${parent} {
+    return @ptrCast(&${name}{
+        ${initBody.join(",\n        ")},
+    });
+}`,
           1,
         ),
       );

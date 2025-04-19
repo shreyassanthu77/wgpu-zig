@@ -52,9 +52,16 @@ export function typeName(
   optional: boolean = false,
   default_value?: string | number | boolean | null,
 ): [string, boolean] {
+  let isPointer = pointer_type !== undefined;
+  let constPointer = pointer_type === "immutable";
+
   switch (type as PrimitiveType) {
     case "c_void":
-      type = "void";
+      if (isPointer) {
+        type = "anyopaque";
+      } else {
+        type = "void";
+      }
       break;
     case "bool":
       type = "bool";
@@ -102,8 +109,6 @@ export function typeName(
       break;
   }
 
-  let isPointer = pointer_type !== undefined;
-  let constPointer = pointer_type === "immutable";
   let isArray = false;
   if (type.startsWith("enum.")) {
     type = toPascalCase(type.slice(5));

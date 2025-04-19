@@ -1088,6 +1088,16 @@ pub const RenderPassDescriptor = extern struct {
 pub const RenderPassMaxDrawCount = extern struct {
     chain: Chained,
     max_draw_count: u64 = 50000000,
+ 
+    pub const RenderPassMaxDrawCountInitOptions = struct {
+        max_draw_count: u64 = 50000000,
+    };
+    pub inline fn init(options: RenderPassMaxDrawCountInitOptions) *const RenderPassDescriptor {
+        return @ptrCast(&RenderPassMaxDrawCount{
+            .max_draw_count = options.max_draw_count,
+            .chain = .{ .s_type = .render_pass_max_draw_count },
+        });
+    }
 };
 
 pub const RenderPipelineDescriptor = extern struct {
@@ -1113,6 +1123,16 @@ pub const RequestAdapterOptions = extern struct {
 pub const RequestAdapterWebXrOptions = extern struct {
     chain: Chained,
     xr_compatible: bool = false,
+ 
+    pub const RequestAdapterWebXrOptionsInitOptions = struct {
+        xr_compatible: bool = false,
+    };
+    pub inline fn init(options: RequestAdapterWebXrOptionsInitOptions) *const RequestAdapterOptions {
+        return @ptrCast(&RequestAdapterWebXrOptions{
+            .xr_compatible = options.xr_compatible,
+            .chain = .{ .s_type = .request_adapter_web_xr_options },
+        });
+    }
 };
 
 pub const SamplerBindingLayout = extern struct {
@@ -1144,11 +1164,33 @@ pub const ShaderSourceSpirv = extern struct {
     chain: Chained,
     code_size: u32 = 0,
     code: *const u32,
+ 
+    pub const ShaderSourceSpirvInitOptions = struct {
+        code_size: u32 = 0,
+        code: *const u32,
+    };
+    pub inline fn init(options: ShaderSourceSpirvInitOptions) *const ShaderModuleDescriptor {
+        return @ptrCast(&ShaderSourceSpirv{
+            .code_size = options.code_size,
+            .code = options.code,
+            .chain = .{ .s_type = .shader_source_spirv },
+        });
+    }
 };
 
 pub const ShaderSourceWgsl = extern struct {
     chain: Chained,
     code: []const u8 = "",
+ 
+    pub const ShaderSourceWgslInitOptions = struct {
+        code: []const u8 = "",
+    };
+    pub inline fn init(options: ShaderSourceWgslInitOptions) *const ShaderModuleDescriptor {
+        return @ptrCast(&ShaderSourceWgsl{
+            .code = options.code,
+            .chain = .{ .s_type = .shader_source_wgsl },
+        });
+    }
 };
 
 pub const StencilFaceState = extern struct {
@@ -1215,36 +1257,104 @@ pub const SurfaceDescriptor = extern struct {
 
 pub const SurfaceSourceAndroidNativeWindow = extern struct {
     chain: Chained,
-    window: *void,
+    window: *anyopaque,
+ 
+    pub const SurfaceSourceAndroidNativeWindowInitOptions = struct {
+        window: *anyopaque,
+    };
+    pub inline fn init(options: SurfaceSourceAndroidNativeWindowInitOptions) *const SurfaceDescriptor {
+        return @ptrCast(&SurfaceSourceAndroidNativeWindow{
+            .window = options.window,
+            .chain = .{ .s_type = .surface_source_android_native_window },
+        });
+    }
 };
 
 pub const SurfaceSourceMetalLayer = extern struct {
     chain: Chained,
-    layer: *void,
+    layer: *anyopaque,
+ 
+    pub const SurfaceSourceMetalLayerInitOptions = struct {
+        layer: *anyopaque,
+    };
+    pub inline fn init(options: SurfaceSourceMetalLayerInitOptions) *const SurfaceDescriptor {
+        return @ptrCast(&SurfaceSourceMetalLayer{
+            .layer = options.layer,
+            .chain = .{ .s_type = .surface_source_metal_layer },
+        });
+    }
 };
 
 pub const SurfaceSourceWaylandSurface = extern struct {
     chain: Chained,
-    display: *void,
-    surface: *void,
+    display: *anyopaque,
+    surface: *anyopaque,
+ 
+    pub const SurfaceSourceWaylandSurfaceInitOptions = struct {
+        display: *anyopaque,
+        surface: *anyopaque,
+    };
+    pub inline fn init(options: SurfaceSourceWaylandSurfaceInitOptions) *const SurfaceDescriptor {
+        return @ptrCast(&SurfaceSourceWaylandSurface{
+            .display = options.display,
+            .surface = options.surface,
+            .chain = .{ .s_type = .surface_source_wayland_surface },
+        });
+    }
 };
 
 pub const SurfaceSourceWindowsHwnd = extern struct {
     chain: Chained,
-    hinstance: *void,
-    hwnd: *void,
+    hinstance: *anyopaque,
+    hwnd: *anyopaque,
+ 
+    pub const SurfaceSourceWindowsHwndInitOptions = struct {
+        hinstance: *anyopaque,
+        hwnd: *anyopaque,
+    };
+    pub inline fn init(options: SurfaceSourceWindowsHwndInitOptions) *const SurfaceDescriptor {
+        return @ptrCast(&SurfaceSourceWindowsHwnd{
+            .hinstance = options.hinstance,
+            .hwnd = options.hwnd,
+            .chain = .{ .s_type = .surface_source_windows_hwnd },
+        });
+    }
 };
 
 pub const SurfaceSourceXcbWindow = extern struct {
     chain: Chained,
-    connection: *void,
+    connection: *anyopaque,
     window: u32,
+ 
+    pub const SurfaceSourceXcbWindowInitOptions = struct {
+        connection: *anyopaque,
+        window: u32,
+    };
+    pub inline fn init(options: SurfaceSourceXcbWindowInitOptions) *const SurfaceDescriptor {
+        return @ptrCast(&SurfaceSourceXcbWindow{
+            .connection = options.connection,
+            .window = options.window,
+            .chain = .{ .s_type = .surface_source_xcb_window },
+        });
+    }
 };
 
 pub const SurfaceSourceXlibWindow = extern struct {
     chain: Chained,
-    display: *void,
+    display: *anyopaque,
     window: u64,
+ 
+    pub const SurfaceSourceXlibWindowInitOptions = struct {
+        display: *anyopaque,
+        window: u64,
+    };
+    pub inline fn init(options: SurfaceSourceXlibWindowInitOptions) *const SurfaceDescriptor {
+        return @ptrCast(&SurfaceSourceXlibWindow{
+            .display = options.display,
+            .window = options.window,
+            .chain = .{ .s_type = .surface_source_xlib_window },
+        });
+    }
 };
 
 pub const SurfaceTexture = extern struct {
@@ -1465,15 +1575,15 @@ pub const BindGroupLayout = opaque {
 pub const Buffer = opaque {
     extern fn wgpuBufferMapAsync(self: *Buffer, mode: MapMode, offset: usize, size: usize, callback: BufferMapCallbackInfo) callconv(.c) void;
     pub inline fn mapAsync(self: *Buffer, mode: MapMode, offset: usize, size: usize, callback: BufferMapCallbackInfo) void { return wgpuBufferMapAsync(self, mode, offset, size, callback); }
-    extern fn wgpuBufferGetMappedRange(self: *Buffer, offset: usize, size: usize) callconv(.c) *void;
+    extern fn wgpuBufferGetMappedRange(self: *Buffer, offset: usize, size: usize) callconv(.c) *anyopaque;
     /// Returns a mutable pointer to beginning of the mapped range.
     /// See @ref MappedRangeBehavior for error conditions and guarantees.
     /// This function is safe to call inside spontaneous callbacks (see @ref CallbackReentrancy).
     /// 
     /// In Wasm, if `memcpy`ing into this range, prefer using @ref wgpuBufferWriteMappedRange
     /// instead for better performance.
-    pub inline fn getMappedRange(self: *Buffer, offset: usize, size: usize) *void { return wgpuBufferGetMappedRange(self, offset, size); }
-    extern fn wgpuBufferGetConstMappedRange(self: *Buffer, offset: usize, size: usize) callconv(.c) *const void;
+    pub inline fn getMappedRange(self: *Buffer, offset: usize, size: usize) *anyopaque { return wgpuBufferGetMappedRange(self, offset, size); }
+    extern fn wgpuBufferGetConstMappedRange(self: *Buffer, offset: usize, size: usize) callconv(.c) *const anyopaque;
     /// Returns a const pointer to beginning of the mapped range.
     /// It must not be written; writing to this range causes undefined behavior.
     /// See @ref MappedRangeBehavior for error conditions and guarantees.
@@ -1481,21 +1591,21 @@ pub const Buffer = opaque {
     /// 
     /// In Wasm, if `memcpy`ing from this range, prefer using @ref wgpuBufferReadMappedRange
     /// instead for better performance.
-    pub inline fn getConstMappedRange(self: *Buffer, offset: usize, size: usize) *const void { return wgpuBufferGetConstMappedRange(self, offset, size); }
-    extern fn wgpuBufferReadMappedRange(self: *Buffer, offset: usize, data: *void, size: usize) callconv(.c) Status;
+    pub inline fn getConstMappedRange(self: *Buffer, offset: usize, size: usize) *const anyopaque { return wgpuBufferGetConstMappedRange(self, offset, size); }
+    extern fn wgpuBufferReadMappedRange(self: *Buffer, offset: usize, data: *anyopaque, size: usize) callconv(.c) Status;
     /// Copies a range of data from the buffer mapping into the provided destination pointer.
     /// See @ref MappedRangeBehavior for error conditions and guarantees.
     /// This function is safe to call inside spontaneous callbacks (see @ref CallbackReentrancy).
     /// 
     /// In Wasm, this is more efficient than copying from a mapped range into a `malloc`'d range.
-    pub inline fn readMappedRange(self: *Buffer, offset: usize, data: *void, size: usize) Status { return wgpuBufferReadMappedRange(self, offset, data, size); }
-    extern fn wgpuBufferWriteMappedRange(self: *Buffer, offset: usize, data: *const void, size: usize) callconv(.c) Status;
+    pub inline fn readMappedRange(self: *Buffer, offset: usize, data: *anyopaque, size: usize) Status { return wgpuBufferReadMappedRange(self, offset, data, size); }
+    extern fn wgpuBufferWriteMappedRange(self: *Buffer, offset: usize, data: *const anyopaque, size: usize) callconv(.c) Status;
     /// Copies a range of data from the provided source pointer into the buffer mapping.
     /// See @ref MappedRangeBehavior for error conditions and guarantees.
     /// This function is safe to call inside spontaneous callbacks (see @ref CallbackReentrancy).
     /// 
     /// In Wasm, this is more efficient than copying from a `malloc`'d range into a mapped range.
-    pub inline fn writeMappedRange(self: *Buffer, offset: usize, data: *const void, size: usize) Status { return wgpuBufferWriteMappedRange(self, offset, data, size); }
+    pub inline fn writeMappedRange(self: *Buffer, offset: usize, data: *const anyopaque, size: usize) Status { return wgpuBufferWriteMappedRange(self, offset, data, size); }
     extern fn wgpuBufferSetLabel(self: *Buffer, label: []const u8) callconv(.c) void;
     pub inline fn setLabel(self: *Buffer, label: []const u8) void { return wgpuBufferSetLabel(self, label); }
     extern fn wgpuBufferGetUsage(self: *Buffer) callconv(.c) BufferUsage;
@@ -1711,12 +1821,12 @@ pub const Queue = opaque {
     pub inline fn submit(self: *Queue, commands: *const []*CommandBuffer) void { return wgpuQueueSubmit(self, commands); }
     extern fn wgpuQueueOnSubmittedWorkDone(self: *Queue, callback: QueueWorkDoneCallbackInfo) callconv(.c) void;
     pub inline fn onSubmittedWorkDone(self: *Queue, callback: QueueWorkDoneCallbackInfo) void { return wgpuQueueOnSubmittedWorkDone(self, callback); }
-    extern fn wgpuQueueWriteBuffer(self: *Queue, buffer: *Buffer, bufferOffset: u64, data: *const void, size: usize) callconv(.c) void;
+    extern fn wgpuQueueWriteBuffer(self: *Queue, buffer: *Buffer, bufferOffset: u64, data: *const anyopaque, size: usize) callconv(.c) void;
     /// Produces a @ref DeviceError both content-timeline (`size` alignment) and device-timeline
     /// errors defined by the WebGPU specification.
-    pub inline fn writeBuffer(self: *Queue, buffer: *Buffer, bufferOffset: u64, data: *const void, size: usize) void { return wgpuQueueWriteBuffer(self, buffer, bufferOffset, data, size); }
-    extern fn wgpuQueueWriteTexture(self: *Queue, destination: *const TexelCopyTextureInfo, data: *const void, dataSize: usize, dataLayout: *const TexelCopyBufferLayout, writeSize: *const Extent3D) callconv(.c) void;
-    pub inline fn writeTexture(self: *Queue, destination: *const TexelCopyTextureInfo, data: *const void, dataSize: usize, dataLayout: *const TexelCopyBufferLayout, writeSize: *const Extent3D) void { return wgpuQueueWriteTexture(self, destination, data, dataSize, dataLayout, writeSize); }
+    pub inline fn writeBuffer(self: *Queue, buffer: *Buffer, bufferOffset: u64, data: *const anyopaque, size: usize) void { return wgpuQueueWriteBuffer(self, buffer, bufferOffset, data, size); }
+    extern fn wgpuQueueWriteTexture(self: *Queue, destination: *const TexelCopyTextureInfo, data: *const anyopaque, dataSize: usize, dataLayout: *const TexelCopyBufferLayout, writeSize: *const Extent3D) callconv(.c) void;
+    pub inline fn writeTexture(self: *Queue, destination: *const TexelCopyTextureInfo, data: *const anyopaque, dataSize: usize, dataLayout: *const TexelCopyBufferLayout, writeSize: *const Extent3D) void { return wgpuQueueWriteTexture(self, destination, data, dataSize, dataLayout, writeSize); }
     extern fn wgpuQueueSetLabel(self: *Queue, label: []const u8) callconv(.c) void;
     pub inline fn setLabel(self: *Queue, label: []const u8) void { return wgpuQueueSetLabel(self, label); }
     extern fn wgpuQueueAddRef(self: *Queue) callconv(.c) void;
