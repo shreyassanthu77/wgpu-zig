@@ -299,13 +299,12 @@ async function main(webgpuYamlPath: string, format: boolean) {
     const name = toPascalCase(callback.name) + "Callback";
     add(docString(callback.doc, 1));
     const args = callback.args?.map((arg) => {
-      const name = toSnakeCase(arg.name);
+      const name = asEnumTag(arg.name);
       const [type, _] = typeName(arg.type, arg.pointer, arg.optional, null);
       return `${name}: ${type}`;
     });
-    args?.push(`userdata1: ?*anyopaque`, `userdata2: ?*anyopaque`);
     add(
-      `pub const ${name} = *const fn (${args?.join(", ")}) callconv(.c) void;`,
+      `pub const ${name} = *const fn (${args?.join(", ")}, userdata1: ?*anyopaque, userdata2: ?*anyopaque) callconv(.c) void;`,
     );
     add(`pub const ${name}Info = extern struct {`);
     add(indent(`next_in_chain: ?*Chained = null,`, 1));
@@ -315,6 +314,26 @@ async function main(webgpuYamlPath: string, format: boolean) {
     add(indent(`callback: ${name},`, 1));
     add(indent(`userdata1: ?*anyopaque = null,`, 1));
     add(indent(`userdata2: ?*anyopaque = null,`, 1));
+
+    add(" ");
+    add(indent(`pub const State = struct {`, 1));
+    add(indent(args!.join(",\n"), 2));
+    add(indent(`};`, 1));
+    add(
+      indent(
+        `pub fn default(${args!.join(", ")}, userdata1: ?*anyopaque, userdata2: ?*anyopaque) void {
+	_ = userdata2;
+	const state_ptr: *State = @ptrCast(@alignCast(userdata1.?));
+	state_ptr.* = .{`,
+        1,
+      ),
+    );
+    for (const arg of callback.args!) {
+      const name = asEnumTag(arg.name);
+      add(indent(`.${name} = ${name},`, 3));
+    }
+    add(indent(`};`, 2));
+    add(indent(`}`, 1));
     add(`};\n`);
   }
 
@@ -387,7 +406,9 @@ async function main(webgpuYamlPath: string, format: boolean) {
               undefined,
               null,
             )[0]
-          : "void";
+          : method.callback
+            ? "Future"
+            : "void";
 
         add(
           indent(
@@ -403,12 +424,28 @@ async function main(webgpuYamlPath: string, format: boolean) {
             1,
           ),
         );
-        // add(
-        //   indent(
-        //     `pub extern fn ${name}(self: *${obj_name}${args.length > 0 ? ", " : ""}${args.join(", ")}) callconv(.c) ${returnType};`,
-        //     1,
-        //   ),
-        // );
+
+        if (method.callback) {
+          const syncName = toCamelCase(name + "_sync");
+          const syncArgs = args.slice(0, args.length - 1);
+          const syncArgNames = argNames.slice(0, argNames.length - 1);
+          syncArgNames.push("callback_info");
+          const [type, _] = typeName(method.callback);
+          add(
+            indent(
+              `pub inline fn ${syncName}(self: *${obj_name}${syncArgs.length > 0 ? ", " : ""}${syncArgs.join(", ")}) ${type}.State { 
+	var state: ${type}.State = undefined;
+	const callback_info: ${type} = .{
+		.callback = ${type}.default,
+		.userdata1 = @ptrCast(&state),
+	};
+	${returnType !== "void" ? "_ = " : ""}${externName}(self${syncArgNames.length > 0 ? ", " : ""}${syncArgNames.join(", ")}); 
+	return state;
+}`,
+              1,
+            ),
+          );
+        }
       }
     }
     add(`};\n`);

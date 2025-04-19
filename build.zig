@@ -14,9 +14,11 @@ pub fn build(b: *std.Build) !void {
         "deno",
         "--allow-read",
         "--allow-write",
+        "--allow-run",
     });
     gen_tool.addFileArg(b.path("scripts/gen.ts"));
     gen_tool.addFileArg(wgpu_dep.path("wgpu-native-meta/webgpu.yml"));
+    gen_tool.addArg("--format");
 
     const gen_step = b.step("gen", "Generate WGPU bindings");
     gen_step.dependOn(&gen_tool.step);

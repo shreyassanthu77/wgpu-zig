@@ -33,6 +33,8 @@ export function asEnumTag(name: string): string {
   switch (name) {
     case "error":
       return '@"error"';
+    case "type":
+      return "typ";
     case "opaque":
       return '@"opaque"';
     default: {
