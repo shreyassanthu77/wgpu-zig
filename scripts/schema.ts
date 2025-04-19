@@ -12,9 +12,7 @@ export type PrimitiveType =
   | "int16"
   | "int32"
   | "float32"
-  | "nullable_float32"
   | "float64"
-  | "float64_supertype"
   | "array<bool>"
   | "array<string>"
   | "array<uint16>"
@@ -44,16 +42,12 @@ export interface Schema {
   /**
    * The dedicated enum prefix for the implementation specific header to avoid collisions
    */
-  enum_prefix: number;
-  doc?: string;
+  enum_prefix: string;
   typedefs: {
     name: Name;
-    /**
-     * Optional property, specifying the namespace where this typedef is defined
-     */
-    namespace?: string;
-    doc?: string;
+    doc: string;
     type: PrimitiveType;
+    [k: string]: unknown;
   }[];
   constants: {
     /**
@@ -61,25 +55,18 @@ export interface Schema {
      */
     name: string;
     /**
-     * Optional property, specifying the namespace where this constant is defined
+     * An enum of predefined max constants or a 64-bit unsigned integer
      */
-    namespace?: string;
-    /**
-     * An enum of predefined max constants or a 64-bit unsigned integer, or float NaN value.
-     */
-    value: number | ("usize_max" | "uint32_max" | "uint64_max" | "nan");
-    doc?: string;
+    value: number | ("usize_max" | "uint32_max" | "uint64_max");
+    doc: string;
+    [k: string]: unknown;
   }[];
   enums: {
     /**
      * Name of the enum
      */
     name: string;
-    /**
-     * Optional property, specifying the namespace where this enum is defined
-     */
-    namespace?: string;
-    doc?: string;
+    doc: string;
     /**
      * Optional property, an indicator that this enum is an extension of an already present enum
      */
@@ -89,27 +76,21 @@ export interface Schema {
        * Name of the enum entry
        */
       name: string;
-      /**
-       * Optional property, specifying the namespace where this enum entry is defined
-       */
-      namespace?: string;
-      doc?: string;
+      doc: string;
       /**
        * Optional property, a 16-bit unsigned integer
        */
       value?: number;
+      [k: string]: unknown;
     })[];
+    [k: string]: unknown;
   }[];
   bitflags: {
     /**
      * Name of the bitflag
      */
     name: string;
-    /**
-     * Optional property, specifying the namespace where this bitflag is defined
-     */
-    namespace?: string;
-    doc?: string;
+    doc: string;
     /**
      * Optional property, an indicator that this bitflag is an extension of an already present bitflag
      */
@@ -119,35 +100,36 @@ export interface Schema {
        * Name of the bitflag entry
        */
       name: string;
-      /**
-       * Optional property, specifying the namespace where this bitmask entry is defined
-       */
-      namespace?: string;
-      doc?: string;
+      doc: string;
       /**
        * Optional property, a 64-bit unsigned integer
        */
-      value?: number | ("usize_max" | "uint32_max" | "uint64_max" | "nan");
+      value?: number | ("usize_max" | "uint32_max" | "uint64_max");
       /**
        * Optional property, an array listing the names of bitflag entries to be OR-ed
        */
       value_combination?: Name[];
+      [k: string]: unknown;
     }[];
+    [k: string]: unknown;
   }[];
   structs: {
     /**
      * Name of the structure
      */
     name: string;
-    /**
-     * Optional property, specifying the namespace where this struct is defined
-     */
-    namespace?: string;
-    doc?: string;
+    doc: string;
     /**
      * Type of the structure
      */
-    type: "extensible" | "extensible_callback_arg" | "extension" | "standalone";
+    type:
+      | "base_in"
+      | "base_out"
+      | "base_in_or_out"
+      | "extension_in"
+      | "extension_out"
+      | "extension_in_or_out"
+      | "standalone";
     /**
      * Optional property, list of names of the structs that this extension structure extends
      */
@@ -160,6 +142,7 @@ export interface Schema {
      * Optional property, list of struct members
      */
     members?: ParameterType[];
+    [k: string]: unknown;
   }[];
   callbacks: Callback[];
   functions: Function[];
@@ -168,17 +151,19 @@ export interface Schema {
      * Name of the object
      */
     name?: string;
-    /**
-     * Optional property, specifying the namespace where this object is defined
-     */
-    namespace?: string;
     doc?: string;
     /**
      * Optional property, an indicator that this object is an extension of an already present object
      */
     extended?: boolean;
+    /**
+     * Optional property, specifying the external namespace where this object is defined
+     */
+    namespace?: string;
     methods?: Function[];
+    [k: string]: unknown;
   }[];
+  [k: string]: unknown;
 }
 export interface ParameterType {
   /**
@@ -191,9 +176,9 @@ export interface ParameterType {
    */
   type: PrimitiveType | ComplexType | CallbackType;
   /**
-   * Whether the value is passed with ownership or without ownership
+   * Ownership of the value
    */
-  passed_with_ownership?: boolean;
+  ownership?: "with" | "without";
   /**
    * Optional property, specifies if a parameter type is a pointer
    */
@@ -203,19 +188,16 @@ export interface ParameterType {
    */
   optional?: boolean;
   /**
-   * Default value assigned to this parameter when using initializer macro. Special context-dependent values include constant names (`constant.*`), bitflag names (unprefixed), and `zero` for struct-zero-init (where zero-init is known to have the desired result).
+   * Optional property, specifying the external namespace where this type is defined
    */
-  default?: string | number | boolean;
+  namespace?: string;
+  [k: string]: unknown;
 }
 export interface Callback {
   /**
    * Callback name
    */
   name: string;
-  /**
-   * Optional property, specifying the namespace where this callback is defined
-   */
-  namespace?: string;
   doc: string;
   /**
    * Callback style
@@ -225,16 +207,13 @@ export interface Callback {
    * Optional property, list of callback arguments
    */
   args?: FunctionParameterType[];
+  [k: string]: unknown;
 }
 export interface Function {
   /**
    * Name of the function
    */
   name: string;
-  /**
-   * Optional property, specifying the namespace where this function is defined
-   */
-  namespace?: string;
   doc: string;
   /**
    * Optional property, return type of the function
@@ -246,10 +225,6 @@ export interface Function {
      */
     type: PrimitiveType | ComplexType | CallbackType;
     /**
-     * Indicates if the return type is optional/nullable
-     */
-    optional?: boolean;
-    /**
      * Whether the value is passed with ownership or without ownership
      */
     passed_with_ownership?: boolean;
@@ -257,6 +232,7 @@ export interface Function {
      * Optional property, specifies if a method return type is a pointer
      */
     pointer?: "immutable" | "mutable";
+    [k: string]: unknown;
   };
   /**
    * Optional property, callback type for async functon
@@ -266,4 +242,5 @@ export interface Function {
    * Optional property, list of function arguments
    */
   args?: FunctionParameterType[];
+  [k: string]: unknown;
 }

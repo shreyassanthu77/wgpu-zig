@@ -87,14 +87,14 @@ export function typeName(
     case "float64":
       type = "f64";
       break;
-    case "float64_supertype":
-      type = "f64";
-      break;
-    case "nullable_float32":
-      optional = true;
-      type = "f32";
-      if (default_value !== null) default_value = "null";
-      break;
+    // case "float64_supertype":
+    //   type = "f64";
+    //   break;
+    // case "nullable_float32":
+    //   optional = true;
+    //   type = "f32";
+    //   if (default_value !== null) default_value = "null";
+    //   break;
     case "string_with_default_empty":
       type = "[]const u8";
       if (default_value !== null) default_value = '""';

@@ -22,7 +22,6 @@ async function main(webgpuYamlPath: string, format: boolean) {
   const output = [
     "// GENERATED FILE, DO NOT EDIT",
     docString(schema.copyright, true),
-    docString(schema.doc, true),
     'const std = @import("std");\n',
     `pub const StringView = extern struct { 
     data: [*c]const u8,
@@ -50,9 +49,6 @@ async function main(webgpuYamlPath: string, format: boolean) {
     let value: string;
 
     switch (constant.value) {
-      case "nan":
-        value = "std.math.nan(f32)";
-        break;
       case "uint64_max":
         value = "std.math.maxInt(u64)";
         break;
@@ -123,9 +119,6 @@ async function main(webgpuYamlPath: string, format: boolean) {
       if (entry.value) {
         let value: string;
         switch (entry.value) {
-          case "nan":
-            value = "std.math.nan(f32)";
-            break;
           case "uint32_max":
             value = "std.math.maxInt(u32)";
             break;
@@ -208,14 +201,18 @@ async function main(webgpuYamlPath: string, format: boolean) {
     );
     const name = toPascalCase(struct.name);
     if (!struct.members) continue;
-
     add(`pub const ${name} = extern struct {`);
     if (
-      struct.type === "extensible" ||
-      struct.type === "extensible_callback_arg"
+      struct.type === "base_in" ||
+      struct.type === "base_out" ||
+      struct.type === "base_in_or_out"
     ) {
       add(indent(`next_in_chain: ?*Chained = null,`, 1));
-    } else if (struct.type === "extension") {
+    } else if (
+      struct.type === "extension_in" ||
+      struct.type === "extension_out" ||
+      struct.type === "extension_in_or_out"
+    ) {
       add(indent(`chain: Chained,`, 1));
     }
     for (const member of struct.members) {
@@ -224,7 +221,6 @@ async function main(webgpuYamlPath: string, format: boolean) {
         member.type,
         member.pointer,
         member.optional,
-        member.default,
       );
       if (isArray) {
         add(indent(`${name}_count: usize,`, 1));
@@ -242,7 +238,13 @@ async function main(webgpuYamlPath: string, format: boolean) {
     }
 
     const parent = toPascalCase(struct.extends?.[0] ?? "");
-    if (struct.type === "extension" && parent && sTypeMap.has(name)) {
+    if (
+      (struct.type === "extension_in" ||
+        struct.type === "extension_out" ||
+        struct.type === "extension_in_or_out") &&
+      parent &&
+      sTypeMap.has(name)
+    ) {
       const sType = asEnumTag(sTypeMap.get(name)!);
       add(` `);
 
@@ -256,7 +258,6 @@ async function main(webgpuYamlPath: string, format: boolean) {
           member.type,
           member.pointer,
           member.optional,
-          member.default,
         );
         assert(!isArray, "TODO: implement array init");
         add(indent(`${name}: ${type},`, 2));
@@ -322,12 +323,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
       .join(", ");
 
     const returnType = func.returns?.type
-      ? typeName(
-          func.returns?.type,
-          func.returns?.pointer,
-          func.returns?.optional,
-          null,
-        )[0]
+      ? typeName(func.returns?.type, func.returns?.pointer, undefined, null)[0]
       : "void";
     add(docString(func.doc));
     add(`extern fn ${externName}(${args}) callconv(.c) ${returnType};`);
@@ -378,7 +374,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
           ? typeName(
               method.returns?.type,
               method.returns?.pointer,
-              method.returns?.optional,
+              undefined,
               null,
             )[0]
           : "void";

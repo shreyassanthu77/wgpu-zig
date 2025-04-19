@@ -2,7 +2,6 @@
 //! Copyright 2019-2023 WebGPU-Native developers
 //! 
 //! SPDX-License-Identifier: BSD-3-Clause
-//! 
 const std = @import("std");
 
 pub const StringView = extern struct { 
@@ -726,6 +725,7 @@ pub const Chained = extern struct {
 };
 
 pub const AdapterInfo = extern struct {
+    next_in_chain: ?*Chained = null,
     vendor: StringView,
     architecture: StringView,
     device: StringView,
@@ -738,6 +738,7 @@ pub const AdapterInfo = extern struct {
 };
 
 pub const BindGroupDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     layout: *BindGroupLayout,
     entries_count: usize,
@@ -745,6 +746,7 @@ pub const BindGroupDescriptor = extern struct {
 };
 
 pub const BindGroupEntry = extern struct {
+    next_in_chain: ?*Chained = null,
     binding: u32,
     buffer: ?*Buffer = null,
     offset: u64,
@@ -754,12 +756,14 @@ pub const BindGroupEntry = extern struct {
 };
 
 pub const BindGroupLayoutDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     entries_count: usize,
     entries: [*]const BindGroupLayoutEntry,
 };
 
 pub const BindGroupLayoutEntry = extern struct {
+    next_in_chain: ?*Chained = null,
     binding: u32,
     visibility: ShaderStage,
     buffer: BufferBindingLayout,
@@ -780,12 +784,14 @@ pub const BlendState = extern struct {
 };
 
 pub const BufferBindingLayout = extern struct {
+    next_in_chain: ?*Chained = null,
     type: BufferBindingType,
     has_dynamic_offset: bool,
     min_binding_size: u64,
 };
 
 pub const BufferDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     usage: BufferUsage,
     size: u64,
@@ -800,25 +806,30 @@ pub const Color = extern struct {
 };
 
 pub const ColorTargetState = extern struct {
+    next_in_chain: ?*Chained = null,
     format: TextureFormat,
     blend: ?*const BlendState = null,
     write_mask: ColorWriteMask,
 };
 
 pub const CommandBufferDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
 };
 
 pub const CommandEncoderDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
 };
 
 pub const CompilationInfo = extern struct {
+    next_in_chain: ?*Chained = null,
     messages_count: usize,
     messages: [*]const CompilationMessage,
 };
 
 pub const CompilationMessage = extern struct {
+    next_in_chain: ?*Chained = null,
     message: StringView,
     type: CompilationMessageType,
     line_num: u64,
@@ -828,6 +839,7 @@ pub const CompilationMessage = extern struct {
 };
 
 pub const ComputePassDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     timestamp_writes: ?*const ComputePassTimestampWrites = null,
 };
@@ -839,17 +851,20 @@ pub const ComputePassTimestampWrites = extern struct {
 };
 
 pub const ComputePipelineDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     layout: ?*PipelineLayout = null,
     compute: ProgrammableStageDescriptor,
 };
 
 pub const ConstantEntry = extern struct {
+    next_in_chain: ?*Chained = null,
     key: []const u8 = "",
     value: f64,
 };
 
 pub const DepthStencilState = extern struct {
+    next_in_chain: ?*Chained = null,
     format: TextureFormat,
     depth_write_enabled: OptionalBool,
     depth_compare: CompareFunction,
@@ -863,6 +878,7 @@ pub const DepthStencilState = extern struct {
 };
 
 pub const DeviceDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     required_features_count: usize,
     required_features: [*]const FeatureName,
@@ -879,6 +895,7 @@ pub const Extent3D = extern struct {
 };
 
 pub const FragmentState = extern struct {
+    next_in_chain: ?*Chained = null,
     module: *ShaderModule,
     entry_point: ??StringView = .null,
     constants_count: usize,
@@ -897,15 +914,18 @@ pub const FutureWaitInfo = extern struct {
 };
 
 pub const InstanceCapabilities = extern struct {
+    next_in_chain: ?*Chained = null,
     timed_wait_any_enable: bool,
     timed_wait_any_max_count: usize,
 };
 
 pub const InstanceDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     features: InstanceCapabilities,
 };
 
 pub const Limits = extern struct {
+    next_in_chain: ?*Chained = null,
     max_texture_dimension_1_d: u32,
     max_texture_dimension_2_d: u32,
     max_texture_dimension_3_d: u32,
@@ -940,6 +960,7 @@ pub const Limits = extern struct {
 };
 
 pub const MultisampleState = extern struct {
+    next_in_chain: ?*Chained = null,
     count: u32,
     mask: u32,
     alpha_to_coverage_enabled: bool,
@@ -952,12 +973,14 @@ pub const Origin3D = extern struct {
 };
 
 pub const PipelineLayoutDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     bind_group_layouts_count: usize,
     bind_group_layouts: [*]const *BindGroupLayout,
 };
 
 pub const PrimitiveState = extern struct {
+    next_in_chain: ?*Chained = null,
     topology: PrimitiveTopology,
     strip_index_format: IndexFormat,
     front_face: FrontFace,
@@ -966,6 +989,7 @@ pub const PrimitiveState = extern struct {
 };
 
 pub const ProgrammableStageDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     module: *ShaderModule,
     entry_point: ??StringView = .null,
     constants_count: usize,
@@ -973,20 +997,24 @@ pub const ProgrammableStageDescriptor = extern struct {
 };
 
 pub const QuerySetDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     type: QueryType,
     count: u32,
 };
 
 pub const QueueDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
 };
 
 pub const RenderBundleDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
 };
 
 pub const RenderBundleEncoderDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     color_formats_count: usize,
     color_formats: [*]const TextureFormat,
@@ -997,6 +1025,7 @@ pub const RenderBundleEncoderDescriptor = extern struct {
 };
 
 pub const RenderPassColorAttachment = extern struct {
+    next_in_chain: ?*Chained = null,
     view: ?*TextureView = null,
     depth_slice: u32,
     resolve_target: ?*TextureView = null,
@@ -1018,6 +1047,7 @@ pub const RenderPassDepthStencilAttachment = extern struct {
 };
 
 pub const RenderPassDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     color_attachments_count: usize,
     color_attachments: [*]const RenderPassColorAttachment,
@@ -1027,7 +1057,18 @@ pub const RenderPassDescriptor = extern struct {
 };
 
 pub const RenderPassMaxDrawCount = extern struct {
+    chain: Chained,
     max_draw_count: u64,
+ 
+    pub const RenderPassMaxDrawCountInitOptions = struct {
+        max_draw_count: u64,
+    };
+    pub inline fn init(options: RenderPassMaxDrawCountInitOptions) *const RenderPassDescriptor {
+        return @ptrCast(&RenderPassMaxDrawCount{
+            .max_draw_count = options.max_draw_count,
+            .chain = .{ .s_type = .render_pass_max_draw_count },
+        });
+    }
 };
 
 pub const RenderPassTimestampWrites = extern struct {
@@ -1037,6 +1078,7 @@ pub const RenderPassTimestampWrites = extern struct {
 };
 
 pub const RenderPipelineDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     layout: ?*PipelineLayout = null,
     vertex: VertexState,
@@ -1047,6 +1089,7 @@ pub const RenderPipelineDescriptor = extern struct {
 };
 
 pub const RequestAdapterOptions = extern struct {
+    next_in_chain: ?*Chained = null,
     feature_level: FeatureLevel,
     power_preference: PowerPreference,
     force_fallback_adapter: bool,
@@ -1055,10 +1098,12 @@ pub const RequestAdapterOptions = extern struct {
 };
 
 pub const SamplerBindingLayout = extern struct {
+    next_in_chain: ?*Chained = null,
     type: SamplerBindingType,
 };
 
 pub const SamplerDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     address_mode_u: AddressMode,
     address_mode_v: AddressMode,
@@ -1073,16 +1118,41 @@ pub const SamplerDescriptor = extern struct {
 };
 
 pub const ShaderModuleDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
 };
 
 pub const ShaderSourceSpirv = extern struct {
+    chain: Chained,
     code_size: u32,
     code: *const u32,
+ 
+    pub const ShaderSourceSpirvInitOptions = struct {
+        code_size: u32,
+        code: *const u32,
+    };
+    pub inline fn init(options: ShaderSourceSpirvInitOptions) *const ShaderModuleDescriptor {
+        return @ptrCast(&ShaderSourceSpirv{
+            .code_size = options.code_size,
+            .code = options.code,
+            .chain = .{ .s_type = .shader_source_spirv },
+        });
+    }
 };
 
 pub const ShaderSourceWgsl = extern struct {
+    chain: Chained,
     code: []const u8 = "",
+ 
+    pub const ShaderSourceWgslInitOptions = struct {
+        code: []const u8 = "",
+    };
+    pub inline fn init(options: ShaderSourceWgslInitOptions) *const ShaderModuleDescriptor {
+        return @ptrCast(&ShaderSourceWgsl{
+            .code = options.code,
+            .chain = .{ .s_type = .shader_source_wgsl },
+        });
+    }
 };
 
 pub const StencilFaceState = extern struct {
@@ -1093,6 +1163,7 @@ pub const StencilFaceState = extern struct {
 };
 
 pub const StorageTextureBindingLayout = extern struct {
+    next_in_chain: ?*Chained = null,
     access: StorageTextureAccess,
     format: TextureFormat,
     view_dimension: TextureViewDimension,
@@ -1111,6 +1182,7 @@ pub const SupportedWgslLanguageFeatures = extern struct {
 };
 
 pub const SurfaceCapabilities = extern struct {
+    next_in_chain: ?*Chained = null,
     usages: TextureUsage,
     formats_count: usize,
     formats: [*]const TextureFormat,
@@ -1122,6 +1194,7 @@ pub const SurfaceCapabilities = extern struct {
 };
 
 pub const SurfaceConfiguration = extern struct {
+    next_in_chain: ?*Chained = null,
     device: *Device,
     format: TextureFormat,
     usage: TextureUsage,
@@ -1134,38 +1207,114 @@ pub const SurfaceConfiguration = extern struct {
 };
 
 pub const SurfaceDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
 };
 
 pub const SurfaceSourceAndroidNativeWindow = extern struct {
+    chain: Chained,
     window: *anyopaque,
+ 
+    pub const SurfaceSourceAndroidNativeWindowInitOptions = struct {
+        window: *anyopaque,
+    };
+    pub inline fn init(options: SurfaceSourceAndroidNativeWindowInitOptions) *const SurfaceDescriptor {
+        return @ptrCast(&SurfaceSourceAndroidNativeWindow{
+            .window = options.window,
+            .chain = .{ .s_type = .surface_source_android_native_window },
+        });
+    }
 };
 
 pub const SurfaceSourceMetalLayer = extern struct {
+    chain: Chained,
     layer: *anyopaque,
+ 
+    pub const SurfaceSourceMetalLayerInitOptions = struct {
+        layer: *anyopaque,
+    };
+    pub inline fn init(options: SurfaceSourceMetalLayerInitOptions) *const SurfaceDescriptor {
+        return @ptrCast(&SurfaceSourceMetalLayer{
+            .layer = options.layer,
+            .chain = .{ .s_type = .surface_source_metal_layer },
+        });
+    }
 };
 
 pub const SurfaceSourceWaylandSurface = extern struct {
+    chain: Chained,
     display: *anyopaque,
     surface: *anyopaque,
+ 
+    pub const SurfaceSourceWaylandSurfaceInitOptions = struct {
+        display: *anyopaque,
+        surface: *anyopaque,
+    };
+    pub inline fn init(options: SurfaceSourceWaylandSurfaceInitOptions) *const SurfaceDescriptor {
+        return @ptrCast(&SurfaceSourceWaylandSurface{
+            .display = options.display,
+            .surface = options.surface,
+            .chain = .{ .s_type = .surface_source_wayland_surface },
+        });
+    }
 };
 
 pub const SurfaceSourceWindowsHwnd = extern struct {
+    chain: Chained,
     hinstance: *anyopaque,
     hwnd: *anyopaque,
+ 
+    pub const SurfaceSourceWindowsHwndInitOptions = struct {
+        hinstance: *anyopaque,
+        hwnd: *anyopaque,
+    };
+    pub inline fn init(options: SurfaceSourceWindowsHwndInitOptions) *const SurfaceDescriptor {
+        return @ptrCast(&SurfaceSourceWindowsHwnd{
+            .hinstance = options.hinstance,
+            .hwnd = options.hwnd,
+            .chain = .{ .s_type = .surface_source_windows_hwnd },
+        });
+    }
 };
 
 pub const SurfaceSourceXcbWindow = extern struct {
+    chain: Chained,
     connection: *anyopaque,
     window: u32,
+ 
+    pub const SurfaceSourceXcbWindowInitOptions = struct {
+        connection: *anyopaque,
+        window: u32,
+    };
+    pub inline fn init(options: SurfaceSourceXcbWindowInitOptions) *const SurfaceDescriptor {
+        return @ptrCast(&SurfaceSourceXcbWindow{
+            .connection = options.connection,
+            .window = options.window,
+            .chain = .{ .s_type = .surface_source_xcb_window },
+        });
+    }
 };
 
 pub const SurfaceSourceXlibWindow = extern struct {
+    chain: Chained,
     display: *anyopaque,
     window: u64,
+ 
+    pub const SurfaceSourceXlibWindowInitOptions = struct {
+        display: *anyopaque,
+        window: u64,
+    };
+    pub inline fn init(options: SurfaceSourceXlibWindowInitOptions) *const SurfaceDescriptor {
+        return @ptrCast(&SurfaceSourceXlibWindow{
+            .display = options.display,
+            .window = options.window,
+            .chain = .{ .s_type = .surface_source_xlib_window },
+        });
+    }
 };
 
 pub const SurfaceTexture = extern struct {
+    next_in_chain: ?*Chained = null,
     texture: *Texture,
     status: SurfaceGetCurrentTextureStatus,
 };
@@ -1189,12 +1338,14 @@ pub const TexelCopyTextureInfo = extern struct {
 };
 
 pub const TextureBindingLayout = extern struct {
+    next_in_chain: ?*Chained = null,
     sample_type: TextureSampleType,
     view_dimension: TextureViewDimension,
     multisampled: bool,
 };
 
 pub const TextureDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     usage: TextureUsage,
     dimension: TextureDimension,
@@ -1207,6 +1358,7 @@ pub const TextureDescriptor = extern struct {
 };
 
 pub const TextureViewDescriptor = extern struct {
+    next_in_chain: ?*Chained = null,
     label: []const u8 = "",
     format: TextureFormat,
     dimension: TextureViewDimension,
@@ -1232,6 +1384,7 @@ pub const VertexBufferLayout = extern struct {
 };
 
 pub const VertexState = extern struct {
+    next_in_chain: ?*Chained = null,
     module: *ShaderModule,
     entry_point: ??StringView = .null,
     constants_count: usize,
