@@ -31,6 +31,8 @@ async function main(webgpuYamlPath: string, format: boolean) {
     `pub const StringView = extern struct { 
     data: [*c]const u8,
     length: usize,
+
+		const empty = from("");
     
     pub fn into(self: StringView) []const u8 {
         if (self.length == 0) return "";

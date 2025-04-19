@@ -99,7 +99,7 @@ export function typeName(
     //   break;
     case "string_with_default_empty":
       type = "StringView";
-      if (default_value !== null) default_value = '.from("")';
+      if (default_value !== null) default_value = ".empty";
       break;
     case "nullable_string":
       type = "?StringView";

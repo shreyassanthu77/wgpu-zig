@@ -12,6 +12,8 @@ pub const StringView = extern struct {
     data: [*c]const u8,
     length: usize,
 
+    const empty = from("");
+
     pub fn into(self: StringView) []const u8 {
         if (self.length == 0) return "";
         return self.data[0..self.length];
@@ -739,7 +741,7 @@ pub const AdapterInfo = extern struct {
 
 pub const BindGroupDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
     layout: *BindGroupLayout,
     entries_count: usize,
     entries: [*]const BindGroupEntry,
@@ -757,7 +759,7 @@ pub const BindGroupEntry = extern struct {
 
 pub const BindGroupLayoutDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
     entries_count: usize,
     entries: [*]const BindGroupLayoutEntry,
 };
@@ -792,7 +794,7 @@ pub const BufferBindingLayout = extern struct {
 
 pub const BufferDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
     usage: BufferUsage,
     size: u64,
     mapped_at_creation: bool,
@@ -814,12 +816,12 @@ pub const ColorTargetState = extern struct {
 
 pub const CommandBufferDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
 };
 
 pub const CommandEncoderDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
 };
 
 pub const CompilationInfo = extern struct {
@@ -840,7 +842,7 @@ pub const CompilationMessage = extern struct {
 
 pub const ComputePassDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
     timestamp_writes: ?*const ComputePassTimestampWrites = null,
 };
 
@@ -852,14 +854,14 @@ pub const ComputePassTimestampWrites = extern struct {
 
 pub const ComputePipelineDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
     layout: ?*PipelineLayout = null,
     compute: ProgrammableStageDescriptor,
 };
 
 pub const ConstantEntry = extern struct {
     next_in_chain: ?*Chained = null,
-    key: StringView = .from,
+    key: StringView = .empty,
     value: f64,
 };
 
@@ -879,7 +881,7 @@ pub const DepthStencilState = extern struct {
 
 pub const DeviceDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
     required_features_count: usize,
     required_features: [*]const FeatureName,
     required_limits: ?*const Limits = null,
@@ -974,7 +976,7 @@ pub const Origin3D = extern struct {
 
 pub const PipelineLayoutDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
     bind_group_layouts_count: usize,
     bind_group_layouts: [*]const *BindGroupLayout,
 };
@@ -998,24 +1000,24 @@ pub const ProgrammableStageDescriptor = extern struct {
 
 pub const QuerySetDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
     type: QueryType,
     count: u32,
 };
 
 pub const QueueDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
 };
 
 pub const RenderBundleDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
 };
 
 pub const RenderBundleEncoderDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
     color_formats_count: usize,
     color_formats: [*]const TextureFormat,
     depth_stencil_format: TextureFormat,
@@ -1048,7 +1050,7 @@ pub const RenderPassDepthStencilAttachment = extern struct {
 
 pub const RenderPassDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
     color_attachments_count: usize,
     color_attachments: [*]const RenderPassColorAttachment,
     depth_stencil_attachment: ?*const RenderPassDepthStencilAttachment = null,
@@ -1079,7 +1081,7 @@ pub const RenderPassTimestampWrites = extern struct {
 
 pub const RenderPipelineDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
     layout: ?*PipelineLayout = null,
     vertex: VertexState,
     primitive: PrimitiveState,
@@ -1104,7 +1106,7 @@ pub const SamplerBindingLayout = extern struct {
 
 pub const SamplerDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
     address_mode_u: AddressMode,
     address_mode_v: AddressMode,
     address_mode_w: AddressMode,
@@ -1119,7 +1121,7 @@ pub const SamplerDescriptor = extern struct {
 
 pub const ShaderModuleDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
 };
 
 pub const ShaderSourceSpirv = extern struct {
@@ -1142,10 +1144,10 @@ pub const ShaderSourceSpirv = extern struct {
 
 pub const ShaderSourceWgsl = extern struct {
     chain: Chained,
-    code: StringView = .from,
+    code: StringView = .empty,
 
     pub const ShaderSourceWgslInitOptions = struct {
-        code: StringView = .from,
+        code: StringView = .empty,
     };
     pub inline fn init(options: ShaderSourceWgslInitOptions) *const ShaderModuleDescriptor {
         return @ptrCast(&ShaderSourceWgsl{
@@ -1208,7 +1210,7 @@ pub const SurfaceConfiguration = extern struct {
 
 pub const SurfaceDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
 };
 
 pub const SurfaceSourceAndroidNativeWindow = extern struct {
@@ -1346,7 +1348,7 @@ pub const TextureBindingLayout = extern struct {
 
 pub const TextureDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
     usage: TextureUsage,
     dimension: TextureDimension,
     size: Extent3D,
@@ -1359,7 +1361,7 @@ pub const TextureDescriptor = extern struct {
 
 pub const TextureViewDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
-    label: StringView = .from,
+    label: StringView = .empty,
     format: TextureFormat,
     dimension: TextureViewDimension,
     base_mip_level: u32,
