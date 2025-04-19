@@ -98,7 +98,7 @@ export function typeName(
     //   if (default_value !== null) default_value = "null";
     //   break;
     case "string_with_default_empty":
-      type = "[]const u8";
+      type = "[:0]const u8";
       if (default_value !== null) default_value = '""';
       break;
     case "nullable_string":
