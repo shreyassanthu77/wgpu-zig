@@ -242,7 +242,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
         member.optional,
       );
       if (isArray) {
-        add(indent(`${name}_count: usize,`, 1));
+        add(indent(`${name}_count: usize = 0,`, 1));
       }
       add(indent(`${name}: ${type},`, 1));
     }

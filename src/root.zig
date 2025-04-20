@@ -746,8 +746,8 @@ pub const BindGroupDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
     label: StringView = .empty,
     layout: *BindGroupLayout,
-    entries_count: usize,
-    entries: [*]const BindGroupEntry,
+    entries_count: usize = 0,
+    entries: [*]const BindGroupEntry = undefined,
 };
 
 pub const BindGroupEntry = extern struct {
@@ -763,8 +763,8 @@ pub const BindGroupEntry = extern struct {
 pub const BindGroupLayoutDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
     label: StringView = .empty,
-    entries_count: usize,
-    entries: [*]const BindGroupLayoutEntry,
+    entries_count: usize = 0,
+    entries: [*]const BindGroupLayoutEntry = undefined,
 };
 
 pub const BindGroupLayoutEntry = extern struct {
@@ -829,8 +829,8 @@ pub const CommandEncoderDescriptor = extern struct {
 
 pub const CompilationInfo = extern struct {
     next_in_chain: ?*Chained = null,
-    messages_count: usize,
-    messages: [*]const CompilationMessage,
+    messages_count: usize = 0,
+    messages: [*]const CompilationMessage = undefined,
 };
 
 pub const CompilationMessage = extern struct {
@@ -885,8 +885,8 @@ pub const DepthStencilState = extern struct {
 pub const DeviceDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
     label: StringView = .empty,
-    required_features_count: usize,
-    required_features: [*]const FeatureName,
+    required_features_count: usize = 0,
+    required_features: [*]const FeatureName = undefined,
     required_limits: ?*const Limits = null,
     default_queue: QueueDescriptor,
     device_lost_callback_info: DeviceLostCallbackInfo,
@@ -903,10 +903,10 @@ pub const FragmentState = extern struct {
     next_in_chain: ?*Chained = null,
     module: *ShaderModule,
     entry_point: ??StringView = .null,
-    constants_count: usize,
-    constants: [*]const ConstantEntry,
-    targets_count: usize,
-    targets: [*]const ColorTargetState,
+    constants_count: usize = 0,
+    constants: [*]const ConstantEntry = undefined,
+    targets_count: usize = 0,
+    targets: [*]const ColorTargetState = undefined,
 };
 
 pub const Future = extern struct {
@@ -980,8 +980,8 @@ pub const Origin3D = extern struct {
 pub const PipelineLayoutDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
     label: StringView = .empty,
-    bind_group_layouts_count: usize,
-    bind_group_layouts: [*]const *BindGroupLayout,
+    bind_group_layouts_count: usize = 0,
+    bind_group_layouts: [*]const *BindGroupLayout = undefined,
 };
 
 pub const PrimitiveState = extern struct {
@@ -997,8 +997,8 @@ pub const ProgrammableStageDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
     module: *ShaderModule,
     entry_point: ??StringView = .null,
-    constants_count: usize,
-    constants: [*]const ConstantEntry,
+    constants_count: usize = 0,
+    constants: [*]const ConstantEntry = undefined,
 };
 
 pub const QuerySetDescriptor = extern struct {
@@ -1021,8 +1021,8 @@ pub const RenderBundleDescriptor = extern struct {
 pub const RenderBundleEncoderDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
     label: StringView = .empty,
-    color_formats_count: usize,
-    color_formats: [*]const TextureFormat,
+    color_formats_count: usize = 0,
+    color_formats: [*]const TextureFormat = undefined,
     depth_stencil_format: TextureFormat,
     sample_count: u32,
     depth_read_only: bool,
@@ -1054,8 +1054,8 @@ pub const RenderPassDepthStencilAttachment = extern struct {
 pub const RenderPassDescriptor = extern struct {
     next_in_chain: ?*Chained = null,
     label: StringView = .empty,
-    color_attachments_count: usize,
-    color_attachments: [*]const RenderPassColorAttachment,
+    color_attachments_count: usize = 0,
+    color_attachments: [*]const RenderPassColorAttachment = undefined,
     depth_stencil_attachment: ?*const RenderPassDepthStencilAttachment = null,
     occlusion_query_set: ?*QuerySet = null,
     timestamp_writes: ?*const RenderPassTimestampWrites = null,
@@ -1181,8 +1181,8 @@ pub const StorageTextureBindingLayout = extern struct {
 };
 
 pub const SupportedFeatures = extern struct {
-    features_count: usize,
-    features: [*]const FeatureName,
+    features_count: usize = 0,
+    features: [*]const FeatureName = undefined,
     extern fn wgpuSupportedFeaturesFreeMembers(self: SupportedFeatures) callconv(.c) void;
     pub inline fn freeMembers(self: SupportedFeatures) void {
         return wgpuSupportedFeaturesFreeMembers(self);
@@ -1190,8 +1190,8 @@ pub const SupportedFeatures = extern struct {
 };
 
 pub const SupportedWgslLanguageFeatures = extern struct {
-    features_count: usize,
-    features: [*]const WgslLanguageFeatureName,
+    features_count: usize = 0,
+    features: [*]const WgslLanguageFeatureName = undefined,
     extern fn wgpuSupportedWgslLanguageFeaturesFreeMembers(self: SupportedWgslLanguageFeatures) callconv(.c) void;
     pub inline fn freeMembers(self: SupportedWgslLanguageFeatures) void {
         return wgpuSupportedWgslLanguageFeaturesFreeMembers(self);
@@ -1201,12 +1201,12 @@ pub const SupportedWgslLanguageFeatures = extern struct {
 pub const SurfaceCapabilities = extern struct {
     next_in_chain: ?*Chained = null,
     usages: TextureUsage,
-    formats_count: usize,
-    formats: [*]const TextureFormat,
-    present_modes_count: usize,
-    present_modes: [*]const PresentMode,
-    alpha_modes_count: usize,
-    alpha_modes: [*]const CompositeAlphaMode,
+    formats_count: usize = 0,
+    formats: [*]const TextureFormat = undefined,
+    present_modes_count: usize = 0,
+    present_modes: [*]const PresentMode = undefined,
+    alpha_modes_count: usize = 0,
+    alpha_modes: [*]const CompositeAlphaMode = undefined,
     extern fn wgpuSurfaceCapabilitiesFreeMembers(self: SurfaceCapabilities) callconv(.c) void;
     pub inline fn freeMembers(self: SurfaceCapabilities) void {
         return wgpuSurfaceCapabilitiesFreeMembers(self);
@@ -1220,8 +1220,8 @@ pub const SurfaceConfiguration = extern struct {
     usage: TextureUsage,
     width: u32,
     height: u32,
-    view_formats_count: usize,
-    view_formats: [*]const TextureFormat,
+    view_formats_count: usize = 0,
+    view_formats: [*]const TextureFormat = undefined,
     alpha_mode: CompositeAlphaMode,
     present_mode: PresentMode,
 };
@@ -1385,8 +1385,8 @@ pub const TextureDescriptor = extern struct {
     format: TextureFormat,
     mip_level_count: u32,
     sample_count: u32,
-    view_formats_count: usize,
-    view_formats: [*]const TextureFormat,
+    view_formats_count: usize = 0,
+    view_formats: [*]const TextureFormat = undefined,
 };
 
 pub const TextureViewDescriptor = extern struct {
@@ -1411,18 +1411,18 @@ pub const VertexAttribute = extern struct {
 pub const VertexBufferLayout = extern struct {
     step_mode: VertexStepMode,
     array_stride: u64,
-    attributes_count: usize,
-    attributes: [*]const VertexAttribute,
+    attributes_count: usize = 0,
+    attributes: [*]const VertexAttribute = undefined,
 };
 
 pub const VertexState = extern struct {
     next_in_chain: ?*Chained = null,
     module: *ShaderModule,
     entry_point: ??StringView = .null,
-    constants_count: usize,
-    constants: [*]const ConstantEntry,
-    buffers_count: usize,
-    buffers: [*]const VertexBufferLayout,
+    constants_count: usize = 0,
+    constants: [*]const ConstantEntry = undefined,
+    buffers_count: usize = 0,
+    buffers: [*]const VertexBufferLayout = undefined,
 };
 
 pub const BufferMapCallback = *const fn (status: MapAsyncStatus, message: StringView, userdata1: ?*anyopaque, userdata2: ?*anyopaque) callconv(.c) void;
