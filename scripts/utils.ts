@@ -53,7 +53,7 @@ export function typeName(
   pointer_type?: ParameterType["pointer"],
   optional: boolean = false,
   default_value?: string | number | boolean | null,
-): [string, boolean] {
+): [string, string | undefined] {
   let isPointer = pointer_type !== undefined;
   let constPointer = pointer_type === "immutable";
 
@@ -111,18 +111,18 @@ export function typeName(
       break;
   }
 
-  let isArray = false;
+  let childType: string | undefined;
   if (type.startsWith("enum.")) {
     type = toPascalCase(type.slice(5));
   } else if (type.startsWith("struct.")) {
     type = toPascalCase(type.slice(7));
   } else if (type.startsWith("array<")) {
     type = type.slice(6, -1);
-    type = `[*]${constPointer ? "const" : ""} ${typeName(type, undefined, false, null)[0]}`;
+    childType = typeName(type, undefined, false, null)[0];
+    type = `[*]${constPointer ? "const" : ""} ${childType}`;
     optional = true;
     isPointer = false;
     constPointer = false;
-    isArray = true;
   } else if (type.startsWith("object.")) {
     type = toPascalCase(type.slice(6));
     isPointer = true;
@@ -172,7 +172,7 @@ export function typeName(
     }
   }
 
-  return [type, isArray];
+  return [type, childType];
 }
 
 export function assert(cond: unknown, msg: string): asserts cond {

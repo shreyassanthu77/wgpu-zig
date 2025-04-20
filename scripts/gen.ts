@@ -208,12 +208,12 @@ async function main(webgpuYamlPath: string, format: boolean) {
     }
     for (const member of struct.members) {
       const name = toSnakeCase(member.name);
-      const [type, isArray] = typeName(
+      const [type, childType] = typeName(
         member.type,
         member.pointer,
         member.optional,
       );
-      if (isArray) {
+      if (childType) {
         add(indent(`${name}_count: usize = 0,`, 1));
       }
       add(indent(`${name}: ${type},`, 1));
@@ -258,12 +258,12 @@ async function main(webgpuYamlPath: string, format: boolean) {
       add(indent(`label: []const u8 = "",`, 2));
       for (const member of struct.members) {
         const name = toSnakeCase(member.name);
-        const [type, isArray] = typeName(
+        const [type, childType] = typeName(
           member.type,
           member.pointer,
           member.optional,
         );
-        assert(!isArray, "TODO: implement array init");
+        assert(!childType, "TODO: implement array init");
         if (type.startsWith("StringView")) {
           const defaultValue =
             type.split("=")?.[1].trim() === ".empty" ? '""' : "undefined";
@@ -385,18 +385,40 @@ async function main(webgpuYamlPath: string, format: boolean) {
         const name = toCamelCase(method.name);
         const externName = toCamelCase(fn_prefix + method.name);
         const argNames: string[] = [];
-        const args =
-          method.args?.map((arg) => {
+        const args: string[] = [];
+        const wrappedArgs: string[] = [];
+        if (method.args) {
+          for (const arg of method.args) {
             const name = toCamelCase(arg.name);
-            const [type, _] = typeName(
+            const [type, childType] = typeName(
               arg.type,
               arg.pointer,
               arg.optional,
               null,
             );
-            argNames.push(name);
-            return `${name}: ${type}`;
-          }) ?? [];
+            if (childType) {
+              const countName = toSnakeCase(name + "_count");
+              args.push(`${countName}: usize`);
+              argNames.push(`${name}.len`);
+
+              let wrappedArgType = childType;
+              if (arg.pointer === "immutable") {
+                wrappedArgType = `const ${wrappedArgType}`;
+              }
+              wrappedArgType = `[]${wrappedArgType}`;
+              wrappedArgs.push(`${name}: ${wrappedArgType}`);
+            } else {
+              wrappedArgs.push(`${name}: ${type}`);
+            }
+
+            args.push(`${name}: ${type}`);
+            if (childType) {
+              argNames.push(`${name}.ptr`);
+            } else {
+              argNames.push(name);
+            }
+          }
+        }
         if (method.callback) {
           const [type, _] = typeName(
             method.callback,
@@ -406,6 +428,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
           );
           argNames.push("callback");
           args.push(`callback: ${type}`);
+          wrappedArgs.push(`callback: ${type}`);
         }
 
         const returnType = method.returns?.type
@@ -429,7 +452,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
         add(docString(method.doc, 1));
         add(
           indent(
-            `pub inline fn ${name}(self: *${obj_name}${args.length > 0 ? ", " : ""}${args.join(", ")}) ${returnType} { return ${externName}(self${args.length > 0 ? ", " : ""}${argNames.join(", ")}); }`,
+            `pub inline fn ${name}(self: *${obj_name}${wrappedArgs.length > 0 ? ", " : ""}${wrappedArgs.join(", ")}) ${returnType} { return ${externName}(self${argNames.length > 0 ? ", " : ""}${argNames.join(", ")}); }`,
             1,
           ),
         );

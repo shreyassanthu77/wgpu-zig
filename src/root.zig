@@ -2241,9 +2241,9 @@ pub const ComputePassEncoder = opaque {
     pub inline fn setPipeline(self: *ComputePassEncoder, pipeline: *ComputePipeline) void {
         return wgpuComputePassEncoderSetPipeline(self, pipeline);
     }
-    extern fn wgpuComputePassEncoderSetBindGroup(self: *ComputePassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: ?[*]const u32) callconv(.c) void;
-    pub inline fn setBindGroup(self: *ComputePassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: ?[*]const u32) void {
-        return wgpuComputePassEncoderSetBindGroup(self, groupIndex, group, dynamicOffsets);
+    extern fn wgpuComputePassEncoderSetBindGroup(self: *ComputePassEncoder, groupIndex: u32, group: ?*BindGroup, dynamic_offsets_count: usize, dynamicOffsets: ?[*]const u32) callconv(.c) void;
+    pub inline fn setBindGroup(self: *ComputePassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: []const u32) void {
+        return wgpuComputePassEncoderSetBindGroup(self, groupIndex, group, dynamicOffsets.len, dynamicOffsets.ptr);
     }
     extern fn wgpuComputePassEncoderDispatchWorkgroups(self: *ComputePassEncoder, workgroupCountX: u32, workgroupCountY: u32, workgroupCountZ: u32) callconv(.c) void;
     pub inline fn dispatchWorkgroups(self: *ComputePassEncoder, workgroupCountX: u32, workgroupCountY: u32, workgroupCountZ: u32) void {
@@ -2521,9 +2521,9 @@ pub const QuerySet = opaque {
 };
 
 pub const Queue = opaque {
-    extern fn wgpuQueueSubmit(self: *Queue, commands: ?[*]const *CommandBuffer) callconv(.c) void;
-    pub inline fn submit(self: *Queue, commands: ?[*]const *CommandBuffer) void {
-        return wgpuQueueSubmit(self, commands);
+    extern fn wgpuQueueSubmit(self: *Queue, commands_count: usize, commands: ?[*]const *CommandBuffer) callconv(.c) void;
+    pub inline fn submit(self: *Queue, commands: []const *CommandBuffer) void {
+        return wgpuQueueSubmit(self, commands.len, commands.ptr);
     }
     extern fn wgpuQueueOnSubmittedWorkDone(self: *Queue, callback: QueueWorkDoneCallbackInfo) callconv(.c) Future;
     pub inline fn onSubmittedWorkDone(self: *Queue, callback: QueueWorkDoneCallbackInfo) Future {
@@ -2582,9 +2582,9 @@ pub const RenderBundleEncoder = opaque {
     pub inline fn setPipeline(self: *RenderBundleEncoder, pipeline: *RenderPipeline) void {
         return wgpuRenderBundleEncoderSetPipeline(self, pipeline);
     }
-    extern fn wgpuRenderBundleEncoderSetBindGroup(self: *RenderBundleEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: ?[*]const u32) callconv(.c) void;
-    pub inline fn setBindGroup(self: *RenderBundleEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: ?[*]const u32) void {
-        return wgpuRenderBundleEncoderSetBindGroup(self, groupIndex, group, dynamicOffsets);
+    extern fn wgpuRenderBundleEncoderSetBindGroup(self: *RenderBundleEncoder, groupIndex: u32, group: ?*BindGroup, dynamic_offsets_count: usize, dynamicOffsets: ?[*]const u32) callconv(.c) void;
+    pub inline fn setBindGroup(self: *RenderBundleEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: []const u32) void {
+        return wgpuRenderBundleEncoderSetBindGroup(self, groupIndex, group, dynamicOffsets.len, dynamicOffsets.ptr);
     }
     extern fn wgpuRenderBundleEncoderDraw(self: *RenderBundleEncoder, vertexCount: u32, instanceCount: u32, firstVertex: u32, firstInstance: u32) callconv(.c) void;
     pub inline fn draw(self: *RenderBundleEncoder, vertexCount: u32, instanceCount: u32, firstVertex: u32, firstInstance: u32) void {
@@ -2645,9 +2645,9 @@ pub const RenderPassEncoder = opaque {
     pub inline fn setPipeline(self: *RenderPassEncoder, pipeline: *RenderPipeline) void {
         return wgpuRenderPassEncoderSetPipeline(self, pipeline);
     }
-    extern fn wgpuRenderPassEncoderSetBindGroup(self: *RenderPassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: ?[*]const u32) callconv(.c) void;
-    pub inline fn setBindGroup(self: *RenderPassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: ?[*]const u32) void {
-        return wgpuRenderPassEncoderSetBindGroup(self, groupIndex, group, dynamicOffsets);
+    extern fn wgpuRenderPassEncoderSetBindGroup(self: *RenderPassEncoder, groupIndex: u32, group: ?*BindGroup, dynamic_offsets_count: usize, dynamicOffsets: ?[*]const u32) callconv(.c) void;
+    pub inline fn setBindGroup(self: *RenderPassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: []const u32) void {
+        return wgpuRenderPassEncoderSetBindGroup(self, groupIndex, group, dynamicOffsets.len, dynamicOffsets.ptr);
     }
     extern fn wgpuRenderPassEncoderDraw(self: *RenderPassEncoder, vertexCount: u32, instanceCount: u32, firstVertex: u32, firstInstance: u32) callconv(.c) void;
     pub inline fn draw(self: *RenderPassEncoder, vertexCount: u32, instanceCount: u32, firstVertex: u32, firstInstance: u32) void {
@@ -2665,9 +2665,9 @@ pub const RenderPassEncoder = opaque {
     pub inline fn drawIndexedIndirect(self: *RenderPassEncoder, indirectBuffer: *Buffer, indirectOffset: u64) void {
         return wgpuRenderPassEncoderDrawIndexedIndirect(self, indirectBuffer, indirectOffset);
     }
-    extern fn wgpuRenderPassEncoderExecuteBundles(self: *RenderPassEncoder, bundles: ?[*]const *RenderBundle) callconv(.c) void;
-    pub inline fn executeBundles(self: *RenderPassEncoder, bundles: ?[*]const *RenderBundle) void {
-        return wgpuRenderPassEncoderExecuteBundles(self, bundles);
+    extern fn wgpuRenderPassEncoderExecuteBundles(self: *RenderPassEncoder, bundles_count: usize, bundles: ?[*]const *RenderBundle) callconv(.c) void;
+    pub inline fn executeBundles(self: *RenderPassEncoder, bundles: []const *RenderBundle) void {
+        return wgpuRenderPassEncoderExecuteBundles(self, bundles.len, bundles.ptr);
     }
     extern fn wgpuRenderPassEncoderInsertDebugMarker(self: *RenderPassEncoder, markerLabel: StringView) callconv(.c) void;
     pub inline fn insertDebugMarker(self: *RenderPassEncoder, markerLabel: StringView) void {
