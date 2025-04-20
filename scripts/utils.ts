@@ -167,7 +167,7 @@ export function typeName(
   } else if (default_value === undefined) {
     if (optional) {
       type = `${type} = null`;
-    } else if (type !== "*anyopaque") {
+    } else if (!isPointer) {
       type = `${type} = std.mem.zeroes(${type})`;
     }
   }

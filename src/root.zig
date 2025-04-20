@@ -806,7 +806,7 @@ pub const AdapterInfo = extern struct {
 pub const BindGroupDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     label: StringView = .empty,
-    layout: *BindGroupLayout = std.mem.zeroes(*BindGroupLayout),
+    layout: *BindGroupLayout,
     entries_count: usize = 0,
     entries: ?[*]const BindGroupEntry = null,
 
@@ -971,7 +971,7 @@ pub const ComputePassDescriptor = extern struct {
 };
 
 pub const ComputePassTimestampWrites = extern struct {
-    query_set: *QuerySet = std.mem.zeroes(*QuerySet),
+    query_set: *QuerySet,
     beginning_of_pass_write_index: u32 = std.mem.zeroes(u32),
     end_of_pass_write_index: u32 = std.mem.zeroes(u32),
 
@@ -1046,7 +1046,7 @@ pub const Extent3D = extern struct {
 
 pub const FragmentState = extern struct {
     next_in_chain: ?*const Chained = null,
-    module: *ShaderModule = std.mem.zeroes(*ShaderModule),
+    module: *ShaderModule,
     entry_point: StringView = .null_,
     constants_count: usize = 0,
     constants: ?[*]const ConstantEntry = null,
@@ -1180,7 +1180,7 @@ pub const PrimitiveState = extern struct {
 
 pub const ProgrammableStageDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
-    module: *ShaderModule = std.mem.zeroes(*ShaderModule),
+    module: *ShaderModule,
     entry_point: StringView = .null_,
     constants_count: usize = 0,
     constants: ?[*]const ConstantEntry = null,
@@ -1249,7 +1249,7 @@ pub const RenderPassColorAttachment = extern struct {
 };
 
 pub const RenderPassDepthStencilAttachment = extern struct {
-    view: *TextureView = std.mem.zeroes(*TextureView),
+    view: *TextureView,
     depth_load_op: LoadOp = std.mem.zeroes(LoadOp),
     depth_store_op: StoreOp = std.mem.zeroes(StoreOp),
     depth_clear_value: f32 = std.mem.zeroes(f32),
@@ -1302,7 +1302,7 @@ pub const RenderPassMaxDrawCount = extern struct {
 };
 
 pub const RenderPassTimestampWrites = extern struct {
-    query_set: *QuerySet = std.mem.zeroes(*QuerySet),
+    query_set: *QuerySet,
     beginning_of_pass_write_index: u32 = std.mem.zeroes(u32),
     end_of_pass_write_index: u32 = std.mem.zeroes(u32),
 
@@ -1379,7 +1379,7 @@ pub const ShaderModuleDescriptor = extern struct {
 pub const ShaderSourceSpirv = extern struct {
     chain: Chained,
     code_size: u32 = std.mem.zeroes(u32),
-    code: *const u32 = std.mem.zeroes(*const u32),
+    code: *const u32,
 
     pub inline fn zero() ShaderSourceSpirv {
         return std.mem.zeroes(ShaderSourceSpirv);
@@ -1388,7 +1388,7 @@ pub const ShaderSourceSpirv = extern struct {
     pub const ShaderSourceSpirvInitOptions = struct {
         label: []const u8 = "",
         code_size: u32 = std.mem.zeroes(u32),
-        code: *const u32 = std.mem.zeroes(*const u32),
+        code: *const u32,
     };
     pub inline fn init(options: ShaderSourceSpirvInitOptions) *const ShaderModuleDescriptor {
         return &ShaderModuleDescriptor{
@@ -1494,7 +1494,7 @@ pub const SurfaceCapabilities = extern struct {
 
 pub const SurfaceConfiguration = extern struct {
     next_in_chain: ?*const Chained = null,
-    device: *Device = std.mem.zeroes(*Device),
+    device: *Device,
     format: TextureFormat = std.mem.zeroes(TextureFormat),
     usage: TextureUsage = std.mem.zeroes(TextureUsage),
     width: u32 = std.mem.zeroes(u32),
@@ -1670,7 +1670,7 @@ pub const SurfaceSourceXlibWindow = extern struct {
 
 pub const SurfaceTexture = extern struct {
     next_in_chain: ?*const Chained = null,
-    texture: *Texture = std.mem.zeroes(*Texture),
+    texture: *Texture,
     status: SurfaceGetCurrentTextureStatus = std.mem.zeroes(SurfaceGetCurrentTextureStatus),
 
     pub inline fn zero() SurfaceTexture {
@@ -1680,7 +1680,7 @@ pub const SurfaceTexture = extern struct {
 
 pub const TexelCopyBufferInfo = extern struct {
     layout: TexelCopyBufferLayout = std.mem.zeroes(TexelCopyBufferLayout),
-    buffer: *Buffer = std.mem.zeroes(*Buffer),
+    buffer: *Buffer,
 
     pub inline fn zero() TexelCopyBufferInfo {
         return std.mem.zeroes(TexelCopyBufferInfo);
@@ -1698,7 +1698,7 @@ pub const TexelCopyBufferLayout = extern struct {
 };
 
 pub const TexelCopyTextureInfo = extern struct {
-    texture: *Texture = std.mem.zeroes(*Texture),
+    texture: *Texture,
     mip_level: u32 = std.mem.zeroes(u32),
     origin: Origin3D = std.mem.zeroes(Origin3D),
     aspect: TextureAspect = std.mem.zeroes(TextureAspect),
@@ -1776,7 +1776,7 @@ pub const VertexBufferLayout = extern struct {
 
 pub const VertexState = extern struct {
     next_in_chain: ?*const Chained = null,
-    module: *ShaderModule = std.mem.zeroes(*ShaderModule),
+    module: *ShaderModule,
     entry_point: StringView = .null_,
     constants_count: usize = 0,
     constants: ?[*]const ConstantEntry = null,

@@ -34,7 +34,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
 
 		const empty = from("");
 
-		const null_ = StringView{ .data = null_, .length = 0 };
+		const null_ = StringView{ .data = null, .length = 0 };
     
     pub fn into(self: StringView) []const u8 {
         if (self.length == 0) return "";
