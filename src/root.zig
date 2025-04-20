@@ -1436,7 +1436,7 @@ pub const SurfaceDescriptor = extern struct {
 
 pub const SurfaceSourceAndroidNativeWindow = extern struct {
     chain: Chained,
-    window: *anyopaque = std.mem.zeroes(*anyopaque),
+    window: *anyopaque,
 
     pub inline fn zero() SurfaceSourceAndroidNativeWindow {
         return std.mem.zeroes(SurfaceSourceAndroidNativeWindow);
@@ -1444,7 +1444,7 @@ pub const SurfaceSourceAndroidNativeWindow = extern struct {
 
     pub const SurfaceSourceAndroidNativeWindowInitOptions = struct {
         label: []const u8 = "",
-        window: *anyopaque = std.mem.zeroes(*anyopaque),
+        window: *anyopaque,
     };
     pub inline fn init(options: SurfaceSourceAndroidNativeWindowInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
@@ -1459,7 +1459,7 @@ pub const SurfaceSourceAndroidNativeWindow = extern struct {
 
 pub const SurfaceSourceMetalLayer = extern struct {
     chain: Chained,
-    layer: *anyopaque = std.mem.zeroes(*anyopaque),
+    layer: *anyopaque,
 
     pub inline fn zero() SurfaceSourceMetalLayer {
         return std.mem.zeroes(SurfaceSourceMetalLayer);
@@ -1467,7 +1467,7 @@ pub const SurfaceSourceMetalLayer = extern struct {
 
     pub const SurfaceSourceMetalLayerInitOptions = struct {
         label: []const u8 = "",
-        layer: *anyopaque = std.mem.zeroes(*anyopaque),
+        layer: *anyopaque,
     };
     pub inline fn init(options: SurfaceSourceMetalLayerInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
@@ -1482,8 +1482,8 @@ pub const SurfaceSourceMetalLayer = extern struct {
 
 pub const SurfaceSourceWaylandSurface = extern struct {
     chain: Chained,
-    display: *anyopaque = std.mem.zeroes(*anyopaque),
-    surface: *anyopaque = std.mem.zeroes(*anyopaque),
+    display: *anyopaque,
+    surface: *anyopaque,
 
     pub inline fn zero() SurfaceSourceWaylandSurface {
         return std.mem.zeroes(SurfaceSourceWaylandSurface);
@@ -1491,8 +1491,8 @@ pub const SurfaceSourceWaylandSurface = extern struct {
 
     pub const SurfaceSourceWaylandSurfaceInitOptions = struct {
         label: []const u8 = "",
-        display: *anyopaque = std.mem.zeroes(*anyopaque),
-        surface: *anyopaque = std.mem.zeroes(*anyopaque),
+        display: *anyopaque,
+        surface: *anyopaque,
     };
     pub inline fn init(options: SurfaceSourceWaylandSurfaceInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
@@ -1508,8 +1508,8 @@ pub const SurfaceSourceWaylandSurface = extern struct {
 
 pub const SurfaceSourceWindowsHwnd = extern struct {
     chain: Chained,
-    hinstance: *anyopaque = std.mem.zeroes(*anyopaque),
-    hwnd: *anyopaque = std.mem.zeroes(*anyopaque),
+    hinstance: *anyopaque,
+    hwnd: *anyopaque,
 
     pub inline fn zero() SurfaceSourceWindowsHwnd {
         return std.mem.zeroes(SurfaceSourceWindowsHwnd);
@@ -1517,8 +1517,8 @@ pub const SurfaceSourceWindowsHwnd = extern struct {
 
     pub const SurfaceSourceWindowsHwndInitOptions = struct {
         label: []const u8 = "",
-        hinstance: *anyopaque = std.mem.zeroes(*anyopaque),
-        hwnd: *anyopaque = std.mem.zeroes(*anyopaque),
+        hinstance: *anyopaque,
+        hwnd: *anyopaque,
     };
     pub inline fn init(options: SurfaceSourceWindowsHwndInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
@@ -1534,7 +1534,7 @@ pub const SurfaceSourceWindowsHwnd = extern struct {
 
 pub const SurfaceSourceXcbWindow = extern struct {
     chain: Chained,
-    connection: *anyopaque = std.mem.zeroes(*anyopaque),
+    connection: *anyopaque,
     window: u32 = std.mem.zeroes(u32),
 
     pub inline fn zero() SurfaceSourceXcbWindow {
@@ -1543,7 +1543,7 @@ pub const SurfaceSourceXcbWindow = extern struct {
 
     pub const SurfaceSourceXcbWindowInitOptions = struct {
         label: []const u8 = "",
-        connection: *anyopaque = std.mem.zeroes(*anyopaque),
+        connection: *anyopaque,
         window: u32 = std.mem.zeroes(u32),
     };
     pub inline fn init(options: SurfaceSourceXcbWindowInitOptions) *const SurfaceDescriptor {
@@ -1560,7 +1560,7 @@ pub const SurfaceSourceXcbWindow = extern struct {
 
 pub const SurfaceSourceXlibWindow = extern struct {
     chain: Chained,
-    display: *anyopaque = std.mem.zeroes(*anyopaque),
+    display: *anyopaque,
     window: u64 = std.mem.zeroes(u64),
 
     pub inline fn zero() SurfaceSourceXlibWindow {
@@ -1569,7 +1569,7 @@ pub const SurfaceSourceXlibWindow = extern struct {
 
     pub const SurfaceSourceXlibWindowInitOptions = struct {
         label: []const u8 = "",
-        display: *anyopaque = std.mem.zeroes(*anyopaque),
+        display: *anyopaque,
         window: u64 = std.mem.zeroes(u64),
     };
     pub inline fn init(options: SurfaceSourceXlibWindowInitOptions) *const SurfaceDescriptor {
