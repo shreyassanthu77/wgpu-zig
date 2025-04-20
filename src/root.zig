@@ -1069,10 +1069,12 @@ pub const RenderPassMaxDrawCount = extern struct {
         max_draw_count: u64,
     };
     pub inline fn init(options: RenderPassMaxDrawCountInitOptions) *const RenderPassDescriptor {
-        return @ptrCast(&RenderPassMaxDrawCount{
-            .max_draw_count = options.max_draw_count,
-            .chain = .{ .s_type = .render_pass_max_draw_count, .next = null },
-        });
+        return &RenderPassDescriptor{
+            .next_in_chain = @ptrCast(&RenderPassMaxDrawCount{
+                .max_draw_count = options.max_draw_count,
+                .chain = .{ .s_type = .render_pass_max_draw_count, .next = null },
+            }),
+        };
     }
 };
 
@@ -1137,11 +1139,13 @@ pub const ShaderSourceSpirv = extern struct {
         code: *const u32,
     };
     pub inline fn init(options: ShaderSourceSpirvInitOptions) *const ShaderModuleDescriptor {
-        return @ptrCast(&ShaderSourceSpirv{
-            .code_size = options.code_size,
-            .code = options.code,
-            .chain = .{ .s_type = .shader_source_spirv, .next = null },
-        });
+        return &ShaderModuleDescriptor{
+            .next_in_chain = @ptrCast(&ShaderSourceSpirv{
+                .code_size = options.code_size,
+                .code = options.code,
+                .chain = .{ .s_type = .shader_source_spirv, .next = null },
+            }),
+        };
     }
 };
 
@@ -1153,10 +1157,12 @@ pub const ShaderSourceWgsl = extern struct {
         code: StringView = .empty,
     };
     pub inline fn init(options: ShaderSourceWgslInitOptions) *const ShaderModuleDescriptor {
-        return @ptrCast(&ShaderSourceWgsl{
-            .code = options.code,
-            .chain = .{ .s_type = .shader_source_wgsl, .next = null },
-        });
+        return &ShaderModuleDescriptor{
+            .next_in_chain = @ptrCast(&ShaderSourceWgsl{
+                .code = options.code,
+                .chain = .{ .s_type = .shader_source_wgsl, .next = null },
+            }),
+        };
     }
 };
 
@@ -1233,10 +1239,12 @@ pub const SurfaceSourceAndroidNativeWindow = extern struct {
         window: *anyopaque,
     };
     pub inline fn init(options: SurfaceSourceAndroidNativeWindowInitOptions) *const SurfaceDescriptor {
-        return @ptrCast(&SurfaceSourceAndroidNativeWindow{
-            .window = options.window,
-            .chain = .{ .s_type = .surface_source_android_native_window, .next = null },
-        });
+        return &SurfaceDescriptor{
+            .next_in_chain = @ptrCast(&SurfaceSourceAndroidNativeWindow{
+                .window = options.window,
+                .chain = .{ .s_type = .surface_source_android_native_window, .next = null },
+            }),
+        };
     }
 };
 
@@ -1248,10 +1256,12 @@ pub const SurfaceSourceMetalLayer = extern struct {
         layer: *anyopaque,
     };
     pub inline fn init(options: SurfaceSourceMetalLayerInitOptions) *const SurfaceDescriptor {
-        return @ptrCast(&SurfaceSourceMetalLayer{
-            .layer = options.layer,
-            .chain = .{ .s_type = .surface_source_metal_layer, .next = null },
-        });
+        return &SurfaceDescriptor{
+            .next_in_chain = @ptrCast(&SurfaceSourceMetalLayer{
+                .layer = options.layer,
+                .chain = .{ .s_type = .surface_source_metal_layer, .next = null },
+            }),
+        };
     }
 };
 
@@ -1265,11 +1275,13 @@ pub const SurfaceSourceWaylandSurface = extern struct {
         surface: *anyopaque,
     };
     pub inline fn init(options: SurfaceSourceWaylandSurfaceInitOptions) *const SurfaceDescriptor {
-        return @ptrCast(&SurfaceSourceWaylandSurface{
-            .display = options.display,
-            .surface = options.surface,
-            .chain = .{ .s_type = .surface_source_wayland_surface, .next = null },
-        });
+        return &SurfaceDescriptor{
+            .next_in_chain = @ptrCast(&SurfaceSourceWaylandSurface{
+                .display = options.display,
+                .surface = options.surface,
+                .chain = .{ .s_type = .surface_source_wayland_surface, .next = null },
+            }),
+        };
     }
 };
 
@@ -1283,11 +1295,13 @@ pub const SurfaceSourceWindowsHwnd = extern struct {
         hwnd: *anyopaque,
     };
     pub inline fn init(options: SurfaceSourceWindowsHwndInitOptions) *const SurfaceDescriptor {
-        return @ptrCast(&SurfaceSourceWindowsHwnd{
-            .hinstance = options.hinstance,
-            .hwnd = options.hwnd,
-            .chain = .{ .s_type = .surface_source_windows_hwnd, .next = null },
-        });
+        return &SurfaceDescriptor{
+            .next_in_chain = @ptrCast(&SurfaceSourceWindowsHwnd{
+                .hinstance = options.hinstance,
+                .hwnd = options.hwnd,
+                .chain = .{ .s_type = .surface_source_windows_hwnd, .next = null },
+            }),
+        };
     }
 };
 
@@ -1301,11 +1315,13 @@ pub const SurfaceSourceXcbWindow = extern struct {
         window: u32,
     };
     pub inline fn init(options: SurfaceSourceXcbWindowInitOptions) *const SurfaceDescriptor {
-        return @ptrCast(&SurfaceSourceXcbWindow{
-            .connection = options.connection,
-            .window = options.window,
-            .chain = .{ .s_type = .surface_source_xcb_window, .next = null },
-        });
+        return &SurfaceDescriptor{
+            .next_in_chain = @ptrCast(&SurfaceSourceXcbWindow{
+                .connection = options.connection,
+                .window = options.window,
+                .chain = .{ .s_type = .surface_source_xcb_window, .next = null },
+            }),
+        };
     }
 };
 
@@ -1319,11 +1335,13 @@ pub const SurfaceSourceXlibWindow = extern struct {
         window: u64,
     };
     pub inline fn init(options: SurfaceSourceXlibWindowInitOptions) *const SurfaceDescriptor {
-        return @ptrCast(&SurfaceSourceXlibWindow{
-            .display = options.display,
-            .window = options.window,
-            .chain = .{ .s_type = .surface_source_xlib_window, .next = null },
-        });
+        return &SurfaceDescriptor{
+            .next_in_chain = @ptrCast(&SurfaceSourceXlibWindow{
+                .display = options.display,
+                .window = options.window,
+                .chain = .{ .s_type = .surface_source_xlib_window, .next = null },
+            }),
+        };
     }
 };
 

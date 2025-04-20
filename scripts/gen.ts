@@ -292,9 +292,11 @@ async function main(webgpuYamlPath: string, format: boolean) {
       add(
         indent(
           `pub inline fn init(options: ${optionsName}) *const ${parent} {
-    return @ptrCast(&${name}{
+		return &${parent}{
+			.next_in_chain = @ptrCast(&${name}{
         ${initBody.join(",\n        ")},
-    });
+    	}),
+		};
 }`,
           1,
         ),
