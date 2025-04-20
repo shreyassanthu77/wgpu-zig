@@ -248,9 +248,13 @@ async function main(webgpuYamlPath: string, format: boolean) {
     }
 
     if (struct.free_members) {
+      const externName = toPascalCase(name + "_free_members");
+      add(
+        indent(`extern fn ${externName}(self: *${name}) callconv(.c) void;`, 1),
+      );
       add(
         indent(
-          `pub extern fn freeMembers(self: *${name}) callconv(.c) void;`,
+          `pub inline fn freeMembers(self: *${name}) void { return ${externName}(self); }`,
           1,
         ),
       );

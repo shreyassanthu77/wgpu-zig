@@ -736,7 +736,10 @@ pub const AdapterInfo = extern struct {
     adapter_type: AdapterType,
     vendor_id: u32,
     device_id: u32,
-    pub extern fn freeMembers(self: *AdapterInfo) callconv(.c) void;
+    extern fn AdapterInfoFreeMembers(self: *AdapterInfo) callconv(.c) void;
+    pub inline fn freeMembers(self: *AdapterInfo) void {
+        return AdapterInfoFreeMembers(self);
+    }
 };
 
 pub const BindGroupDescriptor = extern struct {
@@ -1174,13 +1177,19 @@ pub const StorageTextureBindingLayout = extern struct {
 pub const SupportedFeatures = extern struct {
     features_count: usize,
     features: [*]const FeatureName,
-    pub extern fn freeMembers(self: *SupportedFeatures) callconv(.c) void;
+    extern fn SupportedFeaturesFreeMembers(self: *SupportedFeatures) callconv(.c) void;
+    pub inline fn freeMembers(self: *SupportedFeatures) void {
+        return SupportedFeaturesFreeMembers(self);
+    }
 };
 
 pub const SupportedWgslLanguageFeatures = extern struct {
     features_count: usize,
     features: [*]const WgslLanguageFeatureName,
-    pub extern fn freeMembers(self: *SupportedWgslLanguageFeatures) callconv(.c) void;
+    extern fn SupportedWgslLanguageFeaturesFreeMembers(self: *SupportedWgslLanguageFeatures) callconv(.c) void;
+    pub inline fn freeMembers(self: *SupportedWgslLanguageFeatures) void {
+        return SupportedWgslLanguageFeaturesFreeMembers(self);
+    }
 };
 
 pub const SurfaceCapabilities = extern struct {
@@ -1192,7 +1201,10 @@ pub const SurfaceCapabilities = extern struct {
     present_modes: [*]const PresentMode,
     alpha_modes_count: usize,
     alpha_modes: [*]const CompositeAlphaMode,
-    pub extern fn freeMembers(self: *SurfaceCapabilities) callconv(.c) void;
+    extern fn SurfaceCapabilitiesFreeMembers(self: *SurfaceCapabilities) callconv(.c) void;
+    pub inline fn freeMembers(self: *SurfaceCapabilities) void {
+        return SurfaceCapabilitiesFreeMembers(self);
+    }
 };
 
 pub const SurfaceConfiguration = extern struct {
