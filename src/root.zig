@@ -724,7 +724,7 @@ pub const BindGroupDescriptor = extern struct {
     label: StringView = .empty,
     layout: *BindGroupLayout,
     entries_count: usize = 0,
-    entries: ?[*]const BindGroupEntry = .null,
+    entries: ?[*]const BindGroupEntry = null,
 
     pub inline fn zero() BindGroupDescriptor {
         return std.mem.zeroes(BindGroupDescriptor);
@@ -749,7 +749,7 @@ pub const BindGroupLayoutDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     label: StringView = .empty,
     entries_count: usize = 0,
-    entries: ?[*]const BindGroupLayoutEntry = .null,
+    entries: ?[*]const BindGroupLayoutEntry = null,
 
     pub inline fn zero() BindGroupLayoutDescriptor {
         return std.mem.zeroes(BindGroupLayoutDescriptor);
@@ -855,7 +855,7 @@ pub const CommandEncoderDescriptor = extern struct {
 pub const CompilationInfo = extern struct {
     next_in_chain: ?*const Chained = null,
     messages_count: usize = 0,
-    messages: ?[*]const CompilationMessage = .null,
+    messages: ?[*]const CompilationMessage = null,
 
     pub inline fn zero() CompilationInfo {
         return std.mem.zeroes(CompilationInfo);
@@ -939,7 +939,7 @@ pub const DeviceDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     label: StringView = .empty,
     required_features_count: usize = 0,
-    required_features: ?[*]const FeatureName = .null,
+    required_features: ?[*]const FeatureName = null,
     required_limits: ?*const Limits = null,
     default_queue: QueueDescriptor,
     device_lost_callback_info: DeviceLostCallbackInfo,
@@ -965,9 +965,9 @@ pub const FragmentState = extern struct {
     module: *ShaderModule,
     entry_point: ??StringView = .null,
     constants_count: usize = 0,
-    constants: ?[*]const ConstantEntry = .null,
+    constants: ?[*]const ConstantEntry = null,
     targets_count: usize = 0,
-    targets: ?[*]const ColorTargetState = .null,
+    targets: ?[*]const ColorTargetState = null,
 
     pub inline fn zero() FragmentState {
         return std.mem.zeroes(FragmentState);
@@ -1074,7 +1074,7 @@ pub const PipelineLayoutDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     label: StringView = .empty,
     bind_group_layouts_count: usize = 0,
-    bind_group_layouts: ?[*]const *BindGroupLayout = .null,
+    bind_group_layouts: ?[*]const *BindGroupLayout = null,
 
     pub inline fn zero() PipelineLayoutDescriptor {
         return std.mem.zeroes(PipelineLayoutDescriptor);
@@ -1099,7 +1099,7 @@ pub const ProgrammableStageDescriptor = extern struct {
     module: *ShaderModule,
     entry_point: ??StringView = .null,
     constants_count: usize = 0,
-    constants: ?[*]const ConstantEntry = .null,
+    constants: ?[*]const ConstantEntry = null,
 
     pub inline fn zero() ProgrammableStageDescriptor {
         return std.mem.zeroes(ProgrammableStageDescriptor);
@@ -1139,7 +1139,7 @@ pub const RenderBundleEncoderDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     label: StringView = .empty,
     color_formats_count: usize = 0,
-    color_formats: ?[*]const TextureFormat = .null,
+    color_formats: ?[*]const TextureFormat = null,
     depth_stencil_format: TextureFormat,
     sample_count: u32,
     depth_read_only: bool,
@@ -1184,7 +1184,7 @@ pub const RenderPassDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     label: StringView = .empty,
     color_attachments_count: usize = 0,
-    color_attachments: ?[*]const RenderPassColorAttachment = .null,
+    color_attachments: ?[*]const RenderPassColorAttachment = null,
     depth_stencil_attachment: ?*const RenderPassDepthStencilAttachment = null,
     occlusion_query_set: ?*QuerySet = null,
     timestamp_writes: ?*const RenderPassTimestampWrites = null,
@@ -1365,7 +1365,7 @@ pub const StorageTextureBindingLayout = extern struct {
 
 pub const SupportedFeatures = extern struct {
     features_count: usize = 0,
-    features: ?[*]const FeatureName = .null,
+    features: ?[*]const FeatureName = null,
 
     pub inline fn zero() SupportedFeatures {
         return std.mem.zeroes(SupportedFeatures);
@@ -1378,7 +1378,7 @@ pub const SupportedFeatures = extern struct {
 
 pub const SupportedWgslLanguageFeatures = extern struct {
     features_count: usize = 0,
-    features: ?[*]const WgslLanguageFeatureName = .null,
+    features: ?[*]const WgslLanguageFeatureName = null,
 
     pub inline fn zero() SupportedWgslLanguageFeatures {
         return std.mem.zeroes(SupportedWgslLanguageFeatures);
@@ -1393,11 +1393,11 @@ pub const SurfaceCapabilities = extern struct {
     next_in_chain: ?*const Chained = null,
     usages: TextureUsage,
     formats_count: usize = 0,
-    formats: ?[*]const TextureFormat = .null,
+    formats: ?[*]const TextureFormat = null,
     present_modes_count: usize = 0,
-    present_modes: ?[*]const PresentMode = .null,
+    present_modes: ?[*]const PresentMode = null,
     alpha_modes_count: usize = 0,
-    alpha_modes: ?[*]const CompositeAlphaMode = .null,
+    alpha_modes: ?[*]const CompositeAlphaMode = null,
 
     pub inline fn zero() SurfaceCapabilities {
         return std.mem.zeroes(SurfaceCapabilities);
@@ -1416,7 +1416,7 @@ pub const SurfaceConfiguration = extern struct {
     width: u32,
     height: u32,
     view_formats_count: usize = 0,
-    view_formats: ?[*]const TextureFormat = .null,
+    view_formats: ?[*]const TextureFormat = null,
     alpha_mode: CompositeAlphaMode,
     present_mode: PresentMode,
 
@@ -1645,7 +1645,7 @@ pub const TextureDescriptor = extern struct {
     mip_level_count: u32,
     sample_count: u32,
     view_formats_count: usize = 0,
-    view_formats: ?[*]const TextureFormat = .null,
+    view_formats: ?[*]const TextureFormat = null,
 
     pub inline fn zero() TextureDescriptor {
         return std.mem.zeroes(TextureDescriptor);
@@ -1683,7 +1683,7 @@ pub const VertexBufferLayout = extern struct {
     step_mode: VertexStepMode,
     array_stride: u64,
     attributes_count: usize = 0,
-    attributes: ?[*]const VertexAttribute = .null,
+    attributes: ?[*]const VertexAttribute = null,
 
     pub inline fn zero() VertexBufferLayout {
         return std.mem.zeroes(VertexBufferLayout);
@@ -1695,9 +1695,9 @@ pub const VertexState = extern struct {
     module: *ShaderModule,
     entry_point: ??StringView = .null,
     constants_count: usize = 0,
-    constants: ?[*]const ConstantEntry = .null,
+    constants: ?[*]const ConstantEntry = null,
     buffers_count: usize = 0,
-    buffers: ?[*]const VertexBufferLayout = .null,
+    buffers: ?[*]const VertexBufferLayout = null,
 
     pub inline fn zero() VertexState {
         return std.mem.zeroes(VertexState);

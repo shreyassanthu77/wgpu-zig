@@ -119,9 +119,6 @@ export function typeName(
   } else if (type.startsWith("array<")) {
     type = type.slice(6, -1);
     type = `[*]${constPointer ? "const" : ""} ${typeName(type)[0]}`;
-    if (default_value === undefined) {
-      default_value = "null";
-    }
     optional = true;
     isPointer = false;
     constPointer = false;
