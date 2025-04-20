@@ -199,7 +199,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
   }
 
   add(`pub const Chained = extern struct {
-	next: ?*Chained,
+	next: ?*const Chained,
 	s_type: SType,
 
 `);
@@ -226,7 +226,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
       struct.type === "base_out" ||
       struct.type === "base_in_or_out"
     ) {
-      add(indent(`next_in_chain: ?*Chained = null,`, 1));
+      add(indent(`next_in_chain: ?*const Chained = null,`, 1));
     } else if (
       struct.type === "extension_in" ||
       struct.type === "extension_out" ||
@@ -322,7 +322,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
       `pub const ${name} = *const fn (${args?.join(", ")}, userdata1: ?*anyopaque, userdata2: ?*anyopaque) callconv(.c) void;`,
     );
     add(`pub const ${name}Info = extern struct {`);
-    add(indent(`next_in_chain: ?*Chained = null,`, 1));
+    add(indent(`next_in_chain: ?*const Chained = null,`, 1));
     if (callback.style === "callback_mode") {
       add(indent(`mode: CallbackMode = .allow_process_events,`, 1));
     }
