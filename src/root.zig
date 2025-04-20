@@ -29,23 +29,23 @@ pub const StringView = extern struct {
     }
 };
 
-const ARRAY_LAYER_COUNT_UNDEFINED = std.math.maxInt(u32);
+pub const ARRAY_LAYER_COUNT_UNDEFINED = std.math.maxInt(u32);
 
-const COPY_STRIDE_UNDEFINED = std.math.maxInt(u32);
+pub const COPY_STRIDE_UNDEFINED = std.math.maxInt(u32);
 
-const DEPTH_SLICE_UNDEFINED = std.math.maxInt(u32);
+pub const DEPTH_SLICE_UNDEFINED = std.math.maxInt(u32);
 
-const LIMIT_U32_UNDEFINED = std.math.maxInt(u32);
+pub const LIMIT_U32_UNDEFINED = std.math.maxInt(u32);
 
-const LIMIT_U64_UNDEFINED = std.math.maxInt(u64);
+pub const LIMIT_U64_UNDEFINED = std.math.maxInt(u64);
 
-const MIP_LEVEL_COUNT_UNDEFINED = std.math.maxInt(u32);
+pub const MIP_LEVEL_COUNT_UNDEFINED = std.math.maxInt(u32);
 
-const QUERY_SET_INDEX_UNDEFINED = std.math.maxInt(u32);
+pub const QUERY_SET_INDEX_UNDEFINED = std.math.maxInt(u32);
 
-const WHOLE_MAP_SIZE = std.math.maxInt(usize);
+pub const WHOLE_MAP_SIZE = std.math.maxInt(usize);
 
-const WHOLE_SIZE = std.math.maxInt(u64);
+pub const WHOLE_SIZE = std.math.maxInt(u64);
 
 pub const AdapterType = enum(u32) {
     discrete_gpu = 1,

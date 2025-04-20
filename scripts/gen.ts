@@ -79,7 +79,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
     }
 
     add(docString(constant.doc));
-    add(`const ${name} = ${value};\n`);
+    add(`pub const ${name} = ${value};\n`);
   }
 
   assert(schema.typedefs.length === 0, "TODO: implement typedefs");
