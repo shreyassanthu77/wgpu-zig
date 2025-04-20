@@ -248,6 +248,14 @@ async function main(webgpuYamlPath: string, format: boolean) {
       add(indent(`${name}: ${type},`, 1));
     }
 
+    add(" ");
+    add(
+      indent(
+        `pub inline fn zero() ${name} { return std.mem.zeroes(${name}); }`,
+        1,
+      ),
+    );
+
     if (struct.free_members) {
       const externName = toCamelCase("wgpu_" + name + "_free_members");
       add(

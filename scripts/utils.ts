@@ -155,7 +155,7 @@ export function typeName(
       } else if (default_value.startsWith("constant.")) {
         const constant = default_value.slice(9);
         type = `${type} = ${constant.toUpperCase()}`;
-      } else if (default_value === "undefined" || default_value === "null") {
+      } else if (default_value === "undefined") {
         type = `${type} = ${default_value}`;
       } else {
         type = `${type} = .${asEnumTag(default_value)}`;
