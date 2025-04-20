@@ -671,19 +671,7 @@ pub const WgslLanguageFeatureName = enum(u32) {
     pointer_composite_access = 4,
 };
 
-pub const BufferUsage = enum(u64) {
-    none = 0,
-    map_read = 1,
-    map_write = 2,
-    copy_src = 3,
-    copy_dst = 4,
-    index = 5,
-    vertex = 6,
-    uniform = 7,
-    storage = 8,
-    indirect = 9,
-    query_resolve = 10,
-};
+pub const BufferUsage = enum(u64) { none = 0, map_read = 1, map_write = 2, copy_src = 3, copy_dst = 4, index = 5, vertex = 6, uniform = 7, storage = 8, indirect = 9, query_resolve = 10, _ };
 
 pub const ColorWriteMask = enum(u64) {
     const Red = 1;
@@ -697,29 +685,14 @@ pub const ColorWriteMask = enum(u64) {
     blue = Blue,
     alpha = Alpha,
     all = Red | Green | Blue | Alpha,
+    _,
 };
 
-pub const MapMode = enum(u64) {
-    none = 0,
-    read = 1,
-    write = 2,
-};
+pub const MapMode = enum(u64) { none = 0, read = 1, write = 2, _ };
 
-pub const ShaderStage = enum(u64) {
-    none = 0,
-    vertex = 1,
-    fragment = 2,
-    compute = 3,
-};
+pub const ShaderStage = enum(u64) { none = 0, vertex = 1, fragment = 2, compute = 3, _ };
 
-pub const TextureUsage = enum(u64) {
-    none = 0,
-    copy_src = 1,
-    copy_dst = 2,
-    texture_binding = 3,
-    storage_binding = 4,
-    render_attachment = 5,
-};
+pub const TextureUsage = enum(u64) { none = 0, copy_src = 1, copy_dst = 2, texture_binding = 3, storage_binding = 4, render_attachment = 5, _ };
 
 pub const Chained = extern struct {
     next: ?*const Chained,
