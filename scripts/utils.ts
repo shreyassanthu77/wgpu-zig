@@ -103,8 +103,8 @@ export function typeName(
       break;
     case "nullable_string":
       type = "StringView";
-      optional = true;
-      if (default_value !== null) default_value = "null";
+      if (default_value !== null) default_value = ".null_";
+      optional = false;
       break;
     case "out_string":
       type = "StringView";
@@ -152,7 +152,11 @@ export function typeName(
       } else if (default_value.startsWith("constant.")) {
         const constant = default_value.slice(9);
         type = `${type} = ${constant.toUpperCase()}`;
-      } else if (default_value === "undefined") {
+      } else if (
+        default_value === "undefined" ||
+        default_value === "null" ||
+        default_value === ".null_"
+      ) {
         type = `${type} = ${default_value}`;
       } else {
         type = `${type} = .${asEnumTag(default_value)}`;

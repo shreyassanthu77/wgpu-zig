@@ -14,6 +14,8 @@ pub const StringView = extern struct {
 
     const empty = from("");
 
+    const null_ = StringView{ .data = null_, .length = 0 };
+
     pub fn into(self: StringView) []const u8 {
         if (self.length == 0) return "";
         return self.data[0..self.length];
@@ -1045,7 +1047,7 @@ pub const Extent3D = extern struct {
 pub const FragmentState = extern struct {
     next_in_chain: ?*const Chained = null,
     module: *ShaderModule = std.mem.zeroes(*ShaderModule),
-    entry_point: ?StringView = .null,
+    entry_point: StringView = .null_,
     constants_count: usize = 0,
     constants: ?[*]const ConstantEntry = null,
     targets_count: usize = 0,
@@ -1179,7 +1181,7 @@ pub const PrimitiveState = extern struct {
 pub const ProgrammableStageDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     module: *ShaderModule = std.mem.zeroes(*ShaderModule),
-    entry_point: ?StringView = .null,
+    entry_point: StringView = .null_,
     constants_count: usize = 0,
     constants: ?[*]const ConstantEntry = null,
 
@@ -1775,7 +1777,7 @@ pub const VertexBufferLayout = extern struct {
 pub const VertexState = extern struct {
     next_in_chain: ?*const Chained = null,
     module: *ShaderModule = std.mem.zeroes(*ShaderModule),
-    entry_point: ?StringView = .null,
+    entry_point: StringView = .null_,
     constants_count: usize = 0,
     constants: ?[*]const ConstantEntry = null,
     buffers_count: usize = 0,
