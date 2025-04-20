@@ -250,11 +250,11 @@ async function main(webgpuYamlPath: string, format: boolean) {
     if (struct.free_members) {
       const externName = toCamelCase("wgpu_" + name + "_free_members");
       add(
-        indent(`extern fn ${externName}(self: *${name}) callconv(.c) void;`, 1),
+        indent(`extern fn ${externName}(self: ${name}) callconv(.c) void;`, 1),
       );
       add(
         indent(
-          `pub inline fn freeMembers(self: *${name}) void { return ${externName}(self); }`,
+          `pub inline fn freeMembers(self: ${name}) void { return ${externName}(self); }`,
           1,
         ),
       );

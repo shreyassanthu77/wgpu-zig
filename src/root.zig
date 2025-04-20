@@ -736,8 +736,8 @@ pub const AdapterInfo = extern struct {
     adapter_type: AdapterType,
     vendor_id: u32,
     device_id: u32,
-    extern fn wgpuAdapterInfoFreeMembers(self: *AdapterInfo) callconv(.c) void;
-    pub inline fn freeMembers(self: *AdapterInfo) void {
+    extern fn wgpuAdapterInfoFreeMembers(self: AdapterInfo) callconv(.c) void;
+    pub inline fn freeMembers(self: AdapterInfo) void {
         return wgpuAdapterInfoFreeMembers(self);
     }
 };
@@ -1177,8 +1177,8 @@ pub const StorageTextureBindingLayout = extern struct {
 pub const SupportedFeatures = extern struct {
     features_count: usize,
     features: [*]const FeatureName,
-    extern fn wgpuSupportedFeaturesFreeMembers(self: *SupportedFeatures) callconv(.c) void;
-    pub inline fn freeMembers(self: *SupportedFeatures) void {
+    extern fn wgpuSupportedFeaturesFreeMembers(self: SupportedFeatures) callconv(.c) void;
+    pub inline fn freeMembers(self: SupportedFeatures) void {
         return wgpuSupportedFeaturesFreeMembers(self);
     }
 };
@@ -1186,8 +1186,8 @@ pub const SupportedFeatures = extern struct {
 pub const SupportedWgslLanguageFeatures = extern struct {
     features_count: usize,
     features: [*]const WgslLanguageFeatureName,
-    extern fn wgpuSupportedWgslLanguageFeaturesFreeMembers(self: *SupportedWgslLanguageFeatures) callconv(.c) void;
-    pub inline fn freeMembers(self: *SupportedWgslLanguageFeatures) void {
+    extern fn wgpuSupportedWgslLanguageFeaturesFreeMembers(self: SupportedWgslLanguageFeatures) callconv(.c) void;
+    pub inline fn freeMembers(self: SupportedWgslLanguageFeatures) void {
         return wgpuSupportedWgslLanguageFeaturesFreeMembers(self);
     }
 };
@@ -1201,8 +1201,8 @@ pub const SurfaceCapabilities = extern struct {
     present_modes: [*]const PresentMode,
     alpha_modes_count: usize,
     alpha_modes: [*]const CompositeAlphaMode,
-    extern fn wgpuSurfaceCapabilitiesFreeMembers(self: *SurfaceCapabilities) callconv(.c) void;
-    pub inline fn freeMembers(self: *SurfaceCapabilities) void {
+    extern fn wgpuSurfaceCapabilitiesFreeMembers(self: SurfaceCapabilities) callconv(.c) void;
+    pub inline fn freeMembers(self: SurfaceCapabilities) void {
         return wgpuSurfaceCapabilitiesFreeMembers(self);
     }
 };
