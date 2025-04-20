@@ -963,7 +963,7 @@ pub const Extent3D = extern struct {
 pub const FragmentState = extern struct {
     next_in_chain: ?*const Chained = null,
     module: *ShaderModule,
-    entry_point: ??StringView = .null,
+    entry_point: ?StringView = .null,
     constants_count: usize = 0,
     constants: ?[*]const ConstantEntry = null,
     targets_count: usize = 0,
@@ -1097,7 +1097,7 @@ pub const PrimitiveState = extern struct {
 pub const ProgrammableStageDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     module: *ShaderModule,
-    entry_point: ??StringView = .null,
+    entry_point: ?StringView = .null,
     constants_count: usize = 0,
     constants: ?[*]const ConstantEntry = null,
 
@@ -1693,7 +1693,7 @@ pub const VertexBufferLayout = extern struct {
 pub const VertexState = extern struct {
     next_in_chain: ?*const Chained = null,
     module: *ShaderModule,
-    entry_point: ??StringView = .null,
+    entry_point: ?StringView = .null,
     constants_count: usize = 0,
     constants: ?[*]const ConstantEntry = null,
     buffers_count: usize = 0,
