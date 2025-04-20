@@ -120,8 +120,9 @@ export function typeName(
     type = type.slice(6, -1);
     type = `[*]${constPointer ? "const" : ""} ${typeName(type)[0]}`;
     if (default_value === undefined) {
-      default_value = "undefined";
+      default_value = "null";
     }
+    optional = true;
     isPointer = false;
     constPointer = false;
     isArray = true;
@@ -154,8 +155,8 @@ export function typeName(
       } else if (default_value.startsWith("constant.")) {
         const constant = default_value.slice(9);
         type = `${type} = ${constant.toUpperCase()}`;
-      } else if (default_value === "undefined") {
-        type = `${type} = undefined`;
+      } else if (default_value === "undefined" || default_value === "null") {
+        type = `${type} = ${default_value}`;
       } else {
         type = `${type} = .${asEnumTag(default_value)}`;
       }
