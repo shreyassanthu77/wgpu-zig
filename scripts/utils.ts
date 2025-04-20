@@ -118,7 +118,7 @@ export function typeName(
     type = toPascalCase(type.slice(7));
   } else if (type.startsWith("array<")) {
     type = type.slice(6, -1);
-    type = `[*]${constPointer ? "const" : ""} ${typeName(type)[0]}`;
+    type = `[*]${constPointer ? "const" : ""} ${typeName(type, undefined, false, null)[0]}`;
     optional = true;
     isPointer = false;
     constPointer = false;
@@ -160,8 +160,12 @@ export function typeName(
     } else {
       type = `${type} = ${default_value}`;
     }
-  } else if (default_value === undefined && optional) {
-    type = `${type} = null`;
+  } else if (default_value === undefined) {
+    if (optional) {
+      type = `${type} = null`;
+    } else {
+      type = `${type} = std.mem.zeroes(${type})`;
+    }
   }
 
   return [type, isArray];

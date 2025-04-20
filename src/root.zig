@@ -701,14 +701,14 @@ pub const Chained = extern struct {
 
 pub const AdapterInfo = extern struct {
     next_in_chain: ?*const Chained = null,
-    vendor: StringView,
-    architecture: StringView,
-    device: StringView,
-    description: StringView,
-    backend_type: BackendType,
-    adapter_type: AdapterType,
-    vendor_id: u32,
-    device_id: u32,
+    vendor: StringView = std.mem.zeroes(StringView),
+    architecture: StringView = std.mem.zeroes(StringView),
+    device: StringView = std.mem.zeroes(StringView),
+    description: StringView = std.mem.zeroes(StringView),
+    backend_type: BackendType = std.mem.zeroes(BackendType),
+    adapter_type: AdapterType = std.mem.zeroes(AdapterType),
+    vendor_id: u32 = std.mem.zeroes(u32),
+    device_id: u32 = std.mem.zeroes(u32),
 
     pub inline fn zero() AdapterInfo {
         return std.mem.zeroes(AdapterInfo);
@@ -722,7 +722,7 @@ pub const AdapterInfo = extern struct {
 pub const BindGroupDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     label: StringView = .empty,
-    layout: *BindGroupLayout,
+    layout: *BindGroupLayout = std.mem.zeroes(*BindGroupLayout),
     entries_count: usize = 0,
     entries: ?[*]const BindGroupEntry = null,
 
@@ -733,10 +733,10 @@ pub const BindGroupDescriptor = extern struct {
 
 pub const BindGroupEntry = extern struct {
     next_in_chain: ?*const Chained = null,
-    binding: u32,
+    binding: u32 = std.mem.zeroes(u32),
     buffer: ?*Buffer = null,
-    offset: u64,
-    size: u64,
+    offset: u64 = std.mem.zeroes(u64),
+    size: u64 = std.mem.zeroes(u64),
     sampler: ?*Sampler = null,
     texture_view: ?*TextureView = null,
 
@@ -758,12 +758,12 @@ pub const BindGroupLayoutDescriptor = extern struct {
 
 pub const BindGroupLayoutEntry = extern struct {
     next_in_chain: ?*const Chained = null,
-    binding: u32,
-    visibility: ShaderStage,
-    buffer: BufferBindingLayout,
-    sampler: SamplerBindingLayout,
-    texture: TextureBindingLayout,
-    storage_texture: StorageTextureBindingLayout,
+    binding: u32 = std.mem.zeroes(u32),
+    visibility: ShaderStage = std.mem.zeroes(ShaderStage),
+    buffer: BufferBindingLayout = std.mem.zeroes(BufferBindingLayout),
+    sampler: SamplerBindingLayout = std.mem.zeroes(SamplerBindingLayout),
+    texture: TextureBindingLayout = std.mem.zeroes(TextureBindingLayout),
+    storage_texture: StorageTextureBindingLayout = std.mem.zeroes(StorageTextureBindingLayout),
 
     pub inline fn zero() BindGroupLayoutEntry {
         return std.mem.zeroes(BindGroupLayoutEntry);
@@ -771,9 +771,9 @@ pub const BindGroupLayoutEntry = extern struct {
 };
 
 pub const BlendComponent = extern struct {
-    operation: BlendOperation,
-    src_factor: BlendFactor,
-    dst_factor: BlendFactor,
+    operation: BlendOperation = std.mem.zeroes(BlendOperation),
+    src_factor: BlendFactor = std.mem.zeroes(BlendFactor),
+    dst_factor: BlendFactor = std.mem.zeroes(BlendFactor),
 
     pub inline fn zero() BlendComponent {
         return std.mem.zeroes(BlendComponent);
@@ -781,8 +781,8 @@ pub const BlendComponent = extern struct {
 };
 
 pub const BlendState = extern struct {
-    color: BlendComponent,
-    alpha: BlendComponent,
+    color: BlendComponent = std.mem.zeroes(BlendComponent),
+    alpha: BlendComponent = std.mem.zeroes(BlendComponent),
 
     pub inline fn zero() BlendState {
         return std.mem.zeroes(BlendState);
@@ -791,9 +791,9 @@ pub const BlendState = extern struct {
 
 pub const BufferBindingLayout = extern struct {
     next_in_chain: ?*const Chained = null,
-    type: BufferBindingType,
-    has_dynamic_offset: bool,
-    min_binding_size: u64,
+    type: BufferBindingType = std.mem.zeroes(BufferBindingType),
+    has_dynamic_offset: bool = std.mem.zeroes(bool),
+    min_binding_size: u64 = std.mem.zeroes(u64),
 
     pub inline fn zero() BufferBindingLayout {
         return std.mem.zeroes(BufferBindingLayout);
@@ -803,9 +803,9 @@ pub const BufferBindingLayout = extern struct {
 pub const BufferDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     label: StringView = .empty,
-    usage: BufferUsage,
-    size: u64,
-    mapped_at_creation: bool,
+    usage: BufferUsage = std.mem.zeroes(BufferUsage),
+    size: u64 = std.mem.zeroes(u64),
+    mapped_at_creation: bool = std.mem.zeroes(bool),
 
     pub inline fn zero() BufferDescriptor {
         return std.mem.zeroes(BufferDescriptor);
@@ -813,10 +813,10 @@ pub const BufferDescriptor = extern struct {
 };
 
 pub const Color = extern struct {
-    r: f64,
-    g: f64,
-    b: f64,
-    a: f64,
+    r: f64 = std.mem.zeroes(f64),
+    g: f64 = std.mem.zeroes(f64),
+    b: f64 = std.mem.zeroes(f64),
+    a: f64 = std.mem.zeroes(f64),
 
     pub inline fn zero() Color {
         return std.mem.zeroes(Color);
@@ -825,9 +825,9 @@ pub const Color = extern struct {
 
 pub const ColorTargetState = extern struct {
     next_in_chain: ?*const Chained = null,
-    format: TextureFormat,
+    format: TextureFormat = std.mem.zeroes(TextureFormat),
     blend: ?*const BlendState = null,
-    write_mask: ColorWriteMask,
+    write_mask: ColorWriteMask = std.mem.zeroes(ColorWriteMask),
 
     pub inline fn zero() ColorTargetState {
         return std.mem.zeroes(ColorTargetState);
@@ -864,12 +864,12 @@ pub const CompilationInfo = extern struct {
 
 pub const CompilationMessage = extern struct {
     next_in_chain: ?*const Chained = null,
-    message: StringView,
-    type: CompilationMessageType,
-    line_num: u64,
-    line_pos: u64,
-    offset: u64,
-    length: u64,
+    message: StringView = std.mem.zeroes(StringView),
+    type: CompilationMessageType = std.mem.zeroes(CompilationMessageType),
+    line_num: u64 = std.mem.zeroes(u64),
+    line_pos: u64 = std.mem.zeroes(u64),
+    offset: u64 = std.mem.zeroes(u64),
+    length: u64 = std.mem.zeroes(u64),
 
     pub inline fn zero() CompilationMessage {
         return std.mem.zeroes(CompilationMessage);
@@ -887,9 +887,9 @@ pub const ComputePassDescriptor = extern struct {
 };
 
 pub const ComputePassTimestampWrites = extern struct {
-    query_set: *QuerySet,
-    beginning_of_pass_write_index: u32,
-    end_of_pass_write_index: u32,
+    query_set: *QuerySet = std.mem.zeroes(*QuerySet),
+    beginning_of_pass_write_index: u32 = std.mem.zeroes(u32),
+    end_of_pass_write_index: u32 = std.mem.zeroes(u32),
 
     pub inline fn zero() ComputePassTimestampWrites {
         return std.mem.zeroes(ComputePassTimestampWrites);
@@ -900,7 +900,7 @@ pub const ComputePipelineDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     label: StringView = .empty,
     layout: ?*PipelineLayout = null,
-    compute: ProgrammableStageDescriptor,
+    compute: ProgrammableStageDescriptor = std.mem.zeroes(ProgrammableStageDescriptor),
 
     pub inline fn zero() ComputePipelineDescriptor {
         return std.mem.zeroes(ComputePipelineDescriptor);
@@ -910,7 +910,7 @@ pub const ComputePipelineDescriptor = extern struct {
 pub const ConstantEntry = extern struct {
     next_in_chain: ?*const Chained = null,
     key: StringView = .empty,
-    value: f64,
+    value: f64 = std.mem.zeroes(f64),
 
     pub inline fn zero() ConstantEntry {
         return std.mem.zeroes(ConstantEntry);
@@ -919,16 +919,16 @@ pub const ConstantEntry = extern struct {
 
 pub const DepthStencilState = extern struct {
     next_in_chain: ?*const Chained = null,
-    format: TextureFormat,
-    depth_write_enabled: OptionalBool,
-    depth_compare: CompareFunction,
-    stencil_front: StencilFaceState,
-    stencil_back: StencilFaceState,
-    stencil_read_mask: u32,
-    stencil_write_mask: u32,
-    depth_bias: i32,
-    depth_bias_slope_scale: f32,
-    depth_bias_clamp: f32,
+    format: TextureFormat = std.mem.zeroes(TextureFormat),
+    depth_write_enabled: OptionalBool = std.mem.zeroes(OptionalBool),
+    depth_compare: CompareFunction = std.mem.zeroes(CompareFunction),
+    stencil_front: StencilFaceState = std.mem.zeroes(StencilFaceState),
+    stencil_back: StencilFaceState = std.mem.zeroes(StencilFaceState),
+    stencil_read_mask: u32 = std.mem.zeroes(u32),
+    stencil_write_mask: u32 = std.mem.zeroes(u32),
+    depth_bias: i32 = std.mem.zeroes(i32),
+    depth_bias_slope_scale: f32 = std.mem.zeroes(f32),
+    depth_bias_clamp: f32 = std.mem.zeroes(f32),
 
     pub inline fn zero() DepthStencilState {
         return std.mem.zeroes(DepthStencilState);
@@ -941,9 +941,9 @@ pub const DeviceDescriptor = extern struct {
     required_features_count: usize = 0,
     required_features: ?[*]const FeatureName = null,
     required_limits: ?*const Limits = null,
-    default_queue: QueueDescriptor,
-    device_lost_callback_info: DeviceLostCallbackInfo,
-    uncaptured_error_callback_info: UncapturedErrorCallbackInfo,
+    default_queue: QueueDescriptor = std.mem.zeroes(QueueDescriptor),
+    device_lost_callback_info: DeviceLostCallbackInfo = std.mem.zeroes(DeviceLostCallbackInfo),
+    uncaptured_error_callback_info: UncapturedErrorCallbackInfo = std.mem.zeroes(UncapturedErrorCallbackInfo),
 
     pub inline fn zero() DeviceDescriptor {
         return std.mem.zeroes(DeviceDescriptor);
@@ -951,9 +951,9 @@ pub const DeviceDescriptor = extern struct {
 };
 
 pub const Extent3D = extern struct {
-    width: u32,
-    height: u32,
-    depth_or_array_layers: u32,
+    width: u32 = std.mem.zeroes(u32),
+    height: u32 = std.mem.zeroes(u32),
+    depth_or_array_layers: u32 = std.mem.zeroes(u32),
 
     pub inline fn zero() Extent3D {
         return std.mem.zeroes(Extent3D);
@@ -962,7 +962,7 @@ pub const Extent3D = extern struct {
 
 pub const FragmentState = extern struct {
     next_in_chain: ?*const Chained = null,
-    module: *ShaderModule,
+    module: *ShaderModule = std.mem.zeroes(*ShaderModule),
     entry_point: ?StringView = .null,
     constants_count: usize = 0,
     constants: ?[*]const ConstantEntry = null,
@@ -975,7 +975,7 @@ pub const FragmentState = extern struct {
 };
 
 pub const Future = extern struct {
-    id: u64,
+    id: u64 = std.mem.zeroes(u64),
 
     pub inline fn zero() Future {
         return std.mem.zeroes(Future);
@@ -983,8 +983,8 @@ pub const Future = extern struct {
 };
 
 pub const FutureWaitInfo = extern struct {
-    future: Future,
-    completed: bool,
+    future: Future = std.mem.zeroes(Future),
+    completed: bool = std.mem.zeroes(bool),
 
     pub inline fn zero() FutureWaitInfo {
         return std.mem.zeroes(FutureWaitInfo);
@@ -993,8 +993,8 @@ pub const FutureWaitInfo = extern struct {
 
 pub const InstanceCapabilities = extern struct {
     next_in_chain: ?*const Chained = null,
-    timed_wait_any_enable: bool,
-    timed_wait_any_max_count: usize,
+    timed_wait_any_enable: bool = std.mem.zeroes(bool),
+    timed_wait_any_max_count: usize = std.mem.zeroes(usize),
 
     pub inline fn zero() InstanceCapabilities {
         return std.mem.zeroes(InstanceCapabilities);
@@ -1003,7 +1003,7 @@ pub const InstanceCapabilities = extern struct {
 
 pub const InstanceDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
-    features: InstanceCapabilities,
+    features: InstanceCapabilities = std.mem.zeroes(InstanceCapabilities),
 
     pub inline fn zero() InstanceDescriptor {
         return std.mem.zeroes(InstanceDescriptor);
@@ -1012,37 +1012,37 @@ pub const InstanceDescriptor = extern struct {
 
 pub const Limits = extern struct {
     next_in_chain: ?*const Chained = null,
-    max_texture_dimension_1_d: u32,
-    max_texture_dimension_2_d: u32,
-    max_texture_dimension_3_d: u32,
-    max_texture_array_layers: u32,
-    max_bind_groups: u32,
-    max_bind_groups_plus_vertex_buffers: u32,
-    max_bindings_per_bind_group: u32,
-    max_dynamic_uniform_buffers_per_pipeline_layout: u32,
-    max_dynamic_storage_buffers_per_pipeline_layout: u32,
-    max_sampled_textures_per_shader_stage: u32,
-    max_samplers_per_shader_stage: u32,
-    max_storage_buffers_per_shader_stage: u32,
-    max_storage_textures_per_shader_stage: u32,
-    max_uniform_buffers_per_shader_stage: u32,
-    max_uniform_buffer_binding_size: u64,
-    max_storage_buffer_binding_size: u64,
-    min_uniform_buffer_offset_alignment: u32,
-    min_storage_buffer_offset_alignment: u32,
-    max_vertex_buffers: u32,
-    max_buffer_size: u64,
-    max_vertex_attributes: u32,
-    max_vertex_buffer_array_stride: u32,
-    max_inter_stage_shader_variables: u32,
-    max_color_attachments: u32,
-    max_color_attachment_bytes_per_sample: u32,
-    max_compute_workgroup_storage_size: u32,
-    max_compute_invocations_per_workgroup: u32,
-    max_compute_workgroup_size_x: u32,
-    max_compute_workgroup_size_y: u32,
-    max_compute_workgroup_size_z: u32,
-    max_compute_workgroups_per_dimension: u32,
+    max_texture_dimension_1_d: u32 = std.mem.zeroes(u32),
+    max_texture_dimension_2_d: u32 = std.mem.zeroes(u32),
+    max_texture_dimension_3_d: u32 = std.mem.zeroes(u32),
+    max_texture_array_layers: u32 = std.mem.zeroes(u32),
+    max_bind_groups: u32 = std.mem.zeroes(u32),
+    max_bind_groups_plus_vertex_buffers: u32 = std.mem.zeroes(u32),
+    max_bindings_per_bind_group: u32 = std.mem.zeroes(u32),
+    max_dynamic_uniform_buffers_per_pipeline_layout: u32 = std.mem.zeroes(u32),
+    max_dynamic_storage_buffers_per_pipeline_layout: u32 = std.mem.zeroes(u32),
+    max_sampled_textures_per_shader_stage: u32 = std.mem.zeroes(u32),
+    max_samplers_per_shader_stage: u32 = std.mem.zeroes(u32),
+    max_storage_buffers_per_shader_stage: u32 = std.mem.zeroes(u32),
+    max_storage_textures_per_shader_stage: u32 = std.mem.zeroes(u32),
+    max_uniform_buffers_per_shader_stage: u32 = std.mem.zeroes(u32),
+    max_uniform_buffer_binding_size: u64 = std.mem.zeroes(u64),
+    max_storage_buffer_binding_size: u64 = std.mem.zeroes(u64),
+    min_uniform_buffer_offset_alignment: u32 = std.mem.zeroes(u32),
+    min_storage_buffer_offset_alignment: u32 = std.mem.zeroes(u32),
+    max_vertex_buffers: u32 = std.mem.zeroes(u32),
+    max_buffer_size: u64 = std.mem.zeroes(u64),
+    max_vertex_attributes: u32 = std.mem.zeroes(u32),
+    max_vertex_buffer_array_stride: u32 = std.mem.zeroes(u32),
+    max_inter_stage_shader_variables: u32 = std.mem.zeroes(u32),
+    max_color_attachments: u32 = std.mem.zeroes(u32),
+    max_color_attachment_bytes_per_sample: u32 = std.mem.zeroes(u32),
+    max_compute_workgroup_storage_size: u32 = std.mem.zeroes(u32),
+    max_compute_invocations_per_workgroup: u32 = std.mem.zeroes(u32),
+    max_compute_workgroup_size_x: u32 = std.mem.zeroes(u32),
+    max_compute_workgroup_size_y: u32 = std.mem.zeroes(u32),
+    max_compute_workgroup_size_z: u32 = std.mem.zeroes(u32),
+    max_compute_workgroups_per_dimension: u32 = std.mem.zeroes(u32),
 
     pub inline fn zero() Limits {
         return std.mem.zeroes(Limits);
@@ -1051,9 +1051,9 @@ pub const Limits = extern struct {
 
 pub const MultisampleState = extern struct {
     next_in_chain: ?*const Chained = null,
-    count: u32,
-    mask: u32,
-    alpha_to_coverage_enabled: bool,
+    count: u32 = std.mem.zeroes(u32),
+    mask: u32 = std.mem.zeroes(u32),
+    alpha_to_coverage_enabled: bool = std.mem.zeroes(bool),
 
     pub inline fn zero() MultisampleState {
         return std.mem.zeroes(MultisampleState);
@@ -1061,9 +1061,9 @@ pub const MultisampleState = extern struct {
 };
 
 pub const Origin3D = extern struct {
-    x: u32,
-    y: u32,
-    z: u32,
+    x: u32 = std.mem.zeroes(u32),
+    y: u32 = std.mem.zeroes(u32),
+    z: u32 = std.mem.zeroes(u32),
 
     pub inline fn zero() Origin3D {
         return std.mem.zeroes(Origin3D);
@@ -1083,11 +1083,11 @@ pub const PipelineLayoutDescriptor = extern struct {
 
 pub const PrimitiveState = extern struct {
     next_in_chain: ?*const Chained = null,
-    topology: PrimitiveTopology,
-    strip_index_format: IndexFormat,
-    front_face: FrontFace,
-    cull_mode: CullMode,
-    unclipped_depth: bool,
+    topology: PrimitiveTopology = std.mem.zeroes(PrimitiveTopology),
+    strip_index_format: IndexFormat = std.mem.zeroes(IndexFormat),
+    front_face: FrontFace = std.mem.zeroes(FrontFace),
+    cull_mode: CullMode = std.mem.zeroes(CullMode),
+    unclipped_depth: bool = std.mem.zeroes(bool),
 
     pub inline fn zero() PrimitiveState {
         return std.mem.zeroes(PrimitiveState);
@@ -1096,7 +1096,7 @@ pub const PrimitiveState = extern struct {
 
 pub const ProgrammableStageDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
-    module: *ShaderModule,
+    module: *ShaderModule = std.mem.zeroes(*ShaderModule),
     entry_point: ?StringView = .null,
     constants_count: usize = 0,
     constants: ?[*]const ConstantEntry = null,
@@ -1109,8 +1109,8 @@ pub const ProgrammableStageDescriptor = extern struct {
 pub const QuerySetDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     label: StringView = .empty,
-    type: QueryType,
-    count: u32,
+    type: QueryType = std.mem.zeroes(QueryType),
+    count: u32 = std.mem.zeroes(u32),
 
     pub inline fn zero() QuerySetDescriptor {
         return std.mem.zeroes(QuerySetDescriptor);
@@ -1140,10 +1140,10 @@ pub const RenderBundleEncoderDescriptor = extern struct {
     label: StringView = .empty,
     color_formats_count: usize = 0,
     color_formats: ?[*]const TextureFormat = null,
-    depth_stencil_format: TextureFormat,
-    sample_count: u32,
-    depth_read_only: bool,
-    stencil_read_only: bool,
+    depth_stencil_format: TextureFormat = std.mem.zeroes(TextureFormat),
+    sample_count: u32 = std.mem.zeroes(u32),
+    depth_read_only: bool = std.mem.zeroes(bool),
+    stencil_read_only: bool = std.mem.zeroes(bool),
 
     pub inline fn zero() RenderBundleEncoderDescriptor {
         return std.mem.zeroes(RenderBundleEncoderDescriptor);
@@ -1153,11 +1153,11 @@ pub const RenderBundleEncoderDescriptor = extern struct {
 pub const RenderPassColorAttachment = extern struct {
     next_in_chain: ?*const Chained = null,
     view: ?*TextureView = null,
-    depth_slice: u32,
+    depth_slice: u32 = std.mem.zeroes(u32),
     resolve_target: ?*TextureView = null,
-    load_op: LoadOp,
-    store_op: StoreOp,
-    clear_value: Color,
+    load_op: LoadOp = std.mem.zeroes(LoadOp),
+    store_op: StoreOp = std.mem.zeroes(StoreOp),
+    clear_value: Color = std.mem.zeroes(Color),
 
     pub inline fn zero() RenderPassColorAttachment {
         return std.mem.zeroes(RenderPassColorAttachment);
@@ -1165,15 +1165,15 @@ pub const RenderPassColorAttachment = extern struct {
 };
 
 pub const RenderPassDepthStencilAttachment = extern struct {
-    view: *TextureView,
-    depth_load_op: LoadOp,
-    depth_store_op: StoreOp,
-    depth_clear_value: f32,
-    depth_read_only: bool,
-    stencil_load_op: LoadOp,
-    stencil_store_op: StoreOp,
-    stencil_clear_value: u32,
-    stencil_read_only: bool,
+    view: *TextureView = std.mem.zeroes(*TextureView),
+    depth_load_op: LoadOp = std.mem.zeroes(LoadOp),
+    depth_store_op: StoreOp = std.mem.zeroes(StoreOp),
+    depth_clear_value: f32 = std.mem.zeroes(f32),
+    depth_read_only: bool = std.mem.zeroes(bool),
+    stencil_load_op: LoadOp = std.mem.zeroes(LoadOp),
+    stencil_store_op: StoreOp = std.mem.zeroes(StoreOp),
+    stencil_clear_value: u32 = std.mem.zeroes(u32),
+    stencil_read_only: bool = std.mem.zeroes(bool),
 
     pub inline fn zero() RenderPassDepthStencilAttachment {
         return std.mem.zeroes(RenderPassDepthStencilAttachment);
@@ -1196,7 +1196,7 @@ pub const RenderPassDescriptor = extern struct {
 
 pub const RenderPassMaxDrawCount = extern struct {
     chain: Chained,
-    max_draw_count: u64,
+    max_draw_count: u64 = std.mem.zeroes(u64),
 
     pub inline fn zero() RenderPassMaxDrawCount {
         return std.mem.zeroes(RenderPassMaxDrawCount);
@@ -1204,7 +1204,7 @@ pub const RenderPassMaxDrawCount = extern struct {
 
     pub const RenderPassMaxDrawCountInitOptions = struct {
         label: []const u8 = "",
-        max_draw_count: u64,
+        max_draw_count: u64 = std.mem.zeroes(u64),
     };
     pub inline fn init(options: RenderPassMaxDrawCountInitOptions) *const RenderPassDescriptor {
         return &RenderPassDescriptor{
@@ -1218,9 +1218,9 @@ pub const RenderPassMaxDrawCount = extern struct {
 };
 
 pub const RenderPassTimestampWrites = extern struct {
-    query_set: *QuerySet,
-    beginning_of_pass_write_index: u32,
-    end_of_pass_write_index: u32,
+    query_set: *QuerySet = std.mem.zeroes(*QuerySet),
+    beginning_of_pass_write_index: u32 = std.mem.zeroes(u32),
+    end_of_pass_write_index: u32 = std.mem.zeroes(u32),
 
     pub inline fn zero() RenderPassTimestampWrites {
         return std.mem.zeroes(RenderPassTimestampWrites);
@@ -1231,10 +1231,10 @@ pub const RenderPipelineDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     label: StringView = .empty,
     layout: ?*PipelineLayout = null,
-    vertex: VertexState,
-    primitive: PrimitiveState,
+    vertex: VertexState = std.mem.zeroes(VertexState),
+    primitive: PrimitiveState = std.mem.zeroes(PrimitiveState),
     depth_stencil: ?*const DepthStencilState = null,
-    multisample: MultisampleState,
+    multisample: MultisampleState = std.mem.zeroes(MultisampleState),
     fragment: ?*const FragmentState = null,
 
     pub inline fn zero() RenderPipelineDescriptor {
@@ -1244,10 +1244,10 @@ pub const RenderPipelineDescriptor = extern struct {
 
 pub const RequestAdapterOptions = extern struct {
     next_in_chain: ?*const Chained = null,
-    feature_level: FeatureLevel,
-    power_preference: PowerPreference,
-    force_fallback_adapter: bool,
-    backend_type: BackendType,
+    feature_level: FeatureLevel = std.mem.zeroes(FeatureLevel),
+    power_preference: PowerPreference = std.mem.zeroes(PowerPreference),
+    force_fallback_adapter: bool = std.mem.zeroes(bool),
+    backend_type: BackendType = std.mem.zeroes(BackendType),
     compatible_surface: ?*Surface = null,
 
     pub inline fn zero() RequestAdapterOptions {
@@ -1257,7 +1257,7 @@ pub const RequestAdapterOptions = extern struct {
 
 pub const SamplerBindingLayout = extern struct {
     next_in_chain: ?*const Chained = null,
-    type: SamplerBindingType,
+    type: SamplerBindingType = std.mem.zeroes(SamplerBindingType),
 
     pub inline fn zero() SamplerBindingLayout {
         return std.mem.zeroes(SamplerBindingLayout);
@@ -1267,16 +1267,16 @@ pub const SamplerBindingLayout = extern struct {
 pub const SamplerDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     label: StringView = .empty,
-    address_mode_u: AddressMode,
-    address_mode_v: AddressMode,
-    address_mode_w: AddressMode,
-    mag_filter: FilterMode,
-    min_filter: FilterMode,
-    mipmap_filter: MipmapFilterMode,
-    lod_min_clamp: f32,
-    lod_max_clamp: f32,
-    compare: CompareFunction,
-    max_anisotropy: u16,
+    address_mode_u: AddressMode = std.mem.zeroes(AddressMode),
+    address_mode_v: AddressMode = std.mem.zeroes(AddressMode),
+    address_mode_w: AddressMode = std.mem.zeroes(AddressMode),
+    mag_filter: FilterMode = std.mem.zeroes(FilterMode),
+    min_filter: FilterMode = std.mem.zeroes(FilterMode),
+    mipmap_filter: MipmapFilterMode = std.mem.zeroes(MipmapFilterMode),
+    lod_min_clamp: f32 = std.mem.zeroes(f32),
+    lod_max_clamp: f32 = std.mem.zeroes(f32),
+    compare: CompareFunction = std.mem.zeroes(CompareFunction),
+    max_anisotropy: u16 = std.mem.zeroes(u16),
 
     pub inline fn zero() SamplerDescriptor {
         return std.mem.zeroes(SamplerDescriptor);
@@ -1294,8 +1294,8 @@ pub const ShaderModuleDescriptor = extern struct {
 
 pub const ShaderSourceSpirv = extern struct {
     chain: Chained,
-    code_size: u32,
-    code: *const u32,
+    code_size: u32 = std.mem.zeroes(u32),
+    code: *const u32 = std.mem.zeroes(*const u32),
 
     pub inline fn zero() ShaderSourceSpirv {
         return std.mem.zeroes(ShaderSourceSpirv);
@@ -1303,8 +1303,8 @@ pub const ShaderSourceSpirv = extern struct {
 
     pub const ShaderSourceSpirvInitOptions = struct {
         label: []const u8 = "",
-        code_size: u32,
-        code: *const u32,
+        code_size: u32 = std.mem.zeroes(u32),
+        code: *const u32 = std.mem.zeroes(*const u32),
     };
     pub inline fn init(options: ShaderSourceSpirvInitOptions) *const ShaderModuleDescriptor {
         return &ShaderModuleDescriptor{
@@ -1342,10 +1342,10 @@ pub const ShaderSourceWgsl = extern struct {
 };
 
 pub const StencilFaceState = extern struct {
-    compare: CompareFunction,
-    fail_op: StencilOperation,
-    depth_fail_op: StencilOperation,
-    pass_op: StencilOperation,
+    compare: CompareFunction = std.mem.zeroes(CompareFunction),
+    fail_op: StencilOperation = std.mem.zeroes(StencilOperation),
+    depth_fail_op: StencilOperation = std.mem.zeroes(StencilOperation),
+    pass_op: StencilOperation = std.mem.zeroes(StencilOperation),
 
     pub inline fn zero() StencilFaceState {
         return std.mem.zeroes(StencilFaceState);
@@ -1354,9 +1354,9 @@ pub const StencilFaceState = extern struct {
 
 pub const StorageTextureBindingLayout = extern struct {
     next_in_chain: ?*const Chained = null,
-    access: StorageTextureAccess,
-    format: TextureFormat,
-    view_dimension: TextureViewDimension,
+    access: StorageTextureAccess = std.mem.zeroes(StorageTextureAccess),
+    format: TextureFormat = std.mem.zeroes(TextureFormat),
+    view_dimension: TextureViewDimension = std.mem.zeroes(TextureViewDimension),
 
     pub inline fn zero() StorageTextureBindingLayout {
         return std.mem.zeroes(StorageTextureBindingLayout);
@@ -1391,7 +1391,7 @@ pub const SupportedWgslLanguageFeatures = extern struct {
 
 pub const SurfaceCapabilities = extern struct {
     next_in_chain: ?*const Chained = null,
-    usages: TextureUsage,
+    usages: TextureUsage = std.mem.zeroes(TextureUsage),
     formats_count: usize = 0,
     formats: ?[*]const TextureFormat = null,
     present_modes_count: usize = 0,
@@ -1410,15 +1410,15 @@ pub const SurfaceCapabilities = extern struct {
 
 pub const SurfaceConfiguration = extern struct {
     next_in_chain: ?*const Chained = null,
-    device: *Device,
-    format: TextureFormat,
-    usage: TextureUsage,
-    width: u32,
-    height: u32,
+    device: *Device = std.mem.zeroes(*Device),
+    format: TextureFormat = std.mem.zeroes(TextureFormat),
+    usage: TextureUsage = std.mem.zeroes(TextureUsage),
+    width: u32 = std.mem.zeroes(u32),
+    height: u32 = std.mem.zeroes(u32),
     view_formats_count: usize = 0,
     view_formats: ?[*]const TextureFormat = null,
-    alpha_mode: CompositeAlphaMode,
-    present_mode: PresentMode,
+    alpha_mode: CompositeAlphaMode = std.mem.zeroes(CompositeAlphaMode),
+    present_mode: PresentMode = std.mem.zeroes(PresentMode),
 
     pub inline fn zero() SurfaceConfiguration {
         return std.mem.zeroes(SurfaceConfiguration);
@@ -1436,7 +1436,7 @@ pub const SurfaceDescriptor = extern struct {
 
 pub const SurfaceSourceAndroidNativeWindow = extern struct {
     chain: Chained,
-    window: *anyopaque,
+    window: *anyopaque = std.mem.zeroes(*anyopaque),
 
     pub inline fn zero() SurfaceSourceAndroidNativeWindow {
         return std.mem.zeroes(SurfaceSourceAndroidNativeWindow);
@@ -1444,7 +1444,7 @@ pub const SurfaceSourceAndroidNativeWindow = extern struct {
 
     pub const SurfaceSourceAndroidNativeWindowInitOptions = struct {
         label: []const u8 = "",
-        window: *anyopaque,
+        window: *anyopaque = std.mem.zeroes(*anyopaque),
     };
     pub inline fn init(options: SurfaceSourceAndroidNativeWindowInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
@@ -1459,7 +1459,7 @@ pub const SurfaceSourceAndroidNativeWindow = extern struct {
 
 pub const SurfaceSourceMetalLayer = extern struct {
     chain: Chained,
-    layer: *anyopaque,
+    layer: *anyopaque = std.mem.zeroes(*anyopaque),
 
     pub inline fn zero() SurfaceSourceMetalLayer {
         return std.mem.zeroes(SurfaceSourceMetalLayer);
@@ -1467,7 +1467,7 @@ pub const SurfaceSourceMetalLayer = extern struct {
 
     pub const SurfaceSourceMetalLayerInitOptions = struct {
         label: []const u8 = "",
-        layer: *anyopaque,
+        layer: *anyopaque = std.mem.zeroes(*anyopaque),
     };
     pub inline fn init(options: SurfaceSourceMetalLayerInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
@@ -1482,8 +1482,8 @@ pub const SurfaceSourceMetalLayer = extern struct {
 
 pub const SurfaceSourceWaylandSurface = extern struct {
     chain: Chained,
-    display: *anyopaque,
-    surface: *anyopaque,
+    display: *anyopaque = std.mem.zeroes(*anyopaque),
+    surface: *anyopaque = std.mem.zeroes(*anyopaque),
 
     pub inline fn zero() SurfaceSourceWaylandSurface {
         return std.mem.zeroes(SurfaceSourceWaylandSurface);
@@ -1491,8 +1491,8 @@ pub const SurfaceSourceWaylandSurface = extern struct {
 
     pub const SurfaceSourceWaylandSurfaceInitOptions = struct {
         label: []const u8 = "",
-        display: *anyopaque,
-        surface: *anyopaque,
+        display: *anyopaque = std.mem.zeroes(*anyopaque),
+        surface: *anyopaque = std.mem.zeroes(*anyopaque),
     };
     pub inline fn init(options: SurfaceSourceWaylandSurfaceInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
@@ -1508,8 +1508,8 @@ pub const SurfaceSourceWaylandSurface = extern struct {
 
 pub const SurfaceSourceWindowsHwnd = extern struct {
     chain: Chained,
-    hinstance: *anyopaque,
-    hwnd: *anyopaque,
+    hinstance: *anyopaque = std.mem.zeroes(*anyopaque),
+    hwnd: *anyopaque = std.mem.zeroes(*anyopaque),
 
     pub inline fn zero() SurfaceSourceWindowsHwnd {
         return std.mem.zeroes(SurfaceSourceWindowsHwnd);
@@ -1517,8 +1517,8 @@ pub const SurfaceSourceWindowsHwnd = extern struct {
 
     pub const SurfaceSourceWindowsHwndInitOptions = struct {
         label: []const u8 = "",
-        hinstance: *anyopaque,
-        hwnd: *anyopaque,
+        hinstance: *anyopaque = std.mem.zeroes(*anyopaque),
+        hwnd: *anyopaque = std.mem.zeroes(*anyopaque),
     };
     pub inline fn init(options: SurfaceSourceWindowsHwndInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
@@ -1534,8 +1534,8 @@ pub const SurfaceSourceWindowsHwnd = extern struct {
 
 pub const SurfaceSourceXcbWindow = extern struct {
     chain: Chained,
-    connection: *anyopaque,
-    window: u32,
+    connection: *anyopaque = std.mem.zeroes(*anyopaque),
+    window: u32 = std.mem.zeroes(u32),
 
     pub inline fn zero() SurfaceSourceXcbWindow {
         return std.mem.zeroes(SurfaceSourceXcbWindow);
@@ -1543,8 +1543,8 @@ pub const SurfaceSourceXcbWindow = extern struct {
 
     pub const SurfaceSourceXcbWindowInitOptions = struct {
         label: []const u8 = "",
-        connection: *anyopaque,
-        window: u32,
+        connection: *anyopaque = std.mem.zeroes(*anyopaque),
+        window: u32 = std.mem.zeroes(u32),
     };
     pub inline fn init(options: SurfaceSourceXcbWindowInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
@@ -1560,8 +1560,8 @@ pub const SurfaceSourceXcbWindow = extern struct {
 
 pub const SurfaceSourceXlibWindow = extern struct {
     chain: Chained,
-    display: *anyopaque,
-    window: u64,
+    display: *anyopaque = std.mem.zeroes(*anyopaque),
+    window: u64 = std.mem.zeroes(u64),
 
     pub inline fn zero() SurfaceSourceXlibWindow {
         return std.mem.zeroes(SurfaceSourceXlibWindow);
@@ -1569,8 +1569,8 @@ pub const SurfaceSourceXlibWindow = extern struct {
 
     pub const SurfaceSourceXlibWindowInitOptions = struct {
         label: []const u8 = "",
-        display: *anyopaque,
-        window: u64,
+        display: *anyopaque = std.mem.zeroes(*anyopaque),
+        window: u64 = std.mem.zeroes(u64),
     };
     pub inline fn init(options: SurfaceSourceXlibWindowInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
@@ -1586,8 +1586,8 @@ pub const SurfaceSourceXlibWindow = extern struct {
 
 pub const SurfaceTexture = extern struct {
     next_in_chain: ?*const Chained = null,
-    texture: *Texture,
-    status: SurfaceGetCurrentTextureStatus,
+    texture: *Texture = std.mem.zeroes(*Texture),
+    status: SurfaceGetCurrentTextureStatus = std.mem.zeroes(SurfaceGetCurrentTextureStatus),
 
     pub inline fn zero() SurfaceTexture {
         return std.mem.zeroes(SurfaceTexture);
@@ -1595,8 +1595,8 @@ pub const SurfaceTexture = extern struct {
 };
 
 pub const TexelCopyBufferInfo = extern struct {
-    layout: TexelCopyBufferLayout,
-    buffer: *Buffer,
+    layout: TexelCopyBufferLayout = std.mem.zeroes(TexelCopyBufferLayout),
+    buffer: *Buffer = std.mem.zeroes(*Buffer),
 
     pub inline fn zero() TexelCopyBufferInfo {
         return std.mem.zeroes(TexelCopyBufferInfo);
@@ -1604,9 +1604,9 @@ pub const TexelCopyBufferInfo = extern struct {
 };
 
 pub const TexelCopyBufferLayout = extern struct {
-    offset: u64,
-    bytes_per_row: u32,
-    rows_per_image: u32,
+    offset: u64 = std.mem.zeroes(u64),
+    bytes_per_row: u32 = std.mem.zeroes(u32),
+    rows_per_image: u32 = std.mem.zeroes(u32),
 
     pub inline fn zero() TexelCopyBufferLayout {
         return std.mem.zeroes(TexelCopyBufferLayout);
@@ -1614,10 +1614,10 @@ pub const TexelCopyBufferLayout = extern struct {
 };
 
 pub const TexelCopyTextureInfo = extern struct {
-    texture: *Texture,
-    mip_level: u32,
-    origin: Origin3D,
-    aspect: TextureAspect,
+    texture: *Texture = std.mem.zeroes(*Texture),
+    mip_level: u32 = std.mem.zeroes(u32),
+    origin: Origin3D = std.mem.zeroes(Origin3D),
+    aspect: TextureAspect = std.mem.zeroes(TextureAspect),
 
     pub inline fn zero() TexelCopyTextureInfo {
         return std.mem.zeroes(TexelCopyTextureInfo);
@@ -1626,9 +1626,9 @@ pub const TexelCopyTextureInfo = extern struct {
 
 pub const TextureBindingLayout = extern struct {
     next_in_chain: ?*const Chained = null,
-    sample_type: TextureSampleType,
-    view_dimension: TextureViewDimension,
-    multisampled: bool,
+    sample_type: TextureSampleType = std.mem.zeroes(TextureSampleType),
+    view_dimension: TextureViewDimension = std.mem.zeroes(TextureViewDimension),
+    multisampled: bool = std.mem.zeroes(bool),
 
     pub inline fn zero() TextureBindingLayout {
         return std.mem.zeroes(TextureBindingLayout);
@@ -1638,12 +1638,12 @@ pub const TextureBindingLayout = extern struct {
 pub const TextureDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     label: StringView = .empty,
-    usage: TextureUsage,
-    dimension: TextureDimension,
-    size: Extent3D,
-    format: TextureFormat,
-    mip_level_count: u32,
-    sample_count: u32,
+    usage: TextureUsage = std.mem.zeroes(TextureUsage),
+    dimension: TextureDimension = std.mem.zeroes(TextureDimension),
+    size: Extent3D = std.mem.zeroes(Extent3D),
+    format: TextureFormat = std.mem.zeroes(TextureFormat),
+    mip_level_count: u32 = std.mem.zeroes(u32),
+    sample_count: u32 = std.mem.zeroes(u32),
     view_formats_count: usize = 0,
     view_formats: ?[*]const TextureFormat = null,
 
@@ -1655,14 +1655,14 @@ pub const TextureDescriptor = extern struct {
 pub const TextureViewDescriptor = extern struct {
     next_in_chain: ?*const Chained = null,
     label: StringView = .empty,
-    format: TextureFormat,
-    dimension: TextureViewDimension,
-    base_mip_level: u32,
-    mip_level_count: u32,
-    base_array_layer: u32,
-    array_layer_count: u32,
-    aspect: TextureAspect,
-    usage: TextureUsage,
+    format: TextureFormat = std.mem.zeroes(TextureFormat),
+    dimension: TextureViewDimension = std.mem.zeroes(TextureViewDimension),
+    base_mip_level: u32 = std.mem.zeroes(u32),
+    mip_level_count: u32 = std.mem.zeroes(u32),
+    base_array_layer: u32 = std.mem.zeroes(u32),
+    array_layer_count: u32 = std.mem.zeroes(u32),
+    aspect: TextureAspect = std.mem.zeroes(TextureAspect),
+    usage: TextureUsage = std.mem.zeroes(TextureUsage),
 
     pub inline fn zero() TextureViewDescriptor {
         return std.mem.zeroes(TextureViewDescriptor);
@@ -1670,9 +1670,9 @@ pub const TextureViewDescriptor = extern struct {
 };
 
 pub const VertexAttribute = extern struct {
-    format: VertexFormat,
-    offset: u64,
-    shader_location: u32,
+    format: VertexFormat = std.mem.zeroes(VertexFormat),
+    offset: u64 = std.mem.zeroes(u64),
+    shader_location: u32 = std.mem.zeroes(u32),
 
     pub inline fn zero() VertexAttribute {
         return std.mem.zeroes(VertexAttribute);
@@ -1680,8 +1680,8 @@ pub const VertexAttribute = extern struct {
 };
 
 pub const VertexBufferLayout = extern struct {
-    step_mode: VertexStepMode,
-    array_stride: u64,
+    step_mode: VertexStepMode = std.mem.zeroes(VertexStepMode),
+    array_stride: u64 = std.mem.zeroes(u64),
     attributes_count: usize = 0,
     attributes: ?[*]const VertexAttribute = null,
 
@@ -1692,7 +1692,7 @@ pub const VertexBufferLayout = extern struct {
 
 pub const VertexState = extern struct {
     next_in_chain: ?*const Chained = null,
-    module: *ShaderModule,
+    module: *ShaderModule = std.mem.zeroes(*ShaderModule),
     entry_point: ?StringView = .null,
     constants_count: usize = 0,
     constants: ?[*]const ConstantEntry = null,

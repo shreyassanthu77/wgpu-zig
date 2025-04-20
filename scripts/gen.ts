@@ -427,7 +427,12 @@ async function main(webgpuYamlPath: string, format: boolean) {
             return `${name}: ${type}`;
           }) ?? [];
         if (method.callback) {
-          const [type, _] = typeName(method.callback);
+          const [type, _] = typeName(
+            method.callback,
+            undefined,
+            undefined,
+            null,
+          );
           argNames.push("callback");
           args.push(`callback: ${type}`);
         }
@@ -463,7 +468,12 @@ async function main(webgpuYamlPath: string, format: boolean) {
           const syncArgs = args.slice(0, args.length - 1);
           const syncArgNames = argNames.slice(0, argNames.length - 1);
           syncArgNames.push("callback_info");
-          const [type, _] = typeName(method.callback);
+          const [type, _] = typeName(
+            method.callback,
+            undefined,
+            undefined,
+            null,
+          );
           add(
             indent(
               `pub inline fn ${syncName}(self: *${obj_name}${syncArgs.length > 0 ? ", " : ""}${syncArgs.join(", ")}) ${type}.State { 
