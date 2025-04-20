@@ -282,7 +282,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
         add(indent(`${name}: ${type},`, 2));
         initBody.push(`.${name} = options.${name}`);
       }
-      initBody.push(`.chain = .{ .s_type = .${sType} }`);
+      initBody.push(`.chain = .{ .s_type = .${sType}, .next = null }`);
       add(indent(`};`, 1));
 
       add(

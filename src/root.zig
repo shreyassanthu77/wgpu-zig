@@ -1068,7 +1068,7 @@ pub const RenderPassMaxDrawCount = extern struct {
     pub inline fn init(options: RenderPassMaxDrawCountInitOptions) *const RenderPassDescriptor {
         return @ptrCast(&RenderPassMaxDrawCount{
             .max_draw_count = options.max_draw_count,
-            .chain = .{ .s_type = .render_pass_max_draw_count },
+            .chain = .{ .s_type = .render_pass_max_draw_count, .next = null },
         });
     }
 };
@@ -1137,7 +1137,7 @@ pub const ShaderSourceSpirv = extern struct {
         return @ptrCast(&ShaderSourceSpirv{
             .code_size = options.code_size,
             .code = options.code,
-            .chain = .{ .s_type = .shader_source_spirv },
+            .chain = .{ .s_type = .shader_source_spirv, .next = null },
         });
     }
 };
@@ -1152,7 +1152,7 @@ pub const ShaderSourceWgsl = extern struct {
     pub inline fn init(options: ShaderSourceWgslInitOptions) *const ShaderModuleDescriptor {
         return @ptrCast(&ShaderSourceWgsl{
             .code = options.code,
-            .chain = .{ .s_type = .shader_source_wgsl },
+            .chain = .{ .s_type = .shader_source_wgsl, .next = null },
         });
     }
 };
@@ -1223,7 +1223,7 @@ pub const SurfaceSourceAndroidNativeWindow = extern struct {
     pub inline fn init(options: SurfaceSourceAndroidNativeWindowInitOptions) *const SurfaceDescriptor {
         return @ptrCast(&SurfaceSourceAndroidNativeWindow{
             .window = options.window,
-            .chain = .{ .s_type = .surface_source_android_native_window },
+            .chain = .{ .s_type = .surface_source_android_native_window, .next = null },
         });
     }
 };
@@ -1238,7 +1238,7 @@ pub const SurfaceSourceMetalLayer = extern struct {
     pub inline fn init(options: SurfaceSourceMetalLayerInitOptions) *const SurfaceDescriptor {
         return @ptrCast(&SurfaceSourceMetalLayer{
             .layer = options.layer,
-            .chain = .{ .s_type = .surface_source_metal_layer },
+            .chain = .{ .s_type = .surface_source_metal_layer, .next = null },
         });
     }
 };
@@ -1256,7 +1256,7 @@ pub const SurfaceSourceWaylandSurface = extern struct {
         return @ptrCast(&SurfaceSourceWaylandSurface{
             .display = options.display,
             .surface = options.surface,
-            .chain = .{ .s_type = .surface_source_wayland_surface },
+            .chain = .{ .s_type = .surface_source_wayland_surface, .next = null },
         });
     }
 };
@@ -1274,7 +1274,7 @@ pub const SurfaceSourceWindowsHwnd = extern struct {
         return @ptrCast(&SurfaceSourceWindowsHwnd{
             .hinstance = options.hinstance,
             .hwnd = options.hwnd,
-            .chain = .{ .s_type = .surface_source_windows_hwnd },
+            .chain = .{ .s_type = .surface_source_windows_hwnd, .next = null },
         });
     }
 };
@@ -1292,7 +1292,7 @@ pub const SurfaceSourceXcbWindow = extern struct {
         return @ptrCast(&SurfaceSourceXcbWindow{
             .connection = options.connection,
             .window = options.window,
-            .chain = .{ .s_type = .surface_source_xcb_window },
+            .chain = .{ .s_type = .surface_source_xcb_window, .next = null },
         });
     }
 };
@@ -1310,7 +1310,7 @@ pub const SurfaceSourceXlibWindow = extern struct {
         return @ptrCast(&SurfaceSourceXlibWindow{
             .display = options.display,
             .window = options.window,
-            .chain = .{ .s_type = .surface_source_xlib_window },
+            .chain = .{ .s_type = .surface_source_xlib_window, .next = null },
         });
     }
 };
