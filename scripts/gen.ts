@@ -128,8 +128,9 @@ async function main(webgpuYamlPath: string, format: boolean) {
     const bitflag_name = toPascalCase(bitflag.name);
     if (bitflag.doc) add(docString(bitflag.doc));
 
-    add(`pub const ${bitflag_name} = struct {`);
+    add(`pub const ${bitflag_name} = enum(u64) {`);
     let i = -1;
+    const naames: string[] = [];
     for (const entry of bitflag.entries) {
       const name = toSnakeCase(entry.name);
       const defaultValue = (i < 0 ? 0 : 1 << i).toString();
@@ -146,19 +147,25 @@ async function main(webgpuYamlPath: string, format: boolean) {
             value = "std.math.maxInt(usize)";
             break;
           default:
-            value =
-              entry.value?.toString() ??
-              entry.value_combination
-                ?.map((v) => toPascalCase(v))
-                .join(` | `) ??
-              defaultValue;
+            value = entry.value!.toString();
         }
+      } else if (entry.value_combination) {
+        value = entry.value_combination
+          .map((v) => "_" + toSnakeCase(v))
+          .join(` | `);
       } else {
         value = defaultValue;
       }
-      add(indent(`pub const ${name}: u64 = ${value};\n`, 1));
+      add(indent(`const _${name}: u64 = ${value};\n`, 1));
+      naames.push(name);
       i += 1;
     }
+
+    for (const name of naames) {
+      add(indent(`${name} = _${name},\n`, 1));
+    }
+
+    add(indent(`_,\n`, 1));
 
     add(`};\n`);
   }

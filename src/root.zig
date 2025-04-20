@@ -723,49 +723,84 @@ pub const WgslLanguageFeatureName = enum(u32) {
     _,
 };
 
-pub const BufferUsage = struct {
-    pub const none: u64 = 0;
-    pub const map_read: u64 = 1;
-    pub const map_write: u64 = 2;
-    pub const copy_src: u64 = 4;
-    pub const copy_dst: u64 = 8;
-    pub const index: u64 = 16;
-    pub const vertex: u64 = 32;
-    pub const uniform: u64 = 64;
-    pub const storage: u64 = 128;
-    pub const indirect: u64 = 256;
-    pub const query_resolve: u64 = 512;
+pub const BufferUsage = enum(u64) {
+    const _none: u64 = 0;
+    const _map_read: u64 = 1;
+    const _map_write: u64 = 2;
+    const _copy_src: u64 = 4;
+    const _copy_dst: u64 = 8;
+    const _index: u64 = 16;
+    const _vertex: u64 = 32;
+    const _uniform: u64 = 64;
+    const _storage: u64 = 128;
+    const _indirect: u64 = 256;
+    const _query_resolve: u64 = 512;
+    none = _none,
+    map_read = _map_read,
+    map_write = _map_write,
+    copy_src = _copy_src,
+    copy_dst = _copy_dst,
+    index = _index,
+    vertex = _vertex,
+    uniform = _uniform,
+    storage = _storage,
+    indirect = _indirect,
+    query_resolve = _query_resolve,
+    _,
 };
 
-pub const ColorWriteMask = struct {
-    pub const none: u64 = 0;
-    pub const red: u64 = 1;
-    pub const green: u64 = 2;
-    pub const blue: u64 = 4;
-    pub const alpha: u64 = 8;
-    pub const all: u64 = 16;
+pub const ColorWriteMask = enum(u64) {
+    const _none: u64 = 0;
+    const _red: u64 = 1;
+    const _green: u64 = 2;
+    const _blue: u64 = 4;
+    const _alpha: u64 = 8;
+    const _all: u64 = _red | _green | _blue | _alpha;
+    none = _none,
+    red = _red,
+    green = _green,
+    blue = _blue,
+    alpha = _alpha,
+    all = _all,
+    _,
 };
 
-pub const MapMode = struct {
-    pub const none: u64 = 0;
-    pub const read: u64 = 1;
-    pub const write: u64 = 2;
+pub const MapMode = enum(u64) {
+    const _none: u64 = 0;
+    const _read: u64 = 1;
+    const _write: u64 = 2;
+    none = _none,
+    read = _read,
+    write = _write,
+    _,
 };
 
-pub const ShaderStage = struct {
-    pub const none: u64 = 0;
-    pub const vertex: u64 = 1;
-    pub const fragment: u64 = 2;
-    pub const compute: u64 = 4;
+pub const ShaderStage = enum(u64) {
+    const _none: u64 = 0;
+    const _vertex: u64 = 1;
+    const _fragment: u64 = 2;
+    const _compute: u64 = 4;
+    none = _none,
+    vertex = _vertex,
+    fragment = _fragment,
+    compute = _compute,
+    _,
 };
 
-pub const TextureUsage = struct {
-    pub const none: u64 = 0;
-    pub const copy_src: u64 = 1;
-    pub const copy_dst: u64 = 2;
-    pub const texture_binding: u64 = 4;
-    pub const storage_binding: u64 = 8;
-    pub const render_attachment: u64 = 16;
+pub const TextureUsage = enum(u64) {
+    const _none: u64 = 0;
+    const _copy_src: u64 = 1;
+    const _copy_dst: u64 = 2;
+    const _texture_binding: u64 = 4;
+    const _storage_binding: u64 = 8;
+    const _render_attachment: u64 = 16;
+    none = _none,
+    copy_src = _copy_src,
+    copy_dst = _copy_dst,
+    texture_binding = _texture_binding,
+    storage_binding = _storage_binding,
+    render_attachment = _render_attachment,
+    _,
 };
 
 pub const Chained = extern struct {
