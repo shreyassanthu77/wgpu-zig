@@ -736,9 +736,9 @@ pub const AdapterInfo = extern struct {
     adapter_type: AdapterType,
     vendor_id: u32,
     device_id: u32,
-    extern fn AdapterInfoFreeMembers(self: *AdapterInfo) callconv(.c) void;
+    extern fn wgpuAdapterInfoFreeMembers(self: *AdapterInfo) callconv(.c) void;
     pub inline fn freeMembers(self: *AdapterInfo) void {
-        return AdapterInfoFreeMembers(self);
+        return wgpuAdapterInfoFreeMembers(self);
     }
 };
 
@@ -1177,18 +1177,18 @@ pub const StorageTextureBindingLayout = extern struct {
 pub const SupportedFeatures = extern struct {
     features_count: usize,
     features: [*]const FeatureName,
-    extern fn SupportedFeaturesFreeMembers(self: *SupportedFeatures) callconv(.c) void;
+    extern fn wgpuSupportedFeaturesFreeMembers(self: *SupportedFeatures) callconv(.c) void;
     pub inline fn freeMembers(self: *SupportedFeatures) void {
-        return SupportedFeaturesFreeMembers(self);
+        return wgpuSupportedFeaturesFreeMembers(self);
     }
 };
 
 pub const SupportedWgslLanguageFeatures = extern struct {
     features_count: usize,
     features: [*]const WgslLanguageFeatureName,
-    extern fn SupportedWgslLanguageFeaturesFreeMembers(self: *SupportedWgslLanguageFeatures) callconv(.c) void;
+    extern fn wgpuSupportedWgslLanguageFeaturesFreeMembers(self: *SupportedWgslLanguageFeatures) callconv(.c) void;
     pub inline fn freeMembers(self: *SupportedWgslLanguageFeatures) void {
-        return SupportedWgslLanguageFeaturesFreeMembers(self);
+        return wgpuSupportedWgslLanguageFeaturesFreeMembers(self);
     }
 };
 
@@ -1201,9 +1201,9 @@ pub const SurfaceCapabilities = extern struct {
     present_modes: [*]const PresentMode,
     alpha_modes_count: usize,
     alpha_modes: [*]const CompositeAlphaMode,
-    extern fn SurfaceCapabilitiesFreeMembers(self: *SurfaceCapabilities) callconv(.c) void;
+    extern fn wgpuSurfaceCapabilitiesFreeMembers(self: *SurfaceCapabilities) callconv(.c) void;
     pub inline fn freeMembers(self: *SurfaceCapabilities) void {
-        return SurfaceCapabilitiesFreeMembers(self);
+        return wgpuSurfaceCapabilitiesFreeMembers(self);
     }
 };
 
