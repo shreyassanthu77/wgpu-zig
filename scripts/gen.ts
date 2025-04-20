@@ -128,18 +128,13 @@ async function main(webgpuYamlPath: string, format: boolean) {
     const bitflag_name = toPascalCase(bitflag.name);
     if (bitflag.doc) add(docString(bitflag.doc));
 
-    add(`pub const ${bitflag_name} = enum(u64) {`);
-    const entryMap = new Map<
-      string,
-      {
-        value: string;
-        used: boolean;
-      }
-    >();
-    let i = 0;
+    add(`pub const ${bitflag_name} = struct {`);
+    let i = -1;
     for (const entry of bitflag.entries) {
+      const name = toSnakeCase(entry.name);
+      const defaultValue = (i < 0 ? 0 : 1 << i).toString();
+      let value: string;
       if (entry.value) {
-        let value: string;
         switch (entry.value) {
           case "uint32_max":
             value = "std.math.maxInt(u32)";
@@ -151,54 +146,20 @@ async function main(webgpuYamlPath: string, format: boolean) {
             value = "std.math.maxInt(usize)";
             break;
           default:
-            value = entry.value.toString();
+            value =
+              entry.value?.toString() ??
+              entry.value_combination
+                ?.map((v) => toPascalCase(v))
+                .join(` | `) ??
+              defaultValue;
         }
-
-        entryMap.set(entry.name, { value, used: false });
+      } else {
+        value = defaultValue;
       }
-      if (!entry.value && !entry.value_combination) {
-        entryMap.set(entry.name, { value: (i++).toString(), used: false });
-      }
+      add(indent(`pub const ${name}: u64 = ${value};\n`, 1));
+      i += 1;
     }
 
-    for (const entry of bitflag.entries) {
-      if (entry.value_combination) {
-        for (const sub of entry.value_combination!) {
-          const v = entryMap.get(sub)!;
-          v.used = true;
-        }
-      }
-    }
-
-    for (const [key, { value, used }] of entryMap) {
-      if (!used) continue;
-      const name = toPascalCase(key);
-      add(indent(`const ${name} = ${value};\n`, 1));
-    }
-    add("\n");
-
-    for (const entry of bitflag.entries) {
-      const name = asEnumTag(entry.name);
-      const v = entryMap.get(entry.name)!;
-
-      add(docString(entry.doc, 1));
-      if (v) {
-        let value: string;
-        if (v.used) {
-          value = toPascalCase(entry.name);
-        } else {
-          value = v.value;
-        }
-        add(indent(`${name} = ${value},`, 1));
-      } else if (entry.value_combination) {
-        const value = entry
-          .value_combination!.map((v) => toPascalCase(v))
-          .join(` | `);
-        add(indent(`${name} = ${value},`, 1));
-      }
-    }
-
-    add(indent(`_,`, 1));
     add(`};\n`);
   }
 

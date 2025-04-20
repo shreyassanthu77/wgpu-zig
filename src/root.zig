@@ -723,59 +723,49 @@ pub const WgslLanguageFeatureName = enum(u32) {
     _,
 };
 
-pub const BufferUsage = enum(u64) {
-    none = 0,
-    map_read = 1,
-    map_write = 2,
-    copy_src = 3,
-    copy_dst = 4,
-    index = 5,
-    vertex = 6,
-    uniform = 7,
-    storage = 8,
-    indirect = 9,
-    query_resolve = 10,
-    _,
+pub const BufferUsage = struct {
+    pub const none: u64 = 0;
+    pub const map_read: u64 = 1;
+    pub const map_write: u64 = 2;
+    pub const copy_src: u64 = 4;
+    pub const copy_dst: u64 = 8;
+    pub const index: u64 = 16;
+    pub const vertex: u64 = 32;
+    pub const uniform: u64 = 64;
+    pub const storage: u64 = 128;
+    pub const indirect: u64 = 256;
+    pub const query_resolve: u64 = 512;
 };
 
-pub const ColorWriteMask = enum(u64) {
-    const Red = 1;
-    const Green = 2;
-    const Blue = 3;
-    const Alpha = 4;
-
-    none = 0,
-    red = Red,
-    green = Green,
-    blue = Blue,
-    alpha = Alpha,
-    all = Red | Green | Blue | Alpha,
-    _,
+pub const ColorWriteMask = struct {
+    pub const none: u64 = 0;
+    pub const red: u64 = 1;
+    pub const green: u64 = 2;
+    pub const blue: u64 = 4;
+    pub const alpha: u64 = 8;
+    pub const all: u64 = 16;
 };
 
-pub const MapMode = enum(u64) {
-    none = 0,
-    read = 1,
-    write = 2,
-    _,
+pub const MapMode = struct {
+    pub const none: u64 = 0;
+    pub const read: u64 = 1;
+    pub const write: u64 = 2;
 };
 
-pub const ShaderStage = enum(u64) {
-    none = 0,
-    vertex = 1,
-    fragment = 2,
-    compute = 3,
-    _,
+pub const ShaderStage = struct {
+    pub const none: u64 = 0;
+    pub const vertex: u64 = 1;
+    pub const fragment: u64 = 2;
+    pub const compute: u64 = 4;
 };
 
-pub const TextureUsage = enum(u64) {
-    none = 0,
-    copy_src = 1,
-    copy_dst = 2,
-    texture_binding = 3,
-    storage_binding = 4,
-    render_attachment = 5,
-    _,
+pub const TextureUsage = struct {
+    pub const none: u64 = 0;
+    pub const copy_src: u64 = 1;
+    pub const copy_dst: u64 = 2;
+    pub const texture_binding: u64 = 4;
+    pub const storage_binding: u64 = 8;
+    pub const render_attachment: u64 = 16;
 };
 
 pub const Chained = extern struct {
