@@ -111,6 +111,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
       }
       i += 1;
     }
+    add(indent(`_,`, 1));
     add(`};\n`);
   }
 
@@ -195,7 +196,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
       }
     }
 
-    add(indent(`_`, 1));
+    add(indent(`_,`, 1));
     add(`};\n`);
   }
 

@@ -50,6 +50,7 @@ pub const AdapterType = enum(u32) {
     integrated_gpu = 2,
     cpu = 3,
     unknown = 4,
+    _,
 };
 
 pub const AddressMode = enum(u32) {
@@ -58,6 +59,7 @@ pub const AddressMode = enum(u32) {
     clamp_to_edge = 1,
     repeat = 2,
     mirror_repeat = 3,
+    _,
 };
 
 pub const BackendType = enum(u32) {
@@ -71,6 +73,7 @@ pub const BackendType = enum(u32) {
     vulkan = 6,
     open_gl = 7,
     open_gles = 8,
+    _,
 };
 
 pub const BlendFactor = enum(u32) {
@@ -93,6 +96,7 @@ pub const BlendFactor = enum(u32) {
     one_minus_src_1 = 15,
     src_1_alpha = 16,
     one_minus_src_1_alpha = 17,
+    _,
 };
 
 pub const BlendOperation = enum(u32) {
@@ -103,6 +107,7 @@ pub const BlendOperation = enum(u32) {
     reverse_subtract = 3,
     min = 4,
     max = 5,
+    _,
 };
 
 pub const BufferBindingType = enum(u32) {
@@ -115,12 +120,14 @@ pub const BufferBindingType = enum(u32) {
     uniform = 2,
     storage = 3,
     read_only_storage = 4,
+    _,
 };
 
 pub const BufferMapState = enum(u32) {
     unmapped = 1,
     pending = 2,
     mapped = 3,
+    _,
 };
 
 /// The callback mode controls how a callback for an asynchronous operation may be fired. See @ref Asynchronous-Operations for how these are used.
@@ -141,6 +148,7 @@ pub const CallbackMode = enum(u32) {
     ///
     /// @note Because spontaneous callbacks may fire at an arbitrary time on an arbitrary thread, applications should take extra care when acquiring locks or mutating state inside the callback. It undefined behavior to re-entrantly call into the webgpu.h API if the callback fires while inside the callstack of another webgpu.h function that is not `wgpuInstanceWaitAny` or `wgpuInstanceProcessEvents`.
     allow_spontaneous = 3,
+    _,
 };
 
 pub const CompareFunction = enum(u32) {
@@ -154,6 +162,7 @@ pub const CompareFunction = enum(u32) {
     not_equal = 6,
     greater_equal = 7,
     always = 8,
+    _,
 };
 
 pub const CompilationInfoRequestStatus = enum(u32) {
@@ -161,12 +170,14 @@ pub const CompilationInfoRequestStatus = enum(u32) {
     instance_dropped = 2,
     @"error" = 3,
     unknown = 4,
+    _,
 };
 
 pub const CompilationMessageType = enum(u32) {
     @"error" = 1,
     warning = 2,
     info = 3,
+    _,
 };
 
 /// Describes how frames are composited with other contents on the screen when `::wgpuSurfacePresent` is called.
@@ -181,6 +192,7 @@ pub const CompositeAlphaMode = enum(u32) {
     unpremultiplied = 3,
     /// The handling of the alpha component is unknown to WebGPU and should be handled by the application using system-specific APIs. This mode may be unavailable (for example on Wasm).
     inherit = 4,
+    _,
 };
 
 pub const CreatePipelineAsyncStatus = enum(u32) {
@@ -189,6 +201,7 @@ pub const CreatePipelineAsyncStatus = enum(u32) {
     validation_error = 3,
     internal_error = 4,
     unknown = 5,
+    _,
 };
 
 pub const CullMode = enum(u32) {
@@ -197,6 +210,7 @@ pub const CullMode = enum(u32) {
     none = 1,
     front = 2,
     back = 3,
+    _,
 };
 
 pub const DeviceLostReason = enum(u32) {
@@ -204,12 +218,14 @@ pub const DeviceLostReason = enum(u32) {
     destroyed = 2,
     instance_dropped = 3,
     failed_creation = 4,
+    _,
 };
 
 pub const ErrorFilter = enum(u32) {
     validation = 1,
     out_of_memory = 2,
     internal = 3,
+    _,
 };
 
 pub const ErrorType = enum(u32) {
@@ -218,6 +234,7 @@ pub const ErrorType = enum(u32) {
     out_of_memory = 3,
     internal = 4,
     unknown = 5,
+    _,
 };
 
 /// See @ref WGPURequestAdapterOptions::featureLevel.
@@ -226,6 +243,7 @@ pub const FeatureLevel = enum(u32) {
     compatibility = 1,
     /// "Core" profile which can be supported on Vulkan/Metal/D3D12.
     core = 2,
+    _,
 };
 
 pub const FeatureName = enum(u32) {
@@ -246,6 +264,7 @@ pub const FeatureName = enum(u32) {
     float_32_blendable = 14,
     clip_distances = 15,
     dual_source_blending = 16,
+    _,
 };
 
 pub const FilterMode = enum(u32) {
@@ -253,6 +272,7 @@ pub const FilterMode = enum(u32) {
     undefined = 0,
     nearest = 1,
     linear = 2,
+    _,
 };
 
 pub const FrontFace = enum(u32) {
@@ -260,6 +280,7 @@ pub const FrontFace = enum(u32) {
     undefined = 0,
     ccw = 1,
     cw = 2,
+    _,
 };
 
 pub const IndexFormat = enum(u32) {
@@ -267,6 +288,7 @@ pub const IndexFormat = enum(u32) {
     undefined = 0,
     uint_16 = 1,
     uint_32 = 2,
+    _,
 };
 
 pub const LoadOp = enum(u32) {
@@ -274,6 +296,7 @@ pub const LoadOp = enum(u32) {
     undefined = 0,
     load = 1,
     clear = 2,
+    _,
 };
 
 pub const MapAsyncStatus = enum(u32) {
@@ -282,6 +305,7 @@ pub const MapAsyncStatus = enum(u32) {
     @"error" = 3,
     aborted = 4,
     unknown = 5,
+    _,
 };
 
 pub const MipmapFilterMode = enum(u32) {
@@ -289,12 +313,14 @@ pub const MipmapFilterMode = enum(u32) {
     undefined = 0,
     nearest = 1,
     linear = 2,
+    _,
 };
 
 pub const OptionalBool = enum(u32) {
     false = 0,
     true = 1,
     undefined = 2,
+    _,
 };
 
 pub const PopErrorScopeStatus = enum(u32) {
@@ -303,6 +329,7 @@ pub const PopErrorScopeStatus = enum(u32) {
     instance_dropped = 2,
     /// The error scope stack could not be popped, because it was empty.
     empty_stack = 3,
+    _,
 };
 
 pub const PowerPreference = enum(u32) {
@@ -310,6 +337,7 @@ pub const PowerPreference = enum(u32) {
     undefined = 0,
     low_power = 1,
     high_performance = 2,
+    _,
 };
 
 /// Describes when and in which order frames are presented on the screen when `::wgpuSurfacePresent` is called.
@@ -330,6 +358,7 @@ pub const PresentMode = enum(u32) {
     /// The presentation of the image to the user waits for the next vertical blanking period to update to the latest provided image.
     /// Tearing cannot be observed and a frame-loop is not limited to the display's refresh rate.
     mailbox = 4,
+    _,
 };
 
 pub const PrimitiveTopology = enum(u32) {
@@ -340,11 +369,13 @@ pub const PrimitiveTopology = enum(u32) {
     line_strip = 3,
     triangle_list = 4,
     triangle_strip = 5,
+    _,
 };
 
 pub const QueryType = enum(u32) {
     occlusion = 1,
     timestamp = 2,
+    _,
 };
 
 pub const QueueWorkDoneStatus = enum(u32) {
@@ -352,6 +383,7 @@ pub const QueueWorkDoneStatus = enum(u32) {
     instance_dropped = 2,
     @"error" = 3,
     unknown = 4,
+    _,
 };
 
 pub const RequestAdapterStatus = enum(u32) {
@@ -360,6 +392,7 @@ pub const RequestAdapterStatus = enum(u32) {
     unavailable = 3,
     @"error" = 4,
     unknown = 5,
+    _,
 };
 
 pub const RequestDeviceStatus = enum(u32) {
@@ -367,6 +400,7 @@ pub const RequestDeviceStatus = enum(u32) {
     instance_dropped = 2,
     @"error" = 3,
     unknown = 4,
+    _,
 };
 
 pub const SType = enum(u32) {
@@ -379,6 +413,7 @@ pub const SType = enum(u32) {
     surface_source_wayland_surface = 7,
     surface_source_android_native_window = 8,
     surface_source_xcb_window = 9,
+    _,
 };
 
 pub const SamplerBindingType = enum(u32) {
@@ -391,6 +426,7 @@ pub const SamplerBindingType = enum(u32) {
     filtering = 2,
     non_filtering = 3,
     comparison = 4,
+    _,
 };
 
 /// Status code returned (synchronously) from many operations. Generally
@@ -401,6 +437,7 @@ pub const Status = enum(u32) {
     success = 1,
     ///
     @"error" = 2,
+    _,
 };
 
 pub const StencilOperation = enum(u32) {
@@ -414,6 +451,7 @@ pub const StencilOperation = enum(u32) {
     decrement_clamp = 6,
     increment_wrap = 7,
     decrement_wrap = 8,
+    _,
 };
 
 pub const StorageTextureAccess = enum(u32) {
@@ -426,6 +464,7 @@ pub const StorageTextureAccess = enum(u32) {
     write_only = 2,
     read_only = 3,
     read_write = 4,
+    _,
 };
 
 pub const StoreOp = enum(u32) {
@@ -433,6 +472,7 @@ pub const StoreOp = enum(u32) {
     undefined = 0,
     store = 1,
     discard = 2,
+    _,
 };
 
 /// The status enum for `::wgpuSurfaceGetCurrentTexture`.
@@ -453,6 +493,7 @@ pub const SurfaceGetCurrentTextureStatus = enum(u32) {
     device_lost = 7,
     /// The surface is not configured, or there was an @ref OutStructChainError.
     @"error" = 8,
+    _,
 };
 
 pub const TextureAspect = enum(u32) {
@@ -461,6 +502,7 @@ pub const TextureAspect = enum(u32) {
     all = 1,
     stencil_only = 2,
     depth_only = 3,
+    _,
 };
 
 pub const TextureDimension = enum(u32) {
@@ -469,6 +511,7 @@ pub const TextureDimension = enum(u32) {
     @"1D" = 1,
     @"2D" = 2,
     @"3D" = 3,
+    _,
 };
 
 pub const TextureFormat = enum(u32) {
@@ -569,6 +612,7 @@ pub const TextureFormat = enum(u32) {
     astc_12_x_10_unorm_srgb = 93,
     astc_12_x_12_unorm = 94,
     astc_12_x_12_unorm_srgb = 95,
+    _,
 };
 
 pub const TextureSampleType = enum(u32) {
@@ -583,6 +627,7 @@ pub const TextureSampleType = enum(u32) {
     depth = 4,
     sint = 5,
     uint = 6,
+    _,
 };
 
 pub const TextureViewDimension = enum(u32) {
@@ -594,6 +639,7 @@ pub const TextureViewDimension = enum(u32) {
     cube = 4,
     cube_array = 5,
     @"3D" = 6,
+    _,
 };
 
 pub const VertexFormat = enum(u32) {
@@ -638,6 +684,7 @@ pub const VertexFormat = enum(u32) {
     sint_32_x_4 = 39,
     unorm_10_10_10_2 = 40,
     unorm_8_x_4_b_g_r_a = 41,
+    _,
 };
 
 pub const VertexStepMode = enum(u32) {
@@ -648,6 +695,7 @@ pub const VertexStepMode = enum(u32) {
     undefined = 1,
     vertex = 2,
     instance = 3,
+    _,
 };
 
 /// Status returned from a call to ::wgpuInstanceWaitAny.
@@ -662,6 +710,7 @@ pub const WaitStatus = enum(u32) {
     unsupported_count = 4,
     /// An invalid wait was performed with @ref Mixed-Sources.
     unsupported_mixed_sources = 5,
+    _,
 };
 
 pub const WgslLanguageFeatureName = enum(u32) {
@@ -669,9 +718,23 @@ pub const WgslLanguageFeatureName = enum(u32) {
     packed_4_x_8_integer_dot_product = 2,
     unrestricted_pointer_parameters = 3,
     pointer_composite_access = 4,
+    _,
 };
 
-pub const BufferUsage = enum(u64) { none = 0, map_read = 1, map_write = 2, copy_src = 3, copy_dst = 4, index = 5, vertex = 6, uniform = 7, storage = 8, indirect = 9, query_resolve = 10, _ };
+pub const BufferUsage = enum(u64) {
+    none = 0,
+    map_read = 1,
+    map_write = 2,
+    copy_src = 3,
+    copy_dst = 4,
+    index = 5,
+    vertex = 6,
+    uniform = 7,
+    storage = 8,
+    indirect = 9,
+    query_resolve = 10,
+    _,
+};
 
 pub const ColorWriteMask = enum(u64) {
     const Red = 1;
@@ -688,11 +751,30 @@ pub const ColorWriteMask = enum(u64) {
     _,
 };
 
-pub const MapMode = enum(u64) { none = 0, read = 1, write = 2, _ };
+pub const MapMode = enum(u64) {
+    none = 0,
+    read = 1,
+    write = 2,
+    _,
+};
 
-pub const ShaderStage = enum(u64) { none = 0, vertex = 1, fragment = 2, compute = 3, _ };
+pub const ShaderStage = enum(u64) {
+    none = 0,
+    vertex = 1,
+    fragment = 2,
+    compute = 3,
+    _,
+};
 
-pub const TextureUsage = enum(u64) { none = 0, copy_src = 1, copy_dst = 2, texture_binding = 3, storage_binding = 4, render_attachment = 5, _ };
+pub const TextureUsage = enum(u64) {
+    none = 0,
+    copy_src = 1,
+    copy_dst = 2,
+    texture_binding = 3,
+    storage_binding = 4,
+    render_attachment = 5,
+    _,
+};
 
 pub const Chained = extern struct {
     next: ?*const Chained,
