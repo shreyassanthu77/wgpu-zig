@@ -1066,10 +1066,12 @@ pub const RenderPassMaxDrawCount = extern struct {
     max_draw_count: u64,
 
     pub const RenderPassMaxDrawCountInitOptions = struct {
+        label: []const u8 = "",
         max_draw_count: u64,
     };
     pub inline fn init(options: RenderPassMaxDrawCountInitOptions) *const RenderPassDescriptor {
         return &RenderPassDescriptor{
+            .label = .from(options.label),
             .next_in_chain = @ptrCast(&RenderPassMaxDrawCount{
                 .max_draw_count = options.max_draw_count,
                 .chain = .{ .s_type = .render_pass_max_draw_count, .next = null },
@@ -1135,11 +1137,13 @@ pub const ShaderSourceSpirv = extern struct {
     code: *const u32,
 
     pub const ShaderSourceSpirvInitOptions = struct {
+        label: []const u8 = "",
         code_size: u32,
         code: *const u32,
     };
     pub inline fn init(options: ShaderSourceSpirvInitOptions) *const ShaderModuleDescriptor {
         return &ShaderModuleDescriptor{
+            .label = .from(options.label),
             .next_in_chain = @ptrCast(&ShaderSourceSpirv{
                 .code_size = options.code_size,
                 .code = options.code,
@@ -1154,12 +1158,14 @@ pub const ShaderSourceWgsl = extern struct {
     code: StringView = .empty,
 
     pub const ShaderSourceWgslInitOptions = struct {
-        code: StringView = .empty,
+        label: []const u8 = "",
+        code: []const u8 = "",
     };
     pub inline fn init(options: ShaderSourceWgslInitOptions) *const ShaderModuleDescriptor {
         return &ShaderModuleDescriptor{
+            .label = .from(options.label),
             .next_in_chain = @ptrCast(&ShaderSourceWgsl{
-                .code = options.code,
+                .code = .from(options.code),
                 .chain = .{ .s_type = .shader_source_wgsl, .next = null },
             }),
         };
@@ -1236,10 +1242,12 @@ pub const SurfaceSourceAndroidNativeWindow = extern struct {
     window: *anyopaque,
 
     pub const SurfaceSourceAndroidNativeWindowInitOptions = struct {
+        label: []const u8 = "",
         window: *anyopaque,
     };
     pub inline fn init(options: SurfaceSourceAndroidNativeWindowInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
+            .label = .from(options.label),
             .next_in_chain = @ptrCast(&SurfaceSourceAndroidNativeWindow{
                 .window = options.window,
                 .chain = .{ .s_type = .surface_source_android_native_window, .next = null },
@@ -1253,10 +1261,12 @@ pub const SurfaceSourceMetalLayer = extern struct {
     layer: *anyopaque,
 
     pub const SurfaceSourceMetalLayerInitOptions = struct {
+        label: []const u8 = "",
         layer: *anyopaque,
     };
     pub inline fn init(options: SurfaceSourceMetalLayerInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
+            .label = .from(options.label),
             .next_in_chain = @ptrCast(&SurfaceSourceMetalLayer{
                 .layer = options.layer,
                 .chain = .{ .s_type = .surface_source_metal_layer, .next = null },
@@ -1271,11 +1281,13 @@ pub const SurfaceSourceWaylandSurface = extern struct {
     surface: *anyopaque,
 
     pub const SurfaceSourceWaylandSurfaceInitOptions = struct {
+        label: []const u8 = "",
         display: *anyopaque,
         surface: *anyopaque,
     };
     pub inline fn init(options: SurfaceSourceWaylandSurfaceInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
+            .label = .from(options.label),
             .next_in_chain = @ptrCast(&SurfaceSourceWaylandSurface{
                 .display = options.display,
                 .surface = options.surface,
@@ -1291,11 +1303,13 @@ pub const SurfaceSourceWindowsHwnd = extern struct {
     hwnd: *anyopaque,
 
     pub const SurfaceSourceWindowsHwndInitOptions = struct {
+        label: []const u8 = "",
         hinstance: *anyopaque,
         hwnd: *anyopaque,
     };
     pub inline fn init(options: SurfaceSourceWindowsHwndInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
+            .label = .from(options.label),
             .next_in_chain = @ptrCast(&SurfaceSourceWindowsHwnd{
                 .hinstance = options.hinstance,
                 .hwnd = options.hwnd,
@@ -1311,11 +1325,13 @@ pub const SurfaceSourceXcbWindow = extern struct {
     window: u32,
 
     pub const SurfaceSourceXcbWindowInitOptions = struct {
+        label: []const u8 = "",
         connection: *anyopaque,
         window: u32,
     };
     pub inline fn init(options: SurfaceSourceXcbWindowInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
+            .label = .from(options.label),
             .next_in_chain = @ptrCast(&SurfaceSourceXcbWindow{
                 .connection = options.connection,
                 .window = options.window,
@@ -1331,11 +1347,13 @@ pub const SurfaceSourceXlibWindow = extern struct {
     window: u64,
 
     pub const SurfaceSourceXlibWindowInitOptions = struct {
+        label: []const u8 = "",
         display: *anyopaque,
         window: u64,
     };
     pub inline fn init(options: SurfaceSourceXlibWindowInitOptions) *const SurfaceDescriptor {
         return &SurfaceDescriptor{
+            .label = .from(options.label),
             .next_in_chain = @ptrCast(&SurfaceSourceXlibWindow{
                 .display = options.display,
                 .window = options.window,

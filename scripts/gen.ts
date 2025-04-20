@@ -275,6 +275,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
       const initBody: string[] = [];
 
       add(indent(`pub const ${optionsName} = struct {`, 1));
+      add(indent(`label: []const u8 = "",`, 2));
       for (const member of struct.members) {
         const name = toSnakeCase(member.name);
         const [type, isArray] = typeName(
@@ -283,8 +284,15 @@ async function main(webgpuYamlPath: string, format: boolean) {
           member.optional,
         );
         assert(!isArray, "TODO: implement array init");
-        add(indent(`${name}: ${type},`, 2));
-        initBody.push(`.${name} = options.${name}`);
+        if (type.startsWith("StringView")) {
+          const defaultValue =
+            type.split("=")?.[1].trim() === ".empty" ? '""' : "undefined";
+          add(indent(`${name}: []const u8 = ${defaultValue},`, 2));
+          initBody.push(`.${name} = .from(options.${name})`);
+        } else {
+          add(indent(`${name}: ${type},`, 2));
+          initBody.push(`.${name} = options.${name}`);
+        }
       }
       initBody.push(`.chain = .{ .s_type = .${sType}, .next = null }`);
       add(indent(`};`, 1));
@@ -293,6 +301,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
         indent(
           `pub inline fn init(options: ${optionsName}) *const ${parent} {
 		return &${parent}{
+			.label = .from(options.label),
 			.next_in_chain = @ptrCast(&${name}{
         ${initBody.join(",\n        ")},
     	}),
