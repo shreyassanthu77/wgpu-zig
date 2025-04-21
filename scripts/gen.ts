@@ -349,7 +349,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
     if (func.args === undefined) func.args = [];
     const args = func.args
       ?.map((arg) => {
-        const name = toCamelCase(arg.name);
+        const name = toSnakeCase(arg.name);
         const [type, _] = typeName(arg.type, arg.pointer, arg.optional, null);
         return `${name}: ${type}`;
       })
@@ -389,7 +389,7 @@ async function main(webgpuYamlPath: string, format: boolean) {
         const wrappedArgs: string[] = [];
         if (method.args) {
           for (const arg of method.args) {
-            const name = toCamelCase(arg.name);
+            const name = toSnakeCase(arg.name);
             const [type, childType] = typeName(
               arg.type,
               arg.pointer,

@@ -2170,45 +2170,45 @@ pub const CommandEncoder = opaque {
     pub inline fn beginRenderPass(self: *CommandEncoder, descriptor: *const RenderPassDescriptor) *RenderPassEncoder {
         return wgpuCommandEncoderBeginRenderPass(self, descriptor);
     }
-    extern fn wgpuCommandEncoderCopyBufferToBuffer(self: *CommandEncoder, source: *Buffer, sourceOffset: u64, destination: *Buffer, destinationOffset: u64, size: u64) callconv(.c) void;
-    pub inline fn copyBufferToBuffer(self: *CommandEncoder, source: *Buffer, sourceOffset: u64, destination: *Buffer, destinationOffset: u64, size: u64) void {
-        return wgpuCommandEncoderCopyBufferToBuffer(self, source, sourceOffset, destination, destinationOffset, size);
+    extern fn wgpuCommandEncoderCopyBufferToBuffer(self: *CommandEncoder, source: *Buffer, source_offset: u64, destination: *Buffer, destination_offset: u64, size: u64) callconv(.c) void;
+    pub inline fn copyBufferToBuffer(self: *CommandEncoder, source: *Buffer, source_offset: u64, destination: *Buffer, destination_offset: u64, size: u64) void {
+        return wgpuCommandEncoderCopyBufferToBuffer(self, source, source_offset, destination, destination_offset, size);
     }
-    extern fn wgpuCommandEncoderCopyBufferToTexture(self: *CommandEncoder, source: *const TexelCopyBufferInfo, destination: *const TexelCopyTextureInfo, copySize: *const Extent3D) callconv(.c) void;
-    pub inline fn copyBufferToTexture(self: *CommandEncoder, source: *const TexelCopyBufferInfo, destination: *const TexelCopyTextureInfo, copySize: *const Extent3D) void {
-        return wgpuCommandEncoderCopyBufferToTexture(self, source, destination, copySize);
+    extern fn wgpuCommandEncoderCopyBufferToTexture(self: *CommandEncoder, source: *const TexelCopyBufferInfo, destination: *const TexelCopyTextureInfo, copy_size: *const Extent3D) callconv(.c) void;
+    pub inline fn copyBufferToTexture(self: *CommandEncoder, source: *const TexelCopyBufferInfo, destination: *const TexelCopyTextureInfo, copy_size: *const Extent3D) void {
+        return wgpuCommandEncoderCopyBufferToTexture(self, source, destination, copy_size);
     }
-    extern fn wgpuCommandEncoderCopyTextureToBuffer(self: *CommandEncoder, source: *const TexelCopyTextureInfo, destination: *const TexelCopyBufferInfo, copySize: *const Extent3D) callconv(.c) void;
-    pub inline fn copyTextureToBuffer(self: *CommandEncoder, source: *const TexelCopyTextureInfo, destination: *const TexelCopyBufferInfo, copySize: *const Extent3D) void {
-        return wgpuCommandEncoderCopyTextureToBuffer(self, source, destination, copySize);
+    extern fn wgpuCommandEncoderCopyTextureToBuffer(self: *CommandEncoder, source: *const TexelCopyTextureInfo, destination: *const TexelCopyBufferInfo, copy_size: *const Extent3D) callconv(.c) void;
+    pub inline fn copyTextureToBuffer(self: *CommandEncoder, source: *const TexelCopyTextureInfo, destination: *const TexelCopyBufferInfo, copy_size: *const Extent3D) void {
+        return wgpuCommandEncoderCopyTextureToBuffer(self, source, destination, copy_size);
     }
-    extern fn wgpuCommandEncoderCopyTextureToTexture(self: *CommandEncoder, source: *const TexelCopyTextureInfo, destination: *const TexelCopyTextureInfo, copySize: *const Extent3D) callconv(.c) void;
-    pub inline fn copyTextureToTexture(self: *CommandEncoder, source: *const TexelCopyTextureInfo, destination: *const TexelCopyTextureInfo, copySize: *const Extent3D) void {
-        return wgpuCommandEncoderCopyTextureToTexture(self, source, destination, copySize);
+    extern fn wgpuCommandEncoderCopyTextureToTexture(self: *CommandEncoder, source: *const TexelCopyTextureInfo, destination: *const TexelCopyTextureInfo, copy_size: *const Extent3D) callconv(.c) void;
+    pub inline fn copyTextureToTexture(self: *CommandEncoder, source: *const TexelCopyTextureInfo, destination: *const TexelCopyTextureInfo, copy_size: *const Extent3D) void {
+        return wgpuCommandEncoderCopyTextureToTexture(self, source, destination, copy_size);
     }
     extern fn wgpuCommandEncoderClearBuffer(self: *CommandEncoder, buffer: *Buffer, offset: u64, size: u64) callconv(.c) void;
     pub inline fn clearBuffer(self: *CommandEncoder, buffer: *Buffer, offset: u64, size: u64) void {
         return wgpuCommandEncoderClearBuffer(self, buffer, offset, size);
     }
-    extern fn wgpuCommandEncoderInsertDebugMarker(self: *CommandEncoder, markerLabel: StringView) callconv(.c) void;
-    pub inline fn insertDebugMarker(self: *CommandEncoder, markerLabel: StringView) void {
-        return wgpuCommandEncoderInsertDebugMarker(self, markerLabel);
+    extern fn wgpuCommandEncoderInsertDebugMarker(self: *CommandEncoder, marker_label: StringView) callconv(.c) void;
+    pub inline fn insertDebugMarker(self: *CommandEncoder, marker_label: StringView) void {
+        return wgpuCommandEncoderInsertDebugMarker(self, marker_label);
     }
     extern fn wgpuCommandEncoderPopDebugGroup(self: *CommandEncoder) callconv(.c) void;
     pub inline fn popDebugGroup(self: *CommandEncoder) void {
         return wgpuCommandEncoderPopDebugGroup(self);
     }
-    extern fn wgpuCommandEncoderPushDebugGroup(self: *CommandEncoder, groupLabel: StringView) callconv(.c) void;
-    pub inline fn pushDebugGroup(self: *CommandEncoder, groupLabel: StringView) void {
-        return wgpuCommandEncoderPushDebugGroup(self, groupLabel);
+    extern fn wgpuCommandEncoderPushDebugGroup(self: *CommandEncoder, group_label: StringView) callconv(.c) void;
+    pub inline fn pushDebugGroup(self: *CommandEncoder, group_label: StringView) void {
+        return wgpuCommandEncoderPushDebugGroup(self, group_label);
     }
-    extern fn wgpuCommandEncoderResolveQuerySet(self: *CommandEncoder, querySet: *QuerySet, firstQuery: u32, queryCount: u32, destination: *Buffer, destinationOffset: u64) callconv(.c) void;
-    pub inline fn resolveQuerySet(self: *CommandEncoder, querySet: *QuerySet, firstQuery: u32, queryCount: u32, destination: *Buffer, destinationOffset: u64) void {
-        return wgpuCommandEncoderResolveQuerySet(self, querySet, firstQuery, queryCount, destination, destinationOffset);
+    extern fn wgpuCommandEncoderResolveQuerySet(self: *CommandEncoder, query_set: *QuerySet, first_query: u32, query_count: u32, destination: *Buffer, destination_offset: u64) callconv(.c) void;
+    pub inline fn resolveQuerySet(self: *CommandEncoder, query_set: *QuerySet, first_query: u32, query_count: u32, destination: *Buffer, destination_offset: u64) void {
+        return wgpuCommandEncoderResolveQuerySet(self, query_set, first_query, query_count, destination, destination_offset);
     }
-    extern fn wgpuCommandEncoderWriteTimestamp(self: *CommandEncoder, querySet: *QuerySet, queryIndex: u32) callconv(.c) void;
-    pub inline fn writeTimestamp(self: *CommandEncoder, querySet: *QuerySet, queryIndex: u32) void {
-        return wgpuCommandEncoderWriteTimestamp(self, querySet, queryIndex);
+    extern fn wgpuCommandEncoderWriteTimestamp(self: *CommandEncoder, query_set: *QuerySet, query_index: u32) callconv(.c) void;
+    pub inline fn writeTimestamp(self: *CommandEncoder, query_set: *QuerySet, query_index: u32) void {
+        return wgpuCommandEncoderWriteTimestamp(self, query_set, query_index);
     }
     extern fn wgpuCommandEncoderSetLabel(self: *CommandEncoder, label: StringView) callconv(.c) void;
     pub inline fn setLabel(self: *CommandEncoder, label: StringView) void {
@@ -2225,33 +2225,33 @@ pub const CommandEncoder = opaque {
 };
 
 pub const ComputePassEncoder = opaque {
-    extern fn wgpuComputePassEncoderInsertDebugMarker(self: *ComputePassEncoder, markerLabel: StringView) callconv(.c) void;
-    pub inline fn insertDebugMarker(self: *ComputePassEncoder, markerLabel: StringView) void {
-        return wgpuComputePassEncoderInsertDebugMarker(self, markerLabel);
+    extern fn wgpuComputePassEncoderInsertDebugMarker(self: *ComputePassEncoder, marker_label: StringView) callconv(.c) void;
+    pub inline fn insertDebugMarker(self: *ComputePassEncoder, marker_label: StringView) void {
+        return wgpuComputePassEncoderInsertDebugMarker(self, marker_label);
     }
     extern fn wgpuComputePassEncoderPopDebugGroup(self: *ComputePassEncoder) callconv(.c) void;
     pub inline fn popDebugGroup(self: *ComputePassEncoder) void {
         return wgpuComputePassEncoderPopDebugGroup(self);
     }
-    extern fn wgpuComputePassEncoderPushDebugGroup(self: *ComputePassEncoder, groupLabel: StringView) callconv(.c) void;
-    pub inline fn pushDebugGroup(self: *ComputePassEncoder, groupLabel: StringView) void {
-        return wgpuComputePassEncoderPushDebugGroup(self, groupLabel);
+    extern fn wgpuComputePassEncoderPushDebugGroup(self: *ComputePassEncoder, group_label: StringView) callconv(.c) void;
+    pub inline fn pushDebugGroup(self: *ComputePassEncoder, group_label: StringView) void {
+        return wgpuComputePassEncoderPushDebugGroup(self, group_label);
     }
     extern fn wgpuComputePassEncoderSetPipeline(self: *ComputePassEncoder, pipeline: *ComputePipeline) callconv(.c) void;
     pub inline fn setPipeline(self: *ComputePassEncoder, pipeline: *ComputePipeline) void {
         return wgpuComputePassEncoderSetPipeline(self, pipeline);
     }
-    extern fn wgpuComputePassEncoderSetBindGroup(self: *ComputePassEncoder, groupIndex: u32, group: ?*BindGroup, dynamic_offsets_count: usize, dynamicOffsets: ?[*]const u32) callconv(.c) void;
-    pub inline fn setBindGroup(self: *ComputePassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: []const u32) void {
-        return wgpuComputePassEncoderSetBindGroup(self, groupIndex, group, dynamicOffsets.len, dynamicOffsets.ptr);
+    extern fn wgpuComputePassEncoderSetBindGroup(self: *ComputePassEncoder, group_index: u32, group: ?*BindGroup, dynamic_offsets_count: usize, dynamic_offsets: ?[*]const u32) callconv(.c) void;
+    pub inline fn setBindGroup(self: *ComputePassEncoder, group_index: u32, group: ?*BindGroup, dynamic_offsets: []const u32) void {
+        return wgpuComputePassEncoderSetBindGroup(self, group_index, group, dynamic_offsets.len, dynamic_offsets.ptr);
     }
-    extern fn wgpuComputePassEncoderDispatchWorkgroups(self: *ComputePassEncoder, workgroupCountX: u32, workgroupCountY: u32, workgroupCountZ: u32) callconv(.c) void;
-    pub inline fn dispatchWorkgroups(self: *ComputePassEncoder, workgroupCountX: u32, workgroupCountY: u32, workgroupCountZ: u32) void {
-        return wgpuComputePassEncoderDispatchWorkgroups(self, workgroupCountX, workgroupCountY, workgroupCountZ);
+    extern fn wgpuComputePassEncoderDispatchWorkgroups(self: *ComputePassEncoder, workgroup_count_x: u32, workgroup_count_y: u32, workgroup_count_z: u32) callconv(.c) void;
+    pub inline fn dispatchWorkgroups(self: *ComputePassEncoder, workgroup_count_x: u32, workgroup_count_y: u32, workgroup_count_z: u32) void {
+        return wgpuComputePassEncoderDispatchWorkgroups(self, workgroup_count_x, workgroup_count_y, workgroup_count_z);
     }
-    extern fn wgpuComputePassEncoderDispatchWorkgroupsIndirect(self: *ComputePassEncoder, indirectBuffer: *Buffer, indirectOffset: u64) callconv(.c) void;
-    pub inline fn dispatchWorkgroupsIndirect(self: *ComputePassEncoder, indirectBuffer: *Buffer, indirectOffset: u64) void {
-        return wgpuComputePassEncoderDispatchWorkgroupsIndirect(self, indirectBuffer, indirectOffset);
+    extern fn wgpuComputePassEncoderDispatchWorkgroupsIndirect(self: *ComputePassEncoder, indirect_buffer: *Buffer, indirect_offset: u64) callconv(.c) void;
+    pub inline fn dispatchWorkgroupsIndirect(self: *ComputePassEncoder, indirect_buffer: *Buffer, indirect_offset: u64) void {
+        return wgpuComputePassEncoderDispatchWorkgroupsIndirect(self, indirect_buffer, indirect_offset);
     }
     extern fn wgpuComputePassEncoderEnd(self: *ComputePassEncoder) callconv(.c) void;
     pub inline fn end(self: *ComputePassEncoder) void {
@@ -2272,9 +2272,9 @@ pub const ComputePassEncoder = opaque {
 };
 
 pub const ComputePipeline = opaque {
-    extern fn wgpuComputePipelineGetBindGroupLayout(self: *ComputePipeline, groupIndex: u32) callconv(.c) *BindGroupLayout;
-    pub inline fn getBindGroupLayout(self: *ComputePipeline, groupIndex: u32) *BindGroupLayout {
-        return wgpuComputePipelineGetBindGroupLayout(self, groupIndex);
+    extern fn wgpuComputePipelineGetBindGroupLayout(self: *ComputePipeline, group_index: u32) callconv(.c) *BindGroupLayout;
+    pub inline fn getBindGroupLayout(self: *ComputePipeline, group_index: u32) *BindGroupLayout {
+        return wgpuComputePipelineGetBindGroupLayout(self, group_index);
     }
     extern fn wgpuComputePipelineSetLabel(self: *ComputePipeline, label: StringView) callconv(.c) void;
     pub inline fn setLabel(self: *ComputePipeline, label: StringView) void {
@@ -2461,12 +2461,12 @@ pub const Instance = opaque {
         _ = wgpuInstanceRequestAdapter(self, options, callback_info);
         return state;
     }
-    extern fn wgpuInstanceWaitAny(self: *Instance, futureCount: usize, futures: ?*FutureWaitInfo, timeoutNs: u64) callconv(.c) WaitStatus;
+    extern fn wgpuInstanceWaitAny(self: *Instance, future_count: usize, futures: ?*FutureWaitInfo, timeout_ns: u64) callconv(.c) WaitStatus;
     /// Wait for at least one WGPUFuture in `futures` to complete, and call callbacks of the respective completed asynchronous operations.
     ///
     /// See @ref Wait-Any for more information.
-    pub inline fn waitAny(self: *Instance, futureCount: usize, futures: ?*FutureWaitInfo, timeoutNs: u64) WaitStatus {
-        return wgpuInstanceWaitAny(self, futureCount, futures, timeoutNs);
+    pub inline fn waitAny(self: *Instance, future_count: usize, futures: ?*FutureWaitInfo, timeout_ns: u64) WaitStatus {
+        return wgpuInstanceWaitAny(self, future_count, futures, timeout_ns);
     }
     extern fn wgpuInstanceAddRef(self: *Instance) callconv(.c) void;
     pub inline fn addRef(self: *Instance) void {
@@ -2538,15 +2538,15 @@ pub const Queue = opaque {
         _ = wgpuQueueOnSubmittedWorkDone(self, callback_info);
         return state;
     }
-    extern fn wgpuQueueWriteBuffer(self: *Queue, buffer: *Buffer, bufferOffset: u64, data: *const anyopaque, size: usize) callconv(.c) void;
+    extern fn wgpuQueueWriteBuffer(self: *Queue, buffer: *Buffer, buffer_offset: u64, data: *const anyopaque, size: usize) callconv(.c) void;
     /// Produces a @ref DeviceError both content-timeline (`size` alignment) and device-timeline
     /// errors defined by the WebGPU specification.
-    pub inline fn writeBuffer(self: *Queue, buffer: *Buffer, bufferOffset: u64, data: *const anyopaque, size: usize) void {
-        return wgpuQueueWriteBuffer(self, buffer, bufferOffset, data, size);
+    pub inline fn writeBuffer(self: *Queue, buffer: *Buffer, buffer_offset: u64, data: *const anyopaque, size: usize) void {
+        return wgpuQueueWriteBuffer(self, buffer, buffer_offset, data, size);
     }
-    extern fn wgpuQueueWriteTexture(self: *Queue, destination: *const TexelCopyTextureInfo, data: *const anyopaque, dataSize: usize, dataLayout: *const TexelCopyBufferLayout, writeSize: *const Extent3D) callconv(.c) void;
-    pub inline fn writeTexture(self: *Queue, destination: *const TexelCopyTextureInfo, data: *const anyopaque, dataSize: usize, dataLayout: *const TexelCopyBufferLayout, writeSize: *const Extent3D) void {
-        return wgpuQueueWriteTexture(self, destination, data, dataSize, dataLayout, writeSize);
+    extern fn wgpuQueueWriteTexture(self: *Queue, destination: *const TexelCopyTextureInfo, data: *const anyopaque, data_size: usize, data_layout: *const TexelCopyBufferLayout, write_size: *const Extent3D) callconv(.c) void;
+    pub inline fn writeTexture(self: *Queue, destination: *const TexelCopyTextureInfo, data: *const anyopaque, data_size: usize, data_layout: *const TexelCopyBufferLayout, write_size: *const Extent3D) void {
+        return wgpuQueueWriteTexture(self, destination, data, data_size, data_layout, write_size);
     }
     extern fn wgpuQueueSetLabel(self: *Queue, label: StringView) callconv(.c) void;
     pub inline fn setLabel(self: *Queue, label: StringView) void {
@@ -2582,37 +2582,37 @@ pub const RenderBundleEncoder = opaque {
     pub inline fn setPipeline(self: *RenderBundleEncoder, pipeline: *RenderPipeline) void {
         return wgpuRenderBundleEncoderSetPipeline(self, pipeline);
     }
-    extern fn wgpuRenderBundleEncoderSetBindGroup(self: *RenderBundleEncoder, groupIndex: u32, group: ?*BindGroup, dynamic_offsets_count: usize, dynamicOffsets: ?[*]const u32) callconv(.c) void;
-    pub inline fn setBindGroup(self: *RenderBundleEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: []const u32) void {
-        return wgpuRenderBundleEncoderSetBindGroup(self, groupIndex, group, dynamicOffsets.len, dynamicOffsets.ptr);
+    extern fn wgpuRenderBundleEncoderSetBindGroup(self: *RenderBundleEncoder, group_index: u32, group: ?*BindGroup, dynamic_offsets_count: usize, dynamic_offsets: ?[*]const u32) callconv(.c) void;
+    pub inline fn setBindGroup(self: *RenderBundleEncoder, group_index: u32, group: ?*BindGroup, dynamic_offsets: []const u32) void {
+        return wgpuRenderBundleEncoderSetBindGroup(self, group_index, group, dynamic_offsets.len, dynamic_offsets.ptr);
     }
-    extern fn wgpuRenderBundleEncoderDraw(self: *RenderBundleEncoder, vertexCount: u32, instanceCount: u32, firstVertex: u32, firstInstance: u32) callconv(.c) void;
-    pub inline fn draw(self: *RenderBundleEncoder, vertexCount: u32, instanceCount: u32, firstVertex: u32, firstInstance: u32) void {
-        return wgpuRenderBundleEncoderDraw(self, vertexCount, instanceCount, firstVertex, firstInstance);
+    extern fn wgpuRenderBundleEncoderDraw(self: *RenderBundleEncoder, vertex_count: u32, instance_count: u32, first_vertex: u32, first_instance: u32) callconv(.c) void;
+    pub inline fn draw(self: *RenderBundleEncoder, vertex_count: u32, instance_count: u32, first_vertex: u32, first_instance: u32) void {
+        return wgpuRenderBundleEncoderDraw(self, vertex_count, instance_count, first_vertex, first_instance);
     }
-    extern fn wgpuRenderBundleEncoderDrawIndexed(self: *RenderBundleEncoder, indexCount: u32, instanceCount: u32, firstIndex: u32, baseVertex: i32, firstInstance: u32) callconv(.c) void;
-    pub inline fn drawIndexed(self: *RenderBundleEncoder, indexCount: u32, instanceCount: u32, firstIndex: u32, baseVertex: i32, firstInstance: u32) void {
-        return wgpuRenderBundleEncoderDrawIndexed(self, indexCount, instanceCount, firstIndex, baseVertex, firstInstance);
+    extern fn wgpuRenderBundleEncoderDrawIndexed(self: *RenderBundleEncoder, index_count: u32, instance_count: u32, first_index: u32, base_vertex: i32, first_instance: u32) callconv(.c) void;
+    pub inline fn drawIndexed(self: *RenderBundleEncoder, index_count: u32, instance_count: u32, first_index: u32, base_vertex: i32, first_instance: u32) void {
+        return wgpuRenderBundleEncoderDrawIndexed(self, index_count, instance_count, first_index, base_vertex, first_instance);
     }
-    extern fn wgpuRenderBundleEncoderDrawIndirect(self: *RenderBundleEncoder, indirectBuffer: *Buffer, indirectOffset: u64) callconv(.c) void;
-    pub inline fn drawIndirect(self: *RenderBundleEncoder, indirectBuffer: *Buffer, indirectOffset: u64) void {
-        return wgpuRenderBundleEncoderDrawIndirect(self, indirectBuffer, indirectOffset);
+    extern fn wgpuRenderBundleEncoderDrawIndirect(self: *RenderBundleEncoder, indirect_buffer: *Buffer, indirect_offset: u64) callconv(.c) void;
+    pub inline fn drawIndirect(self: *RenderBundleEncoder, indirect_buffer: *Buffer, indirect_offset: u64) void {
+        return wgpuRenderBundleEncoderDrawIndirect(self, indirect_buffer, indirect_offset);
     }
-    extern fn wgpuRenderBundleEncoderDrawIndexedIndirect(self: *RenderBundleEncoder, indirectBuffer: *Buffer, indirectOffset: u64) callconv(.c) void;
-    pub inline fn drawIndexedIndirect(self: *RenderBundleEncoder, indirectBuffer: *Buffer, indirectOffset: u64) void {
-        return wgpuRenderBundleEncoderDrawIndexedIndirect(self, indirectBuffer, indirectOffset);
+    extern fn wgpuRenderBundleEncoderDrawIndexedIndirect(self: *RenderBundleEncoder, indirect_buffer: *Buffer, indirect_offset: u64) callconv(.c) void;
+    pub inline fn drawIndexedIndirect(self: *RenderBundleEncoder, indirect_buffer: *Buffer, indirect_offset: u64) void {
+        return wgpuRenderBundleEncoderDrawIndexedIndirect(self, indirect_buffer, indirect_offset);
     }
-    extern fn wgpuRenderBundleEncoderInsertDebugMarker(self: *RenderBundleEncoder, markerLabel: StringView) callconv(.c) void;
-    pub inline fn insertDebugMarker(self: *RenderBundleEncoder, markerLabel: StringView) void {
-        return wgpuRenderBundleEncoderInsertDebugMarker(self, markerLabel);
+    extern fn wgpuRenderBundleEncoderInsertDebugMarker(self: *RenderBundleEncoder, marker_label: StringView) callconv(.c) void;
+    pub inline fn insertDebugMarker(self: *RenderBundleEncoder, marker_label: StringView) void {
+        return wgpuRenderBundleEncoderInsertDebugMarker(self, marker_label);
     }
     extern fn wgpuRenderBundleEncoderPopDebugGroup(self: *RenderBundleEncoder) callconv(.c) void;
     pub inline fn popDebugGroup(self: *RenderBundleEncoder) void {
         return wgpuRenderBundleEncoderPopDebugGroup(self);
     }
-    extern fn wgpuRenderBundleEncoderPushDebugGroup(self: *RenderBundleEncoder, groupLabel: StringView) callconv(.c) void;
-    pub inline fn pushDebugGroup(self: *RenderBundleEncoder, groupLabel: StringView) void {
-        return wgpuRenderBundleEncoderPushDebugGroup(self, groupLabel);
+    extern fn wgpuRenderBundleEncoderPushDebugGroup(self: *RenderBundleEncoder, group_label: StringView) callconv(.c) void;
+    pub inline fn pushDebugGroup(self: *RenderBundleEncoder, group_label: StringView) void {
+        return wgpuRenderBundleEncoderPushDebugGroup(self, group_label);
     }
     extern fn wgpuRenderBundleEncoderSetVertexBuffer(self: *RenderBundleEncoder, slot: u32, buffer: ?*Buffer, offset: u64, size: u64) callconv(.c) void;
     pub inline fn setVertexBuffer(self: *RenderBundleEncoder, slot: u32, buffer: ?*Buffer, offset: u64, size: u64) void {
@@ -2645,41 +2645,41 @@ pub const RenderPassEncoder = opaque {
     pub inline fn setPipeline(self: *RenderPassEncoder, pipeline: *RenderPipeline) void {
         return wgpuRenderPassEncoderSetPipeline(self, pipeline);
     }
-    extern fn wgpuRenderPassEncoderSetBindGroup(self: *RenderPassEncoder, groupIndex: u32, group: ?*BindGroup, dynamic_offsets_count: usize, dynamicOffsets: ?[*]const u32) callconv(.c) void;
-    pub inline fn setBindGroup(self: *RenderPassEncoder, groupIndex: u32, group: ?*BindGroup, dynamicOffsets: []const u32) void {
-        return wgpuRenderPassEncoderSetBindGroup(self, groupIndex, group, dynamicOffsets.len, dynamicOffsets.ptr);
+    extern fn wgpuRenderPassEncoderSetBindGroup(self: *RenderPassEncoder, group_index: u32, group: ?*BindGroup, dynamic_offsets_count: usize, dynamic_offsets: ?[*]const u32) callconv(.c) void;
+    pub inline fn setBindGroup(self: *RenderPassEncoder, group_index: u32, group: ?*BindGroup, dynamic_offsets: []const u32) void {
+        return wgpuRenderPassEncoderSetBindGroup(self, group_index, group, dynamic_offsets.len, dynamic_offsets.ptr);
     }
-    extern fn wgpuRenderPassEncoderDraw(self: *RenderPassEncoder, vertexCount: u32, instanceCount: u32, firstVertex: u32, firstInstance: u32) callconv(.c) void;
-    pub inline fn draw(self: *RenderPassEncoder, vertexCount: u32, instanceCount: u32, firstVertex: u32, firstInstance: u32) void {
-        return wgpuRenderPassEncoderDraw(self, vertexCount, instanceCount, firstVertex, firstInstance);
+    extern fn wgpuRenderPassEncoderDraw(self: *RenderPassEncoder, vertex_count: u32, instance_count: u32, first_vertex: u32, first_instance: u32) callconv(.c) void;
+    pub inline fn draw(self: *RenderPassEncoder, vertex_count: u32, instance_count: u32, first_vertex: u32, first_instance: u32) void {
+        return wgpuRenderPassEncoderDraw(self, vertex_count, instance_count, first_vertex, first_instance);
     }
-    extern fn wgpuRenderPassEncoderDrawIndexed(self: *RenderPassEncoder, indexCount: u32, instanceCount: u32, firstIndex: u32, baseVertex: i32, firstInstance: u32) callconv(.c) void;
-    pub inline fn drawIndexed(self: *RenderPassEncoder, indexCount: u32, instanceCount: u32, firstIndex: u32, baseVertex: i32, firstInstance: u32) void {
-        return wgpuRenderPassEncoderDrawIndexed(self, indexCount, instanceCount, firstIndex, baseVertex, firstInstance);
+    extern fn wgpuRenderPassEncoderDrawIndexed(self: *RenderPassEncoder, index_count: u32, instance_count: u32, first_index: u32, base_vertex: i32, first_instance: u32) callconv(.c) void;
+    pub inline fn drawIndexed(self: *RenderPassEncoder, index_count: u32, instance_count: u32, first_index: u32, base_vertex: i32, first_instance: u32) void {
+        return wgpuRenderPassEncoderDrawIndexed(self, index_count, instance_count, first_index, base_vertex, first_instance);
     }
-    extern fn wgpuRenderPassEncoderDrawIndirect(self: *RenderPassEncoder, indirectBuffer: *Buffer, indirectOffset: u64) callconv(.c) void;
-    pub inline fn drawIndirect(self: *RenderPassEncoder, indirectBuffer: *Buffer, indirectOffset: u64) void {
-        return wgpuRenderPassEncoderDrawIndirect(self, indirectBuffer, indirectOffset);
+    extern fn wgpuRenderPassEncoderDrawIndirect(self: *RenderPassEncoder, indirect_buffer: *Buffer, indirect_offset: u64) callconv(.c) void;
+    pub inline fn drawIndirect(self: *RenderPassEncoder, indirect_buffer: *Buffer, indirect_offset: u64) void {
+        return wgpuRenderPassEncoderDrawIndirect(self, indirect_buffer, indirect_offset);
     }
-    extern fn wgpuRenderPassEncoderDrawIndexedIndirect(self: *RenderPassEncoder, indirectBuffer: *Buffer, indirectOffset: u64) callconv(.c) void;
-    pub inline fn drawIndexedIndirect(self: *RenderPassEncoder, indirectBuffer: *Buffer, indirectOffset: u64) void {
-        return wgpuRenderPassEncoderDrawIndexedIndirect(self, indirectBuffer, indirectOffset);
+    extern fn wgpuRenderPassEncoderDrawIndexedIndirect(self: *RenderPassEncoder, indirect_buffer: *Buffer, indirect_offset: u64) callconv(.c) void;
+    pub inline fn drawIndexedIndirect(self: *RenderPassEncoder, indirect_buffer: *Buffer, indirect_offset: u64) void {
+        return wgpuRenderPassEncoderDrawIndexedIndirect(self, indirect_buffer, indirect_offset);
     }
     extern fn wgpuRenderPassEncoderExecuteBundles(self: *RenderPassEncoder, bundles_count: usize, bundles: ?[*]const *RenderBundle) callconv(.c) void;
     pub inline fn executeBundles(self: *RenderPassEncoder, bundles: []const *RenderBundle) void {
         return wgpuRenderPassEncoderExecuteBundles(self, bundles.len, bundles.ptr);
     }
-    extern fn wgpuRenderPassEncoderInsertDebugMarker(self: *RenderPassEncoder, markerLabel: StringView) callconv(.c) void;
-    pub inline fn insertDebugMarker(self: *RenderPassEncoder, markerLabel: StringView) void {
-        return wgpuRenderPassEncoderInsertDebugMarker(self, markerLabel);
+    extern fn wgpuRenderPassEncoderInsertDebugMarker(self: *RenderPassEncoder, marker_label: StringView) callconv(.c) void;
+    pub inline fn insertDebugMarker(self: *RenderPassEncoder, marker_label: StringView) void {
+        return wgpuRenderPassEncoderInsertDebugMarker(self, marker_label);
     }
     extern fn wgpuRenderPassEncoderPopDebugGroup(self: *RenderPassEncoder) callconv(.c) void;
     pub inline fn popDebugGroup(self: *RenderPassEncoder) void {
         return wgpuRenderPassEncoderPopDebugGroup(self);
     }
-    extern fn wgpuRenderPassEncoderPushDebugGroup(self: *RenderPassEncoder, groupLabel: StringView) callconv(.c) void;
-    pub inline fn pushDebugGroup(self: *RenderPassEncoder, groupLabel: StringView) void {
-        return wgpuRenderPassEncoderPushDebugGroup(self, groupLabel);
+    extern fn wgpuRenderPassEncoderPushDebugGroup(self: *RenderPassEncoder, group_label: StringView) callconv(.c) void;
+    pub inline fn pushDebugGroup(self: *RenderPassEncoder, group_label: StringView) void {
+        return wgpuRenderPassEncoderPushDebugGroup(self, group_label);
     }
     extern fn wgpuRenderPassEncoderSetStencilReference(self: *RenderPassEncoder, reference: u32) callconv(.c) void;
     pub inline fn setStencilReference(self: *RenderPassEncoder, reference: u32) void {
@@ -2689,9 +2689,9 @@ pub const RenderPassEncoder = opaque {
     pub inline fn setBlendConstant(self: *RenderPassEncoder, color: *const Color) void {
         return wgpuRenderPassEncoderSetBlendConstant(self, color);
     }
-    extern fn wgpuRenderPassEncoderSetViewport(self: *RenderPassEncoder, x: f32, y: f32, width: f32, height: f32, minDepth: f32, maxDepth: f32) callconv(.c) void;
-    pub inline fn setViewport(self: *RenderPassEncoder, x: f32, y: f32, width: f32, height: f32, minDepth: f32, maxDepth: f32) void {
-        return wgpuRenderPassEncoderSetViewport(self, x, y, width, height, minDepth, maxDepth);
+    extern fn wgpuRenderPassEncoderSetViewport(self: *RenderPassEncoder, x: f32, y: f32, width: f32, height: f32, min_depth: f32, max_depth: f32) callconv(.c) void;
+    pub inline fn setViewport(self: *RenderPassEncoder, x: f32, y: f32, width: f32, height: f32, min_depth: f32, max_depth: f32) void {
+        return wgpuRenderPassEncoderSetViewport(self, x, y, width, height, min_depth, max_depth);
     }
     extern fn wgpuRenderPassEncoderSetScissorRect(self: *RenderPassEncoder, x: u32, y: u32, width: u32, height: u32) callconv(.c) void;
     pub inline fn setScissorRect(self: *RenderPassEncoder, x: u32, y: u32, width: u32, height: u32) void {
@@ -2705,9 +2705,9 @@ pub const RenderPassEncoder = opaque {
     pub inline fn setIndexBuffer(self: *RenderPassEncoder, buffer: *Buffer, format: IndexFormat, offset: u64, size: u64) void {
         return wgpuRenderPassEncoderSetIndexBuffer(self, buffer, format, offset, size);
     }
-    extern fn wgpuRenderPassEncoderBeginOcclusionQuery(self: *RenderPassEncoder, queryIndex: u32) callconv(.c) void;
-    pub inline fn beginOcclusionQuery(self: *RenderPassEncoder, queryIndex: u32) void {
-        return wgpuRenderPassEncoderBeginOcclusionQuery(self, queryIndex);
+    extern fn wgpuRenderPassEncoderBeginOcclusionQuery(self: *RenderPassEncoder, query_index: u32) callconv(.c) void;
+    pub inline fn beginOcclusionQuery(self: *RenderPassEncoder, query_index: u32) void {
+        return wgpuRenderPassEncoderBeginOcclusionQuery(self, query_index);
     }
     extern fn wgpuRenderPassEncoderEndOcclusionQuery(self: *RenderPassEncoder) callconv(.c) void;
     pub inline fn endOcclusionQuery(self: *RenderPassEncoder) void {
@@ -2732,9 +2732,9 @@ pub const RenderPassEncoder = opaque {
 };
 
 pub const RenderPipeline = opaque {
-    extern fn wgpuRenderPipelineGetBindGroupLayout(self: *RenderPipeline, groupIndex: u32) callconv(.c) *BindGroupLayout;
-    pub inline fn getBindGroupLayout(self: *RenderPipeline, groupIndex: u32) *BindGroupLayout {
-        return wgpuRenderPipelineGetBindGroupLayout(self, groupIndex);
+    extern fn wgpuRenderPipelineGetBindGroupLayout(self: *RenderPipeline, group_index: u32) callconv(.c) *BindGroupLayout;
+    pub inline fn getBindGroupLayout(self: *RenderPipeline, group_index: u32) *BindGroupLayout {
+        return wgpuRenderPipelineGetBindGroupLayout(self, group_index);
     }
     extern fn wgpuRenderPipelineSetLabel(self: *RenderPipeline, label: StringView) callconv(.c) void;
     pub inline fn setLabel(self: *RenderPipeline, label: StringView) void {
@@ -2808,13 +2808,13 @@ pub const Surface = opaque {
     pub inline fn getCapabilities(self: *Surface, adapter: *Adapter, capabilities: *SurfaceCapabilities) Status {
         return wgpuSurfaceGetCapabilities(self, adapter, capabilities);
     }
-    extern fn wgpuSurfaceGetCurrentTexture(self: *Surface, surfaceTexture: *SurfaceTexture) callconv(.c) void;
+    extern fn wgpuSurfaceGetCurrentTexture(self: *Surface, surface_texture: *SurfaceTexture) callconv(.c) void;
     /// Returns the @ref WGPUTexture to render to `surface` this frame along with metadata on the frame.
     /// Returns `NULL` and @ref WGPUSurfaceGetCurrentTextureStatus_Error if the surface is not configured.
     ///
     /// See @ref Surface-Presenting for more details.
-    pub inline fn getCurrentTexture(self: *Surface, surfaceTexture: *SurfaceTexture) void {
-        return wgpuSurfaceGetCurrentTexture(self, surfaceTexture);
+    pub inline fn getCurrentTexture(self: *Surface, surface_texture: *SurfaceTexture) void {
+        return wgpuSurfaceGetCurrentTexture(self, surface_texture);
     }
     extern fn wgpuSurfacePresent(self: *Surface) callconv(.c) Status;
     /// Shows `surface`'s current texture to the user.
