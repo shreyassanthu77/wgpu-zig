@@ -66,7 +66,7 @@ export function typeName(
       }
       break;
     case "bool":
-      type = "bool";
+      type = "WebGPUBool";
       break;
     case "uint64":
       type = "u64";

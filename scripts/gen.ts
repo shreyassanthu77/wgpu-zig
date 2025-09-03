@@ -1,4 +1,3 @@
-import { fromFileUrl } from "jsr:@std/path";
 import { parse } from "jsr:@std/yaml";
 import { toCamelCase, toPascalCase, toSnakeCase } from "jsr:@std/text";
 import type { Schema } from "./schema.ts";
@@ -11,11 +10,8 @@ import {
   zigFmt,
 } from "./utils.ts";
 
-async function main(webgpuYamlPath: string, format: boolean) {
-  const webgpuYaml = await Deno.readTextFile(
-    webgpuYamlPath,
-    // fromFileUrl(import.meta.resolve("./webgpu.yaml")),
-  );
+async function main(webgpuYamlPath: string, format: boolean, outPath: string) {
+  const webgpuYaml = await Deno.readTextFile(webgpuYamlPath);
 
   const schema = parse(webgpuYaml) as Schema;
 
@@ -26,8 +22,14 @@ async function main(webgpuYamlPath: string, format: boolean) {
     docString(
       `The c export is will give you direct access to the webgpu header`,
     ),
-    'pub const c = @import("c");\n',
     'const std = @import("std");\n',
+    'pub const c = if (!@import("builtin").is_test) @import("c") else void;\n',
+    `
+comptime {
+	std.testing.refAllDeclsRecursive(@This());
+}
+
+`,
     `pub const StringView = extern struct { 
     data: [*c]const u8,
     length: usize,
@@ -48,6 +50,11 @@ async function main(webgpuYamlPath: string, format: boolean) {
 			};
 		}
 };\n`,
+    `pub const WebGPUBool = enum(u32) {
+		false = 0,
+		true = 1,
+		_,
+	};\n`,
   ];
 
   function add(str: string) {
@@ -490,15 +497,9 @@ async function main(webgpuYamlPath: string, format: boolean) {
 
   if (format) {
     const formatted = await zigFmt(output.join("\n"));
-    await Deno.writeTextFile(
-      fromFileUrl(import.meta.resolve("../src/root.zig")),
-      formatted,
-    );
+    await Deno.writeTextFile(outPath, formatted);
   } else {
-    await Deno.writeTextFile(
-      fromFileUrl(import.meta.resolve("../src/root.zig")),
-      output.join("\n"),
-    );
+    await Deno.writeTextFile(outPath, output.join("\n"));
   }
 }
 
@@ -507,14 +508,15 @@ if (import.meta.main) {
   if (args.length < 1) {
     console.log(args);
     console.error(
-      "Usage: deno --allow-read --allow-write gen.ts <webgpu.yaml>",
+      "Usage: deno --allow-read --allow-write gen.ts <webgpu.yaml> <out.zig> [--format]",
     );
     Deno.exit(1);
   }
 
   const webgpuYamlPath = args[0];
+  const outPath = args[1];
   const format =
     args.length >= 2 && args.slice(1).some((arg) => arg === "--format");
 
-  await main(webgpuYamlPath, format);
+  await main(webgpuYamlPath, format, outPath);
 }
