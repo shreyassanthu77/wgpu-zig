@@ -1,6 +1,6 @@
 .{
     .name = .wgpu_zig,
-    .version = "0.0.1-24.0.3.1", // tracking wgpu-native version
+    .version = "0.0.1-25.0.2.2", // tracking wgpu-native version
     .fingerprint = 0x1a5781929935e3fb,
     .minimum_zig_version = "0.14.0",
     .dependencies = .{
