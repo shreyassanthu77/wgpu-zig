@@ -4,50 +4,51 @@ pub fn build(b: *std.Build) !void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const wgpu_dep = getWgpu(b, target, optimize) orelse return;
-    const libwgpu_path = switch (target.result.os.tag) {
-        .windows => "lib/wgpu_native.lib",
-        else => "lib/libwgpu_native.a",
-    };
+    if (getWgpu(b, target, optimize)) |wgpu_dep| {
+        const libwgpu_path = switch (target.result.os.tag) {
+            .windows => "lib/wgpu_native.lib",
+            else => "lib/libwgpu_native.a",
+        };
 
-    const gen_tool = b.addSystemCommand(&.{
-        "deno",
-        "--allow-read",
-        "--allow-write",
-        "--allow-run",
-    });
-    gen_tool.addFileArg(b.path("scripts/gen.ts"));
-    {
-        gen_tool.addFileInput(b.path("scripts/utils.ts"));
-        gen_tool.addFileInput(b.path("scripts/schema.ts"));
+        const gen_tool = b.addSystemCommand(&.{
+            "deno",
+            "--allow-read",
+            "--allow-write",
+            "--allow-run",
+        });
+        gen_tool.addFileArg(b.path("scripts/gen.ts"));
+        {
+            gen_tool.addFileInput(b.path("scripts/utils.ts"));
+            gen_tool.addFileInput(b.path("scripts/schema.ts"));
+        }
+        gen_tool.addFileArg(wgpu_dep.path("wgpu-native-meta/webgpu.yml"));
+        const root_zig = gen_tool.addOutputFileArg("root.zig");
+        gen_tool.addArg("--format");
+
+        const include_path = wgpu_dep.path("include/webgpu");
+        const translate_step = b.addTranslateC(.{
+            .root_source_file = include_path.path(b, "wgpu.h"),
+            .target = target,
+            .optimize = optimize,
+        });
+        translate_step.addIncludePath(include_path);
+        const c_mod = translate_step.addModule("c");
+
+        const wgpu = b.addModule("wgpu", .{
+            .target = target,
+            .optimize = optimize,
+            .root_source_file = root_zig,
+            .link_libcpp = true,
+        });
+        wgpu.addObjectFile(wgpu_dep.path(libwgpu_path));
+        wgpu.addImport("c", c_mod);
+
+        const check_step = b.step("test", "Run tests");
+        const wgpu_test = b.addTest(.{
+            .root_module = wgpu,
+        });
+        check_step.dependOn(&wgpu_test.step);
     }
-    gen_tool.addFileArg(wgpu_dep.path("wgpu-native-meta/webgpu.yml"));
-    const root_zig = gen_tool.addOutputFileArg("root.zig");
-    gen_tool.addArg("--format");
-
-    const include_path = wgpu_dep.path("include/webgpu");
-    const translate_step = b.addTranslateC(.{
-        .root_source_file = include_path.path(b, "wgpu.h"),
-        .target = target,
-        .optimize = optimize,
-    });
-    translate_step.addIncludePath(include_path);
-    const c_mod = translate_step.addModule("c");
-
-    const wgpu = b.addModule("wgpu", .{
-        .target = target,
-        .optimize = optimize,
-        .root_source_file = root_zig,
-        .link_libcpp = true,
-    });
-    wgpu.addObjectFile(wgpu_dep.path(libwgpu_path));
-    wgpu.addImport("c", c_mod);
-
-    const check_step = b.step("test", "Run tests");
-    const wgpu_test = b.addTest(.{
-        .root_module = wgpu,
-    });
-    check_step.dependOn(&wgpu_test.step);
 }
 
 /// taken from https://github.com/bronter/wgpu_native_zig/blob/2012f51c16d29824ea15cc4db6e46fc5bb44e868/build.zig.zon
