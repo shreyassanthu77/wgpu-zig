@@ -120,7 +120,6 @@ comptime {
       }
       i += 1;
     }
-    add(indent(`_,`, 1));
     add(`};\n`);
   }
 
@@ -174,6 +173,14 @@ comptime {
 
     add(indent(`_,\n`, 1));
 
+    add(indent(`_,`, 1));
+    add(indent(`pub fn multi(opts: []const ${name}) ${name} {`, 1));
+    add(indent(`var result: u32 = 0;`, 2));
+    add(indent(`for (opts) |opt| {`, 2));
+    add(indent(`result |= @intFromEnum(opt);`, 3));
+    add(indent(`}`, 2));
+    add(indent(`return @enumFromInt(result);`, 2));
+    add(indent(`}`, 1));
     add(`};\n`);
   }
 
