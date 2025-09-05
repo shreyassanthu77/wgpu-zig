@@ -120,6 +120,7 @@ comptime {
       }
       i += 1;
     }
+    add(indent(`_,`, 1));
     add(`};\n`);
   }
 
@@ -173,9 +174,9 @@ comptime {
 
     add(indent(`_,\n`, 1));
 
-    add(indent(`_,`, 1));
-    add(indent(`pub fn multi(opts: []const ${name}) ${name} {`, 1));
-    add(indent(`var result: u32 = 0;`, 2));
+    // prettier-ignore
+    add(indent(`pub fn multi(opts: []const ${bitflag_name}) ${bitflag_name} {`, 1));
+    add(indent(`var result: u64 = 0;`, 2));
     add(indent(`for (opts) |opt| {`, 2));
     add(indent(`result |= @intFromEnum(opt);`, 3));
     add(indent(`}`, 2));
